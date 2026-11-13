@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en-NG">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PayGate Sign In</title>
+<meta name="description" content="Sign in to your Upperlink PayGate merchant dashboard.">
+<link rel="icon" href="assets/logos/upl-paygate-icon.svg">
+<script>try{var t=localStorage.getItem("pg-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="_tokens.css?v=10">
+<link rel="stylesheet" href="_site.css?v=10">
+<link rel="stylesheet" href="_home.css?v=10">
+<link rel="stylesheet" href="_auth.css?v=11">
+</head>
+<body class="pg-auth">
+<div class="states" role="region" aria-label="Mock-up review: preview a state">
+  <span>Mock-up review · state</span>
+  <div class="seg" role="group" aria-label="Preview state">
+    <button type="button" aria-pressed="true" data-state="default">Sign in</button>
+    <button type="button" aria-pressed="false" data-state="error">Wrong password</button>
+    <button type="button" aria-pressed="false" data-state="busy">Signing in</button>
+    <button type="button" aria-pressed="false" data-state="otp">Verify code</button>
+  </div>
+</div>
+
+<div class="auth">
+  <main class="auth__form" id="main">
+    <div class="auth__top">
+      <a href="index.html" aria-label="Upperlink PayGate home"><img class="logo--auto" src="assets/logos/upl-paygate-icon.svg" alt="Upperlink PayGate" width="95" height="30"></a>
+      <button class="iconbtn" type="button" data-theme-toggle aria-pressed="false" aria-label="Switch colour theme"><i data-lucide="moon"></i></button>
+    </div>
+
+    <div class="auth__body">
+      <!-- step 1: sign in -->
+      <section data-step="signin" aria-labelledby="si-h">
+        <h1 id="si-h" data-rise>Welcome back</h1>
+        <p class="auth__sub" data-rise>Sign in to your PayGate dashboard.</p>
+        <form novalidate data-signin>
+          <div class="alert" role="alert" data-alert hidden><i data-lucide="circle-alert"></i><div><b>That email and password don’t match.</b><br><span>Check them and try again. After 5 tries we’ll lock sign-in for 15 minutes.</span></div></div>
+          <div class="field"><label for="email">Email address</label><input class="input" id="email" name="email" type="email" autocomplete="username" inputmode="email" placeholder="you@business.ng" required><span class="hint" hidden>Enter the email you signed up with</span></div>
+          <div class="field">
+            <label for="password">Password</label>
+            <div class="pw"><input class="input" id="password" name="password" type="password" autocomplete="current-password" required><button class="iconbtn" type="button" data-showpw aria-pressed="false" aria-label="Show password"><i data-lucide="eye"></i></button></div>
+            <span class="hint" hidden>Enter your password</span>
+          </div>
+          <div class="auth__row"><label class="check"><input type="checkbox" name="remember">Keep me signed in</label><a href="#">Forgot password?</a></div>
+          <button class="btn btn--primary full" type="submit" data-press data-submit><span class="spin" hidden></span><span data-label>Continue</span></button>
+        </form>
+        <p class="auth__alt">New to PayGate? <a href="signup.html">Create an account</a></p>
+      </section>
+
+      <!-- step 2: verification code -->
+      <section data-step="otp" aria-labelledby="otp-h" hidden>
+        <h1 id="otp-h" tabindex="-1">Check your phone</h1>
+        <p class="auth__sub">We sent a 6-digit code to the number ending <b>••42</b>. It expires in 10 minutes.</p>
+        <form novalidate data-otpform style="margin-top:28px">
+          <div class="sent"><i data-lucide="message-square-text"></i><span>Sent by SMS · <span data-timer>0:30</span> until you can resend</span></div>
+          <fieldset style="border:0;margin:0;padding:0;display:grid;gap:8px">
+            <legend class="small" style="margin-bottom:8px;color:var(--ink-2);font-weight:500">Verification code</legend>
+            <div class="otp" data-otp>
+              <input class="input" inputmode="numeric" autocomplete="one-time-code" maxlength="1" aria-label="Digit 1"><input class="input" inputmode="numeric" maxlength="1" aria-label="Digit 2"><input class="input" inputmode="numeric" maxlength="1" aria-label="Digit 3"><input class="input" inputmode="numeric" maxlength="1" aria-label="Digit 4"><input class="input" inputmode="numeric" maxlength="1" aria-label="Digit 5"><input class="input" inputmode="numeric" maxlength="1" aria-label="Digit 6">
+            </div>
+            <span class="hint" data-otphint hidden style="color:var(--bad)">Enter all 6 digits</span>
+          </fieldset>
+          <button class="btn btn--primary full" type="submit" data-press>Verify and sign in</button>
+          <div class="auth__row"><button class="linkbtn" type="button" data-back>← Use a different account</button><button class="linkbtn" type="button" data-resend disabled>Resend code</button></div>
+        </form>
+      </section>
+
+      <!-- step 3: done -->
+      <section data-step="done" aria-live="polite" hidden>
+        <div class="done"><span class="tick"><i data-lucide="check"></i></span><h1 style="font-size:1.75rem">You’re signed in</h1><p class="auth__sub">Taking you to your dashboard… <span class="small">(demo: no dashboard yet)</span></p><a class="btn btn--secondary" href="login.html">Start over</a></div>
+      </section>
+    </div>
+
+    <div class="auth__foot">
+      <span class="lic"><i data-lucide="badge-check"></i>Licensed by the Central Bank of Nigeria · PCI DSS</span>
+      <span><a href="docs.html">Developer docs</a> · <a href="index.html#faq">Help</a> · <a href="legal.html#privacy">Privacy</a> · Photo: wirestock on <a href="https://www.freepik.com" rel="noopener">Freepik</a></span>
+    </div>
+  </main>
+
+  <aside class="auth__art" aria-label="About PayGate">
+    <img src="assets/images/web/market-two-women.jpg" alt="" width="2000" height="1333">
+    <canvas class="pat" data-pat="arrow" data-strength=".7" data-glow=".4" data-dark aria-hidden="true" style="-webkit-mask-image:linear-gradient(0deg,#000,transparent 55%);mask-image:linear-gradient(0deg,#000,transparent 55%)"></canvas>
+    <div class="haze haze--band" data-haze></div>
+    <div class="art__card" aria-hidden="true">
+      <span class="small">Collected today</span>
+      <span class="num" data-today>₦4,812,350.00</span>
+      <div class="mix"><i style="width:42%;background:#000bb8"></i><i style="width:31%;background:#2a3bff"></i><i style="width:15%;background:#a9aeff"></i><i style="width:12%;background:#ff7a59"></i></div>
+      <div class="chip" data-artchip><span class="dot"><i data-lucide="credit-card"></i></span><span><strong>₦45,000 received</strong><span>Card · just now</span></span></div>
+    </div>
+    <div class="art__copy">
+      <h2>Every payment, the moment it lands.</h2>
+      <p>Cards, transfers, NQR and POS in one dashboard, with settlements you don’t have to chase.</p>
+      <div class="art__lic"><span><i data-lucide="shield-check"></i>CBN PSSP · PTSP</span><span><i data-lucide="shield-check"></i>NIBSS aggregator</span><span><i data-lucide="shield-check"></i>PCI DSS</span></div>
+    </div>
+  </aside>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/motion@12.4.7/dist/motion.js"></script>
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script>lucide.createIcons({ attrs: { "stroke-width": 1.75, "aria-hidden": "true" } });</script>
+<script src="_site.js?v=10"></script>
+<script src="_pattern.js?v=10"></script>
+<script>
+(() => {
+  const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches || /[?&]still\b/.test(location.search);
+  const G = window.gsap && !reduce ? gsap : null, M = window.Motion;
+  const icons = () => lucide.createIcons({ attrs: { "stroke-width": 1.75, "aria-hidden": "true" } });
+
+  /* theme icon */
+  const tb = $("[data-theme-toggle]");
+  const syncTheme = () => { const t = document.documentElement.dataset.theme, d = t ? t === "dark" : matchMedia("(prefers-color-scheme: dark)").matches; tb.innerHTML = `<i data-lucide="${d ? "sun" : "moon"}"></i>`; tb.setAttribute("aria-label", d ? "Switch to light theme" : "Switch to dark theme"); icons(); };
+  tb.addEventListener("click", () => setTimeout(syncTheme, 0)); syncTheme();
+
+  /* steps */
+  const steps = $$("[data-step]");
+  const go = (name) => {
+    steps.forEach((s) => (s.hidden = s.dataset.step !== name));
+    const s = $(`[data-step="${name}"]`);
+    if (G) G.from(s.children, { opacity: 0, y: 12, filter: "blur(6px)", duration: 0.5, stagger: 0.05, ease: "expo.out", clearProps: "all" });
+    if (name === "otp") { $("[data-otp] input").focus(); startTimer(); }
+  };
+
+  /* show / hide password */
+  const pw = $("#password"), eye = $("[data-showpw]");
+  eye.addEventListener("click", () => { const show = pw.type === "password"; pw.type = show ? "text" : "password"; eye.setAttribute("aria-pressed", String(show)); eye.setAttribute("aria-label", show ? "Hide password" : "Show password"); eye.innerHTML = `<i data-lucide="${show ? "eye-off" : "eye"}"></i>`; icons(); });
+
+  /* sign in */
+  const form = $("[data-signin]"), alert = $("[data-alert]"), submit = $("[data-submit]"), label = $("[data-label]", submit), spin = $(".spin", submit);
+  const busy = (v) => { submit.toggleAttribute("aria-busy", v); submit.disabled = v; spin.hidden = !v; label.textContent = v ? "Signing in…" : "Continue"; };
+  const validate = () => {
+    let first = null;
+    $$("input[required]", form).forEach((i) => {
+      const f = i.closest(".field"), h = $(".hint", f);
+      const bad = !i.value.trim() || (i.type === "email" && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(i.value));
+      f.classList.toggle("field--error", bad); i.setAttribute("aria-invalid", String(bad));
+      if (h) { h.hidden = !bad; h.id = h.id || i.id + "-e"; i.setAttribute("aria-describedby", h.id); }
+      if (bad && !first) first = i;
+    });
+    return first;
+  };
+  form.addEventListener("submit", (e) => {
+    e.preventDefault(); alert.hidden = true;
+    const bad = validate();
+    if (bad) { bad.focus(); if (G) G.fromTo(bad, { x: -6 }, { x: 0, duration: 0.4, ease: "elastic.out(1, 0.3)" }); return; }
+    busy(true);
+    setTimeout(() => { busy(false); go("otp"); }, reduce ? 0 : 1100); // demo: any details continue to the code step
+  });
+
+  /* verification code */
+  const boxes = $$("[data-otp] input");
+  boxes.forEach((b, i) => {
+    b.addEventListener("input", () => { b.value = b.value.replace(/\D/g, "").slice(-1); if (b.value && boxes[i + 1]) boxes[i + 1].focus(); });
+    b.addEventListener("keydown", (e) => { if (e.key === "Backspace" && !b.value && boxes[i - 1]) boxes[i - 1].focus(); });
+    b.addEventListener("paste", (e) => { const d = (e.clipboardData.getData("text") || "").replace(/\D/g, "").slice(0, 6); if (!d) return; e.preventDefault(); d.split("").forEach((c, k) => boxes[k] && (boxes[k].value = c)); boxes[Math.min(d.length, 5)].focus(); });
+  });
+  $("[data-otpform]").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const code = boxes.map((b) => b.value).join(""), hint = $("[data-otphint]");
+    if (code.length < 6) { hint.hidden = false; boxes.forEach((b) => b.setAttribute("aria-invalid", String(!b.value))); (boxes.find((b) => !b.value) || boxes[0]).focus(); if (G) G.fromTo("[data-otp]", { x: -6 }, { x: 0, duration: 0.4, ease: "elastic.out(1, 0.3)" }); return; }
+    hint.hidden = true; go("done");
+    if (G) G.fromTo(".done .tick", { scale: 0.5 }, { scale: 1, duration: 0.7, ease: "back.out(2.4)" });
+  });
+  $("[data-back]").addEventListener("click", () => go("signin"));
+  let timer = 0;
+  const startTimer = () => {
+    clearInterval(timer); let left = 30; const t = $("[data-timer]"), r = $("[data-resend]"); r.disabled = true;
+    timer = setInterval(() => { left--; t.textContent = `0:${String(left).padStart(2, "0")}`; if (left <= 0) { clearInterval(timer); r.disabled = false; t.textContent = "0:00"; } }, 1000);
+  };
+  $("[data-resend]").addEventListener("click", startTimer);
+
+  /* review helper: jump to a state */
+  $$("[data-state]").forEach((b) => b.addEventListener("click", () => {
+    $$("[data-state]").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+    const s = b.dataset.state; busy(false); alert.hidden = true; $$(".field", form).forEach((f) => { f.classList.remove("field--error"); const h = $(".hint", f); if (h) h.hidden = true; });
+    if (s === "otp") return go("otp");
+    go("signin");
+    if (s === "error") { $("#email").value = "adaeze@adaezefabrics.ng"; alert.hidden = false; $("#password").closest(".field").classList.add("field--error"); }
+    if (s === "busy") { $("#email").value = "adaeze@adaezefabrics.ng"; busy(true); }
+  }));
+
+  /* brand panel: a payment lands every few seconds */
+  if (G) {
+    G.from("[data-rise]", { opacity: 0, y: 12, filter: "blur(6px)", duration: 0.7, stagger: 0.06, ease: "expo.out", clearProps: "all" });
+    G.from(".art__card", { y: 24, opacity: 0, duration: 0.9, delay: 0.3, ease: "expo.out" });
+    $$("[data-haze]").forEach((h) => G.to(h, { xPercent: 5, scaleY: 1.15, duration: 8, ease: "sine.inOut", yoyo: true, repeat: -1 }));
+    const PAYS = [["₦12,500", "Transfer", "landmark"], ["₦3,200", "NQR", "qr-code"], ["₦18,750", "POS", "smartphone-nfc"], ["₦45,000", "Card", "credit-card"]];
+    let k = 0, total = 4812350; const chip = $("[data-artchip]"), today = $("[data-today]");
+    setInterval(() => {
+      if (document.hidden || window.innerWidth < 960) return;
+      const [amt, ch, ico] = PAYS[k++ % PAYS.length];
+      G.to(chip, { y: 6, opacity: 0, duration: 0.25, onComplete: () => {
+        chip.innerHTML = `<span class="dot"><i data-lucide="${ico}"></i></span><span><strong>${amt} received</strong><span>${ch} · just now</span></span>`; icons();
+        G.to(chip, { y: 0, opacity: 1, duration: 0.45, ease: "back.out(2)" });
+        const from = total; total += +amt.replace(/\D/g, ""); const o = { v: from };
+        G.to(o, { v: total, duration: 0.8, ease: "power2.out", onUpdate: () => (today.textContent = "₦" + Math.round(o.v).toLocaleString("en-NG") + ".00") });
+      } });
+    }, 3600);
+  }
+  if (M && !reduce) M.press("[data-press]", (el) => { M.animate(el, { scale: 0.97 }, { type: "spring", stiffness: 700, damping: 30 }); return () => M.animate(el, { scale: 1 }, { type: "spring", stiffness: 500, damping: 18 }); });
+})();
+</script>
+<script src="_review.js?v=11"></script>
+</body>
+</html>

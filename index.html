@@ -1,0 +1,536 @@
+<!doctype html>
+<html lang="en-NG">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Upperlink PayGate · Get paid every way Nigeria pays</title>
+<meta name="description" content="Accept cards, bank transfers, NQR and POS payments through one CBN-licensed gateway. See every payment the moment it lands and settle it without chasing anyone.">
+<meta property="og:title" content="Upperlink PayGate">
+<meta property="og:description" content="Get paid every way Nigeria pays. Online and at the counter.">
+<link rel="icon" href="assets/logos/upl-paygate-icon.svg">
+<script>try{var t=localStorage.getItem("pg-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="_tokens.css?v=11">
+<link rel="stylesheet" href="_site.css?v=11">
+<link rel="stylesheet" href="_home.css?v=11">
+</head>
+<body class="pg-home">
+<a class="btn btn--primary" href="#main" style="position:absolute;left:-9999px;top:8px;z-index:99" onfocus="this.style.left='8px'" onblur="this.style.left='-9999px'">Skip to content</a>
+
+<!-- Upperlink arrow line-art, reused across haze cards -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="arrow-fade" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="600" y2="600">
+      <stop stop-color="currentColor" stop-opacity="0"/><stop offset=".52" stop-color="currentColor" stop-opacity=".07"/><stop offset="1" stop-color="currentColor" stop-opacity="0"/>
+    </linearGradient>
+    <symbol id="upl-arrow" viewBox="0 0 600 600"><path d="M300 40h220a40 40 0 0 1 40 40v220a24 24 0 0 1-41 17l-71-71-286 286a30 30 0 0 1-42 0l-42-42a30 30 0 0 1 0-42l286-286-71-71A24 24 0 0 1 300 40Z" fill="none" stroke="url(#arrow-fade)" stroke-width="1.2"/></symbol>
+  </defs>
+</svg>
+
+<header class="topnav" data-nav>
+  <div class="topnav__in wrap">
+    <a class="topnav__logo" href="#main" aria-label="Upperlink PayGate home"><img class="logo--auto" src="assets/logos/upl-paygate-icon.svg" alt="" width="95" height="30"></a>
+    <nav class="topnav__links" aria-label="Main">
+      <div class="dd" data-dd>
+        <button type="button" aria-expanded="false" aria-controls="dd-products">Products <i data-lucide="chevron-down"></i></button>
+        <div class="dd__panel" id="dd-products" hidden>
+          <a href="#rails"><i data-lucide="credit-card"></i><b>Online payments</b><span>Card, transfer and NQR checkout</span></a>
+          <a href="#terminals"><i data-lucide="smartphone-nfc"></i><b>Upperlink Terminals</b><span>Take payments at the counter</span></a>
+          <a href="#rail-links"><i data-lucide="link"></i><b>Payment links</b><span>Share a link, get paid</span></a>
+          <a href="#tour"><i data-lucide="split"></i><b>Split settlements</b><span>Share every payment by rule</span></a>
+          <a href="#tour"><i data-lucide="layout-dashboard"></i><b>Merchant dashboard</b><span>Every payment, live</span></a>
+          <a href="#developers"><i data-lucide="code-xml"></i><b>API &amp; hosted checkout</b><span>Integrate your way</span></a>
+        </div>
+      </div>
+      <a href="developers.html">Developers</a>
+      <a href="about.html">Why PayGate</a>
+      <a href="support.html">Support</a>
+    </nav>
+    <div class="topnav__act">
+      <button class="iconbtn" type="button" data-theme-toggle aria-pressed="false" aria-label="Switch colour theme"><i data-lucide="moon"></i><span class="sr" hidden></span></button>
+      <a class="btn btn--ghost btn--sm hide-sm" href="login.html">Log in</a>
+      <a class="btn btn--primary btn--sm hide-sm" href="#contact" data-press>Talk to sales</a>
+      <button class="iconbtn topnav__menu" type="button" aria-expanded="false" aria-controls="drawer" data-menu aria-label="Open menu"><i data-lucide="menu"></i></button>
+    </div>
+  </div>
+  <div class="drawer" id="drawer" hidden>
+    <a href="#rails">Online payments</a><a href="#terminals">Upperlink Terminals</a><a href="#tour">Merchant dashboard</a><a href="developers.html">Developers</a><a href="docs.html">Docs</a><a href="about.html">Why PayGate</a><a href="support.html">Support</a><a href="login.html">Log in</a>
+    <a class="btn btn--primary" href="#contact">Talk to sales</a>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- 1. HERO -->
+  <section class="hero" aria-labelledby="hero-h">
+    <canvas class="pat pat--hero" data-pat="arrow" data-strength=".5" data-glow=".32" aria-hidden="true"></canvas>
+    <div class="wrap">
+      <div class="hero__copy">
+        <h1 id="hero-h" data-words>Get paid every way Nigeria pays. <span class="tt-mute">Online and at the counter.</span></h1>
+        <p class="lede" data-rise>Cards, transfers, NQR and POS terminals through one gateway. See every payment the moment it lands, and settle it without chasing anyone.</p>
+        <div class="hero__ctas" data-rise>
+          <a class="btn btn--primary" href="#developers" data-press>Start integrating <i data-lucide="arrow-right"></i></a>
+          <a class="btn btn--secondary" href="#contact" data-press>Talk to sales</a>
+        </div>
+        <p class="licence" data-rise>
+          <span class="licence__cbn"><i data-lucide="badge-check"></i>Licensed by the Central Bank of Nigeria</span>
+          <span>PSSP · PTSP</span><span class="licence__sep" aria-hidden="true"></span>
+          <span>NIBSS aggregator</span><span>PCI DSS</span>
+        </p>
+      </div>
+
+      <div class="hero__stage" data-rise>
+        <div class="haze" data-haze></div>
+        <div class="icard stage">
+          <div class="haze haze--band" data-haze></div>
+          <figure class="stage__photo" style="margin:0">
+            <img src="assets/images/web/small-business-owner.jpg" alt="Adaeze scans a garment tag in her fabric and clothing shop" width="2000" height="1333" style="object-position:74% 30%">
+            <div class="chip" data-chip><span class="dot"><i data-lucide="arrow-down-left"></i></span><span><strong>₦45,000 received</strong><span>Transfer · 2 min ago</span></span></div>
+          </figure>
+
+          <figure class="stage__co" style="margin:0">
+            <figcaption class="sr-only">Animated demo: a customer pays Adaeze Fabrics ₦45,000 by card, then bank transfer, NQR and a POS terminal, and each payment is confirmed.</figcaption>
+            <div class="checkout checkout--film" id="film-hero" data-film aria-hidden="true">
+              <div class="checkout__head">
+                <img class="checkout__avatar" src="assets/images/web/adaeze-avatar.jpg" alt="" width="40" height="40">
+                <div><strong>Adaeze Fabrics</strong><span>Balogun, Lagos</span></div>
+                <div class="checkout__amt"><span class="small">Total</span><div class="num">₦45,000.00</div></div>
+              </div>
+              <div class="checkout__tabs">
+                <span class="ctab" data-m="card"><i data-lucide="credit-card"></i>Card<b class="ctab__bar"><i></i></b></span>
+                <span class="ctab" data-m="transfer"><i data-lucide="landmark"></i>Transfer<b class="ctab__bar"><i></i></b></span>
+                <span class="ctab" data-m="nqr"><i data-lucide="qr-code"></i>NQR<b class="ctab__bar"><i></i></b></span>
+                <span class="ctab" data-m="pos"><i data-lucide="smartphone-nfc"></i>POS<b class="ctab__bar"><i></i></b></span>
+              </div>
+              <div class="checkout__body">
+                <div class="checkout__pane" data-pane="card">
+                  <div class="checkout__row"><span>Card</span><span class="num typed" data-type="4412 8812 3301 0921" data-mask="4412 •••• •••• 0921"></span></div>
+                  <div class="checkout__row"><span>Expiry · CVV</span><span class="num typed" data-type="09/28 · 123" data-mask="09/28 · •••"></span></div>
+                  <span class="btn btn--primary checkout__pay"><span class="spin" hidden></span><span data-label>Pay ₦45,000.00</span></span>
+                </div>
+                <div class="checkout__pane" data-pane="transfer" hidden>
+                  <div class="checkout__row"><span>Pay into</span><span class="num">0123 456 789</span></div>
+                  <div class="checkout__row"><span>Account name</span><span>Adaeze Fabrics</span></div>
+                  <div class="checkout__row checkout__row--wait"><span data-wait>Waiting for your transfer</span><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span></div>
+                </div>
+                <div class="checkout__pane" data-pane="nqr" hidden>
+                  <div class="qrwrap"><svg class="checkout__qr" data-qr viewBox="0 0 25 25"></svg><span class="scanline"></span></div>
+                  <p class="small" style="text-align:center">Scan with any Nigerian bank app</p>
+                </div>
+                <div class="checkout__pane" data-pane="pos" hidden>
+                  <div class="pos-stage">
+                    <div class="pos-term__screen"><span data-pos>TAP · INSERT · SWIPE</span><b>₦45,000.00</b></div>
+                    <span class="waves"><i></i><i></i><i></i></span>
+                    <span class="tapcard"></span>
+                  </div>
+                </div>
+                <div class="checkout__done"><span class="tick"><i data-lucide="check"></i></span><strong>Payment successful</strong><span class="small">₦45,000.00</span></div>
+                <span class="cursor"></span>
+              </div>
+              <div class="checkout__foot"><i data-lucide="lock"></i>Secured by PayGate</div>
+            </div>
+            <div class="co-under">
+              <span class="demo-tag">Demo · sample merchant and amounts</span>
+              <button class="btn btn--ghost btn--sm" type="button" data-film-toggle="film-hero" aria-pressed="false"><i data-lucide="pause"></i><span>Pause animation</span></button>
+            </div>
+          </figure>
+
+          <div class="stage__feed" role="region" aria-label="Live payments, demo">
+            <div class="feed__head"><b><span class="live-dot" aria-hidden="true"></span>Live payments</b><span class="badge badge--plain">Today</span></div>
+            <div class="feed__total">
+              <span class="small">Collected today</span>
+              <span class="num" data-count="4812350">₦0.00</span>
+              <div class="mix" aria-hidden="true"><i style="width:42%;background:#000bb8"></i><i style="width:31%;background:#2a3bff"></i><i style="width:15%;background:#a9aeff"></i><i style="width:12%;background:#ff7a59"></i></div>
+              <div class="mix-legend"><span style="--c:#000bb8">Card 42%</span><span style="--c:#2a3bff">Transfer 31%</span><span style="--c:#a9aeff">NQR 15%</span><span style="--c:#ff7a59">POS 12%</span></div>
+            </div>
+            <ul class="feed__list" data-feed></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. LOGOS -->
+  <section class="logos" aria-label="Organisations using PayGate">
+    <div class="wrap">
+      <p>Trusted by revenue agencies, universities, schools and businesses across Nigeria</p>
+      <div class="marquee"><div class="marquee__track" data-marquee>
+        <span class="client"><img src="assets/logos/clients/lirs.png" alt="Lagos Internal Revenue Service (LIRS)" height="44"></span>
+        <span class="client"><img src="assets/logos/clients/lashma.jpg" alt="Lagos State Health Management Agency (LASHMA)" height="44"></span>
+        <span class="client"><img src="assets/logos/clients/abuad.png" alt="Afe Babalola University (ABUAD)" height="44"></span>
+        <span class="client"><img src="assets/logos/clients/tau.jpg" alt="Thomas Adewumi University" height="44"></span>
+        <span class="client"><img src="assets/logos/clients/bells-university.jpg" alt="Bells University of Technology" height="44"></span>
+        <span class="client"><img src="assets/logos/clients/command.jpg" alt="Command Secondary Schools" height="44"></span>
+        <span class="client"><img src="assets/logos/clients/toltem.jpg" alt="Toltem" height="44"></span>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- 3. STATEMENT -->
+  <section class="wrap" aria-label="About PayGate" style="padding-top:clamp(56px,8vw,104px)">
+    <div class="icard statement">
+      <svg class="arrowline arrowline--l" aria-hidden="true"><use href="#upl-arrow"/></svg>
+      <svg class="arrowline arrowline--r" aria-hidden="true"><use href="#upl-arrow"/></svg>
+      <div class="haze haze--band" data-haze></div>
+      <blockquote data-scrub>Every naira your customers send should land where it belongs, on time, with a record you can trust.</blockquote>
+      <p>That is the whole job of a payment gateway. It is the only job we do.</p>
+    </div>
+  </section>
+
+  <!-- 4. RAILS -->
+  <section class="sec" id="rails" aria-labelledby="rails-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="rails-h" class="h1" data-words>One gateway. <span class="tt-mute">Every way your customers pay.</span></h2>
+        <p class="lede">Your customer chooses. You get one record, one dashboard and one settlement, whether they paid online or at your counter.</p>
+      </div>
+      <div class="rails">
+        <article class="rail" data-rail>
+          <span class="rail__ico"><i data-lucide="credit-card"></i></span>
+          <h3>Cards</h3>
+          <p>Verve, Mastercard and Visa on your website or app, with 3-D Secure and tokenised card storage.</p>
+          <div class="rail__ui"><div class="frag"><div class="row"><span class="minicard" aria-hidden="true"></span><span class="num">•••• 0921</span><span class="badge badge--ok">Approved</span></div></div></div>
+        </article>
+        <article class="rail" data-rail>
+          <span class="rail__ico"><i data-lucide="landmark"></i></span>
+          <h3>Bank transfer</h3>
+          <p>Give each customer an account to pay into. The payment is matched and confirmed for both of you.</p>
+          <div class="rail__ui"><div class="frag"><div class="row"><span class="small">Pay into</span><span class="num">0123 456 789</span></div><div class="row"><span class="small">Status</span><span class="badge badge--wait" data-flip>Waiting</span></div></div></div>
+        </article>
+        <article class="rail" data-rail>
+          <span class="rail__ico"><i data-lucide="qr-code"></i></span>
+          <h3>NQR</h3>
+          <p>One printed or on-screen code your customer scans from any Nigerian bank app.</p>
+          <div class="rail__ui"><div class="frag"><div class="row"><svg data-qr viewBox="0 0 25 25" width="44" height="44" aria-hidden="true" style="border-radius:6px;background:#fff;padding:3px"></svg><span><b style="font-weight:600">Scan to pay</b><br><span class="small">₦3,200.00</span></span><span class="badge badge--ok">Paid</span></div></div></div>
+        </article>
+        <article class="rail" data-rail>
+          <span class="rail__ico"><i data-lucide="smartphone-nfc"></i></span>
+          <h3>POS terminals</h3>
+          <p>Tap, insert or swipe at the counter on terminals we deploy and support under our PTSP licence.</p>
+          <div class="rail__ui"><div class="frag"><div class="row"><span class="small">Terminal PG-0217</span><span class="num">₦18,750.00</span></div><div class="row"><span class="small">Tap · contactless</span><span class="badge badge--ok">Approved</span></div></div></div>
+        </article>
+        <article class="rail" data-rail>
+          <span class="rail__ico"><i data-lucide="banknote"></i></span>
+          <h3>Naira and Dollars</h3>
+          <p>Collect in NGN or USD from local and international customers through the same checkout.</p>
+          <div class="rail__ui"><div class="frag"><div class="row"><div class="seg" role="group" aria-label="Currency"><button type="button" aria-pressed="true" data-cur="ngn">NGN</button><button type="button" aria-pressed="false" data-cur="usd">USD</button></div><span class="num" data-cur-amt>₦250,000.00</span></div></div></div>
+        </article>
+        <article class="rail" id="rail-links" data-rail>
+          <span class="rail__ico"><i data-lucide="link"></i></span>
+          <h3>Payment links</h3>
+          <p>No website yet? Send a link on WhatsApp or email and get paid on a hosted checkout.</p>
+          <div class="rail__ui"><div class="frag"><div class="row"><span class="num" style="font-size:.8125rem;overflow:hidden;text-overflow:ellipsis">pay.paygate.example/adaeze</span><button class="btn btn--secondary btn--sm" type="button" data-copy style="min-height:32px;padding:0 10px">Copy</button></div></div></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. UPPERLINK TERMINALS (POS) -->
+  <section class="sec" id="terminals" aria-labelledby="term-h" style="padding-top:0">
+    <div class="wrap term">
+      <div class="term__media">
+        <div class="term__photo"><img src="assets/images/web/hotel-pos.jpg" alt="A smiling attendant holds out a card terminal to a customer" loading="lazy" width="2000" height="1333"></div>
+        <div class="term__inset"><img src="assets/images/web/market-pos.jpg" alt="A trader holds a POS terminal at her market stall" loading="lazy" width="1800" height="1200"></div>
+        <div class="terminal" data-terminal aria-hidden="true">
+          <div class="terminal__receipt"><b>ADAEZE FABRICS</b><span>Balogun, Lagos</span><hr><span>Card · contactless</span><b class="num">₦18,750.00</b><span class="ok">APPROVED</span><span>PG-0217 · 14:02</span></div>
+          <div class="terminal__body">
+            <div class="terminal__screen"><span>Upperlink</span><b class="num">₦18,750.00</b><em>Approved</em></div>
+            <div class="terminal__keys"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="k-c"></i><i></i><i class="k-ok"></i></div>
+          </div>
+        </div>
+      </div>
+      <div class="term__copy stack" style="--stack:var(--s-5)">
+        <h2 id="term-h" class="h1" data-words>Upperlink Terminals. <span class="tt-mute">Get paid at the counter.</span></h2>
+        <p class="lede">POS terminals we deploy, manage and support under our CBN Payment Terminal Service Provider licence. Every tap, insert and swipe lands in the same dashboard as your online payments.</p>
+        <ul class="term__list">
+          <li><i data-lucide="nfc"></i><span><b>Tap, insert or swipe</b>Contactless, chip and magstripe cards</span></li>
+          <li><i data-lucide="layout-dashboard"></i><span><b>One dashboard</b>Counter and online payments, side by side</span></li>
+          <li><i data-lucide="wrench"></i><span><b>Set up for you</b>We deploy, configure and support your terminals</span></li>
+          <li><i data-lucide="split"></i><span><b>Same settlement rules</b>Splits and payouts work exactly as online</span></li>
+        </ul>
+        <div style="display:flex;gap:12px;flex-wrap:wrap"><a class="btn btn--primary" href="#contact" data-press>Request terminals</a><a class="btn btn--secondary" href="#faq" data-press>How terminals work</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. DASHBOARD TOUR -->
+  <section class="sec" id="tour" aria-labelledby="tour-h" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="tour-h" class="h1" data-words>Stay in control <span class="tt-mute">of every naira.</span></h2>
+        <p class="lede">One dashboard for your whole team: what came in, what’s pending, who gets what, and who did what.</p>
+      </div>
+      <div class="tour" data-tour>
+        <div class="tour__tabs" role="tablist" aria-label="Dashboard features">
+          <button role="tab" aria-selected="true" aria-controls="v-live" id="tt-live"><b><i data-lucide="activity"></i>Real-time visibility</b><span>See successful, pending, failed and declined payments the moment they happen.</span><span class="bar"><i></i></span></button>
+          <button role="tab" aria-selected="false" aria-controls="v-split" id="tt-split"><b><i data-lucide="split"></i>Split settlements</b><span>Split payouts by amount or percentage, then settle each share automatically.</span><span class="bar"><i></i></span></button>
+          <button role="tab" aria-selected="false" aria-controls="v-team" id="tt-team"><b><i data-lucide="users"></i>Team roles</b><span>Give each person only the access their job needs.</span><span class="bar"><i></i></span></button>
+          <button role="tab" aria-selected="false" aria-controls="v-rec" id="tt-rec"><b><i data-lucide="file-down"></i>Records and exports</b><span>Download payment history with status and amounts for reconciliation.</span><span class="bar"><i></i></span></button>
+          <button role="tab" aria-selected="false" aria-controls="v-audit" id="tt-audit"><b><i data-lucide="scroll-text"></i>Audit trail</b><span>Every system and user action recorded, so audits stay simple.</span><span class="bar"><i></i></span></button>
+        </div>
+        <div class="icard tour__view">
+          <div class="haze haze--band" data-haze></div>
+          <div class="dash">
+            <div class="dash__top"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="crumb">Adaeze Fabrics · Dashboard</span><span class="demo-tag" style="margin-left:auto">Demo data</span></div>
+
+            <div class="dash__pane" role="tabpanel" id="v-live" aria-labelledby="tt-live">
+              <p class="dash__title">Payments today</p><p class="small">Updates as payments land</p>
+              <div class="kpis"><div class="kpi"><span>Successful</span><b class="num">₦4,812,350</b></div><div class="kpi"><span>Pending</span><b class="num">₦120,000</b></div><div class="kpi"><span>Failed / declined</span><b class="num">₦31,500</b></div></div>
+              <table class="tbl"><thead><tr><th>Reference</th><th class="hide-sm">Customer</th><th>Channel</th><th class="r">Amount</th><th>Status</th></tr></thead>
+                <tbody data-rows>
+                  <tr><td class="num" style="text-align:left">PG-7F3A21</td><td class="hide-sm">Chiamaka O.</td><td>Card</td><td class="num">₦45,000.00</td><td><span class="badge badge--ok">Successful</span></td></tr>
+                  <tr><td class="num" style="text-align:left">PG-7F3A1C</td><td class="hide-sm">Bello Stores</td><td>Transfer</td><td class="num">₦120,000.00</td><td><span class="badge badge--wait">Pending</span></td></tr>
+                  <tr><td class="num" style="text-align:left">PG-7F3A17</td><td class="hide-sm">Ife A.</td><td>NQR</td><td class="num">₦3,200.00</td><td><span class="badge badge--ok">Successful</span></td></tr>
+                  <tr><td class="num" style="text-align:left">PG-7F3A0E</td><td class="hide-sm">Musa K.</td><td>POS</td><td class="num">₦18,750.00</td><td><span class="badge badge--ok">Successful</span></td></tr>
+                  <tr><td class="num" style="text-align:left">PG-7F3A09</td><td class="hide-sm">Grace E.</td><td>Card</td><td class="num">₦31,500.00</td><td><span class="badge badge--bad">Declined</span></td></tr>
+                </tbody></table>
+            </div>
+
+            <div class="dash__pane" role="tabpanel" id="v-split" aria-labelledby="tt-split" hidden>
+              <p class="dash__title">Split rule · School fees</p><p class="small">Every ₦250,000 payment is shared automatically</p>
+              <div class="split-viz">
+                <div class="split-row"><span>University account</span><span class="track"><i style="width:70%"></i></span><span class="num">₦175,000.00</span></div>
+                <div class="split-row"><span>Faculty account</span><span class="track"><i style="width:20%"></i></span><span class="num">₦50,000.00</span></div>
+                <div class="split-row"><span>Hostel account</span><span class="track"><i style="width:10%"></i></span><span class="num">₦25,000.00</span></div>
+              </div>
+              <div class="toast" style="margin-top:22px;max-width:none"><span class="toast__icon"><i data-lucide="check"></i></span><div><strong>3 settlements queued</strong><span>Each share goes to its own account</span></div></div>
+            </div>
+
+            <div class="dash__pane" role="tabpanel" id="v-team" aria-labelledby="tt-team" hidden>
+              <p class="dash__title">Team</p><p class="small">Roles decide what each person can see and do</p>
+              <ul class="team">
+                <li><span class="avatar" style="background:#000bb8">AO</span><span>Adaeze Okafor</span><span class="role">Owner</span><span class="toggle on" aria-label="Can approve payouts"></span></li>
+                <li><span class="avatar" style="background:#2a3bff">TB</span><span>Tolu Bakare</span><span class="role">Finance</span><span class="toggle on" aria-label="Can approve payouts"></span></li>
+                <li><span class="avatar" style="background:#7a3cc6">EN</span><span>Emeka Nwosu</span><span class="role">Developer</span><span class="toggle" aria-label="Cannot approve payouts"></span></li>
+                <li><span class="avatar" style="background:#e9002a">FA</span><span>Fatima Abdullahi</span><span class="role">Support</span><span class="toggle" aria-label="Cannot approve payouts"></span></li>
+              </ul>
+              <p class="small" style="margin-top:12px">Toggle: can approve payouts</p>
+            </div>
+
+            <div class="dash__pane" role="tabpanel" id="v-rec" aria-labelledby="tt-rec" hidden>
+              <p class="dash__title">Download records</p><p class="small">For reconciliation and your accountant</p>
+              <div class="export">
+                <div class="field"><label for="rng">Date range</label><select class="select" id="rng"><option>1 Oct – 31 Oct 2026</option><option>This week</option><option>Today</option></select></div>
+                <div class="opts"><div class="opt sel"><b>CSV</b><span class="small">For spreadsheets</span></div><div class="opt"><b>PDF</b><span class="small">For records</span></div></div>
+                <button class="btn btn--primary" type="button" data-press data-export><i data-lucide="download"></i><span>Download 1,284 payments</span></button>
+              </div>
+            </div>
+
+            <div class="dash__pane" role="tabpanel" id="v-audit" aria-labelledby="tt-audit" hidden>
+              <p class="dash__title">Activity log</p><p class="small">Who did what, and when</p>
+              <ol class="log">
+                <li><b>Tolu Bakare</b> exported October records<time>12 Nov 2026 · 14:02</time></li>
+                <li><b>Adaeze Okafor</b> changed the split rule “School fees”<time>12 Nov 2026 · 11:47</time></li>
+                <li><b>System</b> settled ₦1,240,000.00 to account ending 4412<time>12 Nov 2026 · 09:00</time></li>
+                <li><b>Emeka Nwosu</b> rotated the live API key<time>11 Nov 2026 · 17:31</time></li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. INDUSTRIES -->
+  <section class="sec" id="industries" aria-labelledby="ind-h" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 id="ind-h" class="h1" data-words>Built for how you collect. <span class="tt-mute">From one stall to a whole state.</span></h2>
+      </div>
+      <div class="ind">
+        <a href="#contact" data-lift>
+          <div class="ind__ph"><img src="assets/images/web/market-traders.jpg" alt="Traders laughing together at a fruit stall" loading="lazy" width="1800" height="1200"><div class="chip" aria-hidden="true"><span class="dot"><i data-lucide="qr-code"></i></span><span><strong>₦3,200 via NQR</strong><span>Confirmed instantly</span></span></div></div>
+          <div class="ind__tx"><h3>SMEs and merchants</h3><p>Take cards, transfers and NQR in the shop and online, and see it all in one place.</p><span class="more">For merchants <i data-lucide="arrow-right"></i></span></div>
+        </a>
+        <a href="#contact" data-lift>
+          <div class="ind__ph"><img src="assets/images/web/students-campus.jpg" alt="University students studying together on a campus bench" loading="lazy" width="1800" height="1197"><div class="chip" aria-hidden="true"><span class="dot"><i data-lucide="graduation-cap"></i></span><span><strong>School fees paid</strong><span>Split to faculty account</span></span></div></div>
+          <div class="ind__tx"><h3>Schools and institutions</h3><p>Collect fees from thousands of payers and reconcile them without spreadsheets.</p><span class="more">For institutions <i data-lucide="arrow-right"></i></span></div>
+        </a>
+        <a href="#contact" data-lift>
+          <div class="ind__ph"><img src="assets/images/web/enterprise-team.jpg" alt="A team reviewing figures together in an office" loading="lazy" width="1800" height="1012" style="object-position:40% 50%"><div class="chip" aria-hidden="true"><span class="dot"><i data-lucide="landmark"></i></span><span><strong>Levy received</strong><span>Reconciled to agency ledger</span></span></div></div>
+          <div class="ind__tx"><h3>Government and MDAs</h3><p>Collect taxes, levies and fees with an audit trail that stands up to review.</p><span class="more">For government <i data-lucide="arrow-right"></i></span></div>
+        </a>
+        <a href="#developers" data-lift>
+          <div class="ind__ph"><img src="assets/images/web/developers.jpg" alt="Two engineers working together at a desk" loading="lazy" width="1800" height="1012"><div class="chip" aria-hidden="true"><span class="dot"><i data-lucide="code-xml"></i></span><span><strong>payment.successful</strong><span>Webhook delivered</span></span></div></div>
+          <div class="ind__tx"><h3>Enterprises and platforms</h3><p>Integrate once through our API and run high-volume collections at scale.</p><span class="more">For developers <i data-lucide="arrow-right"></i></span></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. TRUST -->
+  <section class="sec" id="trust" aria-labelledby="trust-h" style="padding-top:0">
+    <div class="wrap trustg">
+      <div class="stack" style="--stack:var(--s-5)">
+        <h2 id="trust-h" class="h1" data-words>Licensed, audited, <span class="tt-mute">and said in plain words.</span></h2>
+        <p class="lede">Upperlink is licensed by the Central Bank of Nigeria to process payments online and to run payment terminals, and connects to the national payment switch as a NIBSS aggregator.</p>
+        <div class="badges"><img src="assets/logos/badges/pci.png" alt="PCI DSS compliant" height="52"><img src="assets/logos/badges/iso.png" alt="ISO/IEC 27001" height="52"><img src="assets/logos/badges/visa-global.png" alt="Visa Global Registry of Service Providers" height="52"></div>
+        <div class="secl">
+          <div><i data-lucide="shield-check"></i>3-D Secure on card payments</div>
+          <div><i data-lucide="shield-check"></i>Tokenised card data</div>
+          <div><i data-lucide="shield-check"></i>Fraud screening and risk controls</div>
+          <div><i data-lucide="shield-check"></i>Role-based access</div>
+        </div>
+      </div>
+      <ul class="lic">
+        <li><i data-lucide="landmark"></i><strong>CBN Payment Solution Service Provider</strong><span>Licence to collect and process payments online</span><em class="badge badge--ok">Licensed</em></li>
+        <li><i data-lucide="smartphone-nfc"></i><strong>CBN Payment Terminal Service Provider</strong><span>Licence to deploy and manage POS terminals</span><em class="badge badge--ok">Licensed</em></li>
+        <li><i data-lucide="network"></i><strong>NIBSS aggregator</strong><span>Direct connection to Nigeria’s interbank settlement system</span><em class="badge badge--ok">Approved</em></li>
+        <li><i data-lucide="lock"></i><strong>PCI DSS</strong><span>Card data handled to the card industry’s security standard</span><em class="badge badge--plain">Compliant</em></li>
+        <li><i data-lucide="file-check"></i><strong>ISO/IEC 27001</strong><span>Certified information security management</span><em class="badge badge--plain">Certified</em></li>
+        <li><i data-lucide="user-check"></i><strong>NDPR</strong><span>Personal data handled under Nigeria’s data protection rules</span><em class="badge badge--plain">Compliant</em></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 9. DEVELOPERS -->
+  <section id="developers" aria-labelledby="dev-h" style="padding-bottom:clamp(72px,10vw,136px)">
+    <div class="wrap"><div class="panel panel--dark devp" style="margin-inline:0">
+      <canvas class="pat pat--dev" data-pat="arrow" data-strength=".7" data-glow=".4" data-dark aria-hidden="true"></canvas>
+      <div class="stack" style="--stack:var(--s-5)">
+        <h2 id="dev-h" class="h1" style="color:#fff" data-words>Integrate once. <span style="color:rgba(240,242,255,.62)">Take every payment method.</span></h2>
+        <p class="lede">Use a hosted checkout when you want speed, or the API when you want control. Webhooks tell your system the moment money lands.</p>
+        <ul>
+          <li><i data-lucide="check"></i>Hosted checkout, payment links and a REST API</li>
+          <li><i data-lucide="check"></i>Sandbox with test cards and test transfers</li>
+          <li><i data-lucide="check"></i>Signed webhooks for every status change</li>
+        </ul>
+        <div class="row" style="display:flex;gap:12px;flex-wrap:wrap"><a class="btn btn--primary" href="docs.html" data-press>Read the docs <i data-lucide="arrow-up-right"></i></a><a class="btn btn--secondary" href="#" data-press style="--_bg:transparent;--_fg:#fff;--_bd:rgba(255,255,255,.24)">Get test keys</a></div>
+      </div>
+      <div style="position:relative">
+        <div class="code" role="region" aria-label="Example request">
+          <div class="code__bar">
+            <div class="code__tabs" role="tablist"><button role="tab" aria-selected="true" data-code-tab="curl">cURL</button><button role="tab" aria-selected="false" data-code-tab="node">Node.js</button><button role="tab" aria-selected="false" data-code-tab="php">PHP</button></div>
+            <button class="runbtn" type="button" data-run><i data-lucide="play"></i>Run in sandbox</button>
+          </div>
+<pre data-code-pane="curl" tabindex="0"><span class="tok-c"># Start a ₦45,000 payment (illustrative request)</span>
+curl https://sandbox.paygate.example/v1/payments \
+  -H <span class="tok-s">"Authorization: Bearer sk_test_…"</span> \
+  -d amount=<span class="tok-n">4500000</span> -d currency=<span class="tok-s">NGN</span> \
+  -d channels[]=<span class="tok-s">card</span> -d channels[]=<span class="tok-s">transfer</span> \
+  -d channels[]=<span class="tok-s">nqr</span></pre>
+<pre data-code-pane="node" hidden tabindex="0"><span class="tok-c">// Start a ₦45,000 payment (illustrative request)</span>
+<span class="tok-k">const</span> payment = <span class="tok-k">await</span> paygate.payments.create({
+  amount: <span class="tok-n">4500000</span>, <span class="tok-c">// in kobo</span>
+  currency: <span class="tok-s">"NGN"</span>,
+  channels: [<span class="tok-s">"card"</span>, <span class="tok-s">"transfer"</span>, <span class="tok-s">"nqr"</span>],
+});</pre>
+<pre data-code-pane="php" hidden tabindex="0"><span class="tok-c">// Start a ₦45,000 payment (illustrative request)</span>
+$payment = $paygate->payments->create([
+  <span class="tok-s">'amount'</span>   => <span class="tok-n">4500000</span>,
+  <span class="tok-s">'currency'</span> => <span class="tok-s">'NGN'</span>,
+  <span class="tok-s">'channels'</span> => [<span class="tok-s">'card'</span>, <span class="tok-s">'transfer'</span>, <span class="tok-s">'nqr'</span>],
+]);</pre>
+          <div class="resp" data-resp aria-live="polite" tabindex="0"><span class="tok-c">// Press “Run in sandbox” to see the response</span></div>
+        </div>
+        <p class="demo-tag" style="color:rgba(240,242,255,.64);margin-top:10px">Illustrative only · real endpoints come from the PayGate docs</p>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- 10. ONBOARDING -->
+  <section class="sec" aria-labelledby="go-h" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head"><h2 id="go-h" class="h1" data-words>Go live in three steps</h2>
+        <p class="lede">Complete onboarding, submit your KYC documents and start collecting payments within days.</p></div>
+      <div class="steps">
+        <div class="icard step"><span class="step__n">1</span><h3>Create your account</h3><p>Sign up, complete KYC securely and get access to your merchant dashboard.</p></div>
+        <div class="icard step"><span class="step__n">2</span><h3>Choose your integration</h3><p>Share a hosted checkout link, add our API to your platform, or request POS terminals.</p></div>
+        <div class="icard step"><span class="step__n">3</span><h3>Start receiving payments</h3><p>Go live, track every payment in real time and manage your settlements.</p></div>
+      </div>
+      <div class="icard docs" data-docs>
+        <div class="stack" style="--stack:var(--s-4)">
+          <h3 class="h3">What you’ll need</h3>
+          <p class="muted">A registered company and a business name submit different documents. We may ask for more if needed.</p>
+          <div class="seg" role="group" aria-label="Business type">
+            <button type="button" aria-pressed="true" data-doc="co">Registered company</button>
+            <button type="button" aria-pressed="false" data-doc="bn">Business name</button>
+          </div>
+        </div>
+        <div>
+          <ol data-doclist="co">
+            <li><i data-lucide="check"></i>Certificate of Incorporation</li><li><i data-lucide="check"></i>Status report</li><li><i data-lucide="check"></i>MEMART</li><li><i data-lucide="check"></i>ID of directors</li><li><i data-lucide="check"></i>ID of shareholders</li><li><i data-lucide="check"></i>Utility bill of directors and shareholders</li><li><i data-lucide="check"></i>Utility bill of the company</li><li><i data-lucide="check"></i>BVN of owners with 25% or more</li>
+          </ol>
+          <ol data-doclist="bn" hidden>
+            <li><i data-lucide="check"></i>Certificate of registration</li><li><i data-lucide="check"></i>Status report</li><li><i data-lucide="check"></i>ID of proprietors</li><li><i data-lucide="check"></i>Utility bill of proprietors</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. FAQ -->
+  <section class="sec" id="faq" aria-labelledby="faq-h" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head sec-head--center"><h2 id="faq-h" class="h1">Questions, answered</h2></div>
+      <div class="faq" data-faq>
+        <details><summary>Who can use Upperlink PayGate?<span class="pm"><i data-lucide="plus"></i></span></summary><div class="ans">Registered companies, business names, schools and institutions, and government agencies and MDAs in Nigeria that need to collect payments online, at the counter, or both.</div></details>
+        <details><summary>Can small businesses use PayGate?<span class="pm"><i data-lucide="plus"></i></span></summary><div class="ans">Yes. A business registered as a business name onboards with a shorter document list. Talk to us if you’re not sure which applies to you.</div></details>
+        <details><summary>Can I add PayGate to my website or app?<span class="pm"><i data-lucide="plus"></i></span></summary><div class="ans">Yes. Use a hosted checkout or payment link with no code, or integrate our API for full control. Webhooks keep your system updated.</div></details>
+        <details><summary>How do I receive the money I collect?<span class="pm"><i data-lucide="plus"></i></span></summary><div class="ans">Settlements are paid into the bank account you nominate. With split settlements, each share goes to its own account. <span class="pending">settlement timeline to confirm</span></div></details>
+        <details><summary>A payment was successful but hasn’t been settled. What should I do?<span class="pm"><i data-lucide="plus"></i></span></summary><div class="ans">Check its settlement status in your dashboard, then contact support with the transaction reference and we’ll trace it.</div></details>
+        <details><summary>My customer was debited but the payment failed. What happens?<span class="pm"><i data-lucide="plus"></i></span></summary><div class="ans">Share the transaction reference with support. Failed debits are reversed to the customer through their bank. <span class="pending">reversal timeline to confirm</span></div></details>
+        <details><summary>Can I see my transaction history?<span class="pm"><i data-lucide="plus"></i></span></summary><div class="ans">Yes. Filter every payment by date, channel and status, and download records as CSV or PDF.</div></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12. CONTACT -->
+  <section id="contact" class="wrap" aria-labelledby="ct-h">
+    <div class="icard contact">
+      <div class="haze haze--band" data-haze></div>
+      <canvas class="pat pat--contact" data-pat="arrow" data-strength=".55" data-glow=".35" aria-hidden="true"></canvas>
+      <div class="stack" style="--stack:var(--s-5)">
+        <h2 id="ct-h" class="h1" data-words>Let’s get you paid. <span class="tt-mute">Talk to our team.</span></h2>
+        <p class="lede">Tell us how you collect today. We’ll recommend the right setup and pricing for your business.</p>
+        <div class="contact__alt">
+          <a href="mailto:sales@upperlink.com"><i data-lucide="mail"></i>sales@upperlink.com</a>
+          <a href="tel:+2348060449642"><i data-lucide="phone"></i>+234 806 0449 642</a>
+          <span><i data-lucide="map-pin"></i>ASSBIFI House, Alausa, Ikeja, Lagos</span>
+        </div>
+      </div>
+      <form novalidate data-form>
+        <div class="field"><label for="c-name">Your name</label><input class="input" id="c-name" name="name" autocomplete="name" required><span class="hint" hidden>Add your name so we know who to reply to</span></div>
+        <div class="field"><label for="c-biz">Business name</label><input class="input" id="c-biz" name="biz" autocomplete="organization" required><span class="hint" hidden>Add your business name</span></div>
+        <div class="field"><label for="c-mail">Work email</label><input class="input" id="c-mail" name="email" type="email" autocomplete="email" required><span class="hint" hidden>Add an email like name@business.ng</span></div>
+        <div class="field"><label for="c-tel">Phone</label><input class="input" id="c-tel" name="tel" type="tel" autocomplete="tel" inputmode="tel" placeholder="080…"></div>
+        <div class="field full"><label for="c-type">How do you want to get paid?</label><select class="select" id="c-type"><option>Online and in person</option><option>Online only</option><option>In person (POS) only</option><option>Revenue or fee collection</option></select></div>
+        <div class="field full"><label for="c-msg">Anything else? <span class="small">(optional)</span></label><textarea class="input" id="c-msg" rows="4"></textarea></div>
+        <button class="btn btn--primary full send" type="submit" data-press>Send to sales</button>
+        <div class="ok" role="status"><i data-lucide="circle-check"></i><div><b>Thanks, we’ve got it.</b><br><span class="small">Demo only: this form isn’t connected yet.</span></div></div>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot__grid">
+      <div class="stack"><img class="logo--auto" src="assets/logos/upl-paygate-icon.svg" alt="Upperlink PayGate" width="95" height="30" style="height:30px;width:auto"><p class="small" style="max-width:32ch">One gateway for cards, transfers, NQR and POS. Built in Lagos.</p></div>
+      <div><p class="foot__h">Products</p><ul><li><a href="#rails">Online payments</a></li><li><a href="#terminals">POS terminals</a></li><li><a href="#rail-links">Payment links</a></li><li><a href="#tour">Split settlements</a></li></ul></div>
+      <div><p class="foot__h">Developers</p><ul><li><a href="docs.html">Documentation</a></li><li><a href="docs.html#ref-transaction">API reference</a></li><li><a href="docs.html#test-cards">Test cards</a></li><li><a href="developers.html">Developer overview</a></li><li><a href="#">Status</a></li></ul></div>
+      <div><p class="foot__h">Company</p><ul><li><a href="about.html">About Upperlink</a></li><li><a href="about.html#why">Why PayGate</a></li><li><a href="about.html#licences">Licences and compliance</a></li><li><a href="#">Careers</a></li><li><a href="support.html">Contact and support</a></li></ul></div>
+      <div><p class="foot__h">Legal</p><ul><li><a href="legal.html#terms">Terms and conditions</a></li><li><a href="legal.html#privacy">Privacy policy</a></li><li><a href="legal.html#cookies">Cookie policy</a></li></ul></div>
+    </div>
+    <div class="foot__legal">
+      <p>Upperlink Limited is licensed by the Central Bank of Nigeria as a Payment Solution Service Provider (PSSP) and a Payment Terminal Service Provider (PTSP), and is a NIBSS aggregator. <span class="pending">licence numbers and approved wording pending</span></p>
+      <p>© 2026 Upperlink Limited. Mock-up for review: merchant names, amounts and the API request are illustrative. Photos by wirestock, DC Studio, ASphotofamily and Freepik, on <a href="https://www.freepik.com" rel="noopener">Freepik</a>.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/motion@12.4.7/dist/motion.js"></script>
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script>lucide.createIcons({ attrs: { "stroke-width": 1.75, "aria-hidden": "true" } });</script>
+<script src="_site.js?v=11"></script>
+<script src="_signature.js?v=11"></script>
+<script src="_checkout-film.js?v=11"></script>
+<script src="_pattern.js?v=11"></script>
+<script src="_home.js?v=11"></script>
+<script src="_review.js?v=11"></script>
+</body>
+</html>

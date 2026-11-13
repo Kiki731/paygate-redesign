@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="en-NG">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PayGate Docs · Accept a card payment</title>
+<meta name="description" content="Upperlink PayGate developer documentation: accept a card payment with the direct card API, test cards, response codes and 3-D Secure.">
+<link rel="icon" href="assets/logos/upl-paygate-icon.svg">
+<script>try{var t=localStorage.getItem("pg-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="_tokens.css?v=10">
+<link rel="stylesheet" href="_site.css?v=10">
+<link rel="stylesheet" href="_home.css?v=10">
+<link rel="stylesheet" href="_docs.css?v=11">
+</head>
+<body class="pg-docs">
+<a class="btn btn--primary" href="#doc" style="position:absolute;left:-9999px;top:8px;z-index:99" onfocus="this.style.left='8px'" onblur="this.style.left='-9999px'">Skip to content</a>
+
+<header class="dtop">
+  <button class="iconbtn dmenu" type="button" aria-expanded="false" aria-controls="dside" data-dmenu aria-label="Open docs menu"><i data-lucide="panel-left"></i></button>
+  <a class="dtop__brand" href="docs.html"><img class="logo--auto" src="assets/logos/upl-paygate-icon.svg" alt="Upperlink PayGate" width="89" height="28"><b>Docs</b></a>
+  <nav class="dtop__tabs" aria-label="Documentation sections">
+    <a href="#" aria-current="page">Guides</a><a href="#ref-transaction">API reference</a><a href="#test-cards">Testing</a><a href="#">Changelog</a>
+  </nav>
+  <button class="dsearch" type="button" data-search aria-label="Search the docs"><i data-lucide="search"></i><span>Search the docs</span><kbd>⌘K</kbd></button>
+  <div class="dtop__act">
+    <span class="envtag hide-md" title="Examples on this page use the sandbox">Sandbox</span>
+    <button class="iconbtn" type="button" data-theme-toggle aria-pressed="false" aria-label="Switch colour theme"><i data-lucide="moon"></i></button>
+    <a class="btn btn--primary btn--sm hide-md" href="login.html" data-press>Dashboard</a>
+  </div>
+</header>
+
+<div class="dlayout">
+  <nav class="dside" id="dside" aria-label="Docs">
+    <div class="dside__grp">
+      <p class="dside__h"><i data-lucide="rocket"></i>Getting started</p>
+      <ul>
+        <li><a href="#">Introduction</a></li>
+        <li><a href="#before">Get your keys</a></li>
+        <li><a href="#auth">Authentication</a></li>
+        <li><a href="#test-cards">Test cards</a></li>
+        <li><a href="#codes">Response codes</a></li>
+      </ul>
+    </div>
+    <div class="dside__grp">
+      <p class="dside__h"><i data-lucide="credit-card"></i>Accept payments</p>
+      <ul>
+        <li><a href="#">Payment links</a></li>
+        <li><a href="#">Hosted checkout</a></li>
+        <li><a href="#doc" aria-current="page">Direct card API</a>
+          <ul class="sub" data-toc>
+            <li><a href="#before">Before you begin</a></li>
+            <li><a href="#auth">Authentication</a></li>
+            <li><a href="#payload">1 · Build the payload</a></li>
+            <li><a href="#encrypt">2 · Encrypt it</a></li>
+            <li><a href="#payer-auth">3 · Call payerAuth</a></li>
+            <li><a href="#redirect">4 · 3-D Secure</a></li>
+            <li><a href="#confirm">5 · Confirm the result</a></li>
+            <li><a href="#test-cards">Test cards</a></li>
+            <li><a href="#codes">Response codes</a></li>
+          </ul>
+        </li>
+        <li><a href="#">Split settlements</a></li>
+        <li><a href="#">Aggregators and sub-merchants</a></li>
+        <li><a href="#">POS terminals</a></li>
+      </ul>
+    </div>
+    <div class="dside__grp">
+      <p class="dside__h"><i data-lucide="braces"></i>API reference</p>
+      <ul>
+        <li><a href="#ref-transaction">Transaction <span class="method">POST</span></a></li>
+        <li><a href="#">Currencies <span class="method method--get">GET</span></a></li>
+        <li><a href="#">Countries <span class="method method--get">GET</span></a></li>
+      </ul>
+    </div>
+    <div class="dside__grp">
+      <p class="dside__h"><i data-lucide="life-buoy"></i>Help</p>
+      <ul>
+        <li><a href="#">Support</a></li>
+        <li><a href="#">System status</a></li>
+        <li><a href="index.html">Back to PayGate</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="dmain" id="doc">
+    <div class="dhead">
+      <canvas class="pat" data-pat="arrow" data-strength=".5" data-glow=".3" aria-hidden="true"></canvas>
+      <p class="crumbs"><a href="#">Docs</a><i data-lucide="chevron-right"></i><a href="#">Accept payments</a><i data-lucide="chevron-right"></i><span>Direct card API</span></p>
+      <h1>Accept a card payment</h1>
+      <p class="lede">Charge Visa, Mastercard and Verve cards from your own checkout. You build and encrypt the card details, PayGate runs 3-D Secure, and the customer comes back to your site with a result.</p>
+      <p class="dmeta"><span><i data-lucide="clock"></i>8 min read</span><span><i data-lucide="calendar"></i>Updated 12 Nov 2026</span><span><i data-lucide="server"></i>Server-side integration</span></p>
+    </div>
+
+    <nav class="paths" aria-label="Ways to accept a payment">
+      <a class="path" href="#"><i data-lucide="link"></i><b>Payment links</b><span>Create a link in the dashboard and share it on WhatsApp or email.</span><em>No code</em></a>
+      <a class="path" href="#"><i data-lucide="panels-top-left"></i><b>Hosted checkout</b><span>Send customers to a PayGate page for card, transfer and NQR.</span><em>Low code · recommended</em></a>
+      <a class="path is-here" href="#doc" aria-current="page"><i data-lucide="code-xml"></i><b>Direct card API</b><span>Collect card details in your own form and call the API.</span><em>Full control · PCI DSS needed</em></a>
+    </nav>
+
+    <!-- Before you begin -->
+    <section class="dsec" id="before" aria-labelledby="before-h">
+      <div class="dsec__tx">
+        <h2 id="before-h">Before you begin</h2>
+        <ol class="plain">
+          <li>Create a merchant account on the <a href="login.html">PayGate dashboard</a> and complete your business profile.</li>
+          <li>Wait for our team to approve your profile. You’ll get an email when your account is active.</li>
+          <li>In the dashboard, open <b>Settings → API keys</b>. Copy your <code>merchantId</code>, API username and password, and your secret key.</li>
+        </ol>
+        <div class="note note--warn"><i data-lucide="shield-alert"></i><div><b>Your servers will see card numbers.</b> On this route the card number and CVV pass through your system, so you must be PCI DSS compliant. If you’re not, use <a href="#">hosted checkout</a>: we collect the card for you.</div></div>
+        <div class="note"><i data-lucide="key-round"></i><div>Keep your secret key on your server only. Never put it in a mobile app, a browser script or a public repository.</div></div>
+      </div>
+      <div class="dsec__code">
+        <div class="code dcode" role="region" aria-label="Base URLs">
+          <div class="code__bar"><span class="dcode__label">Base URLs</span><button class="copybtn" type="button" data-copy-code><i data-lucide="copy"></i>Copy</button></div>
+<pre tabindex="0"><span class="tok-c"># Live</span>
+https://thirdparty.paygate.upperlink.ng/api/v1/client/integration
+
+<span class="tok-c"># Sandbox (URL to confirm)</span>
+https://sandbox.paygate.upperlink.ng/api/v1/client/integration</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Authentication -->
+    <section class="dsec" id="auth" aria-labelledby="auth-h">
+      <div class="dsec__tx">
+        <h2 id="auth-h">Authentication</h2>
+        <p>Every request uses HTTP Basic authentication with the API username and password from your dashboard. Send JSON, and accept any response type.</p>
+        <ul class="params">
+          <li class="param"><div class="param__n"><code>Authorization</code><span class="type">header</span><span class="req">required</span></div><p class="param__d"><code>Basic</code> followed by your username and password, base64-encoded.</p></li>
+          <li class="param"><div class="param__n"><code>Content-Type</code><span class="type">header</span><span class="req">required</span></div><p class="param__d">Always <code>application/json</code>.</p></li>
+        </ul>
+      </div>
+      <div class="dsec__code">
+        <div class="code dcode" role="region" aria-label="Authentication example">
+          <div class="code__bar"><div class="code__tabs code__tabs--plain" role="tablist"><button role="tab" aria-selected="true" data-code-tab="curl">cURL</button><button role="tab" aria-selected="false" data-code-tab="node">Node.js</button></div><button class="copybtn" type="button" data-copy-code><i data-lucide="copy"></i>Copy</button></div>
+<pre tabindex="0" data-code-pane="curl">curl https://thirdparty.paygate.upperlink.ng/... \
+  -u <span class="tok-s">"$PAYGATE_USERNAME:$PAYGATE_PASSWORD"</span> \
+  -H <span class="tok-s">"Content-Type: application/json"</span></pre>
+<pre tabindex="0" data-code-pane="node" hidden><span class="tok-k">const</span> auth = Buffer.from(
+  <span class="tok-s">`${process.env.PAYGATE_USERNAME}:${process.env.PAYGATE_PASSWORD}`</span>
+).toString(<span class="tok-s">"base64"</span>);
+
+<span class="tok-k">const</span> headers = {
+  Authorization: <span class="tok-s">`Basic ${auth}`</span>,
+  <span class="tok-s">"Content-Type"</span>: <span class="tok-s">"application/json"</span>,
+};</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Step 1 -->
+    <section class="dsec" id="payload" aria-labelledby="payload-h">
+      <div class="dsec__tx">
+        <h2 id="payload-h"><span class="stepn">1</span>Build the card payload</h2>
+        <p>Put the card and payer details in a JSON object. Every field is a string.</p>
+        <ul class="params">
+          <li class="param"><div class="param__n"><code>payGateRef</code><span class="type">string</span><span class="req">required</span></div><p class="param__d">Your unique reference for this payment. Use it to find the payment later.</p></li>
+          <li class="param"><div class="param__n"><code>cardNumber</code><span class="type">string</span><span class="req">required</span></div><p class="param__d">The card number, digits only.</p></li>
+          <li class="param"><div class="param__n"><code>expirationMonth</code><span class="type">string</span><span class="req">required</span></div><p class="param__d">Two digits, for example <code>12</code>.</p></li>
+          <li class="param"><div class="param__n"><code>expirationYear</code><span class="type">string</span><span class="req">required</span></div><p class="param__d">Two digits, for example <code>30</code>.</p></li>
+          <li class="param"><div class="param__n"><code>securityCode</code><span class="type">string</span><span class="req">required</span></div><p class="param__d">The CVV on the back of the card.</p></li>
+          <li class="param"><div class="param__n"><code>amount</code><span class="type">string</span><span class="req">required</span></div><p class="param__d">The amount to charge, in major units (<code>100</code> is ₦100.00). <span class="pending">unit to confirm</span></p></li>
+          <li class="param"><div class="param__n"><code>currency</code><span class="type">string</span><span class="req">required</span></div><p class="param__d">An active currency code such as <code>NGN</code> or <code>USD</code>. Get the list from <a href="#">Currencies</a>.</p></li>
+          <li class="param"><div class="param__n"><code>countryCode</code><span class="type">string</span><span class="req">required</span></div><p class="param__d">The payer’s country, for example <code>NG</code>. Get the list from <a href="#">Countries</a>.</p></li>
+          <li class="param"><div class="param__n"><code>email</code><span class="type">string</span><span class="req">required</span></div><p class="param__d">The payer’s email address. We send the receipt here.</p></li>
+        </ul>
+      </div>
+      <div class="dsec__code">
+        <div class="code dcode" role="region" aria-label="Card payload">
+          <div class="code__bar"><span class="dcode__label">card-payload.json</span><button class="copybtn" type="button" data-copy-code><i data-lucide="copy"></i>Copy</button></div>
+<pre tabindex="0">{
+  <span class="tok-s">"payGateRef"</span>: <span class="tok-s">"ORDER-10294"</span>,
+  <span class="tok-s">"cardNumber"</span>: <span class="tok-s">"4456530000000007"</span>,
+  <span class="tok-s">"expirationMonth"</span>: <span class="tok-s">"12"</span>,
+  <span class="tok-s">"expirationYear"</span>: <span class="tok-s">"30"</span>,
+  <span class="tok-s">"securityCode"</span>: <span class="tok-s">"123"</span>,
+  <span class="tok-s">"amount"</span>: <span class="tok-s">"45000"</span>,
+  <span class="tok-s">"currency"</span>: <span class="tok-s">"NGN"</span>,
+  <span class="tok-s">"countryCode"</span>: <span class="tok-s">"NG"</span>,
+  <span class="tok-s">"email"</span>: <span class="tok-s">"chiamaka@example.com"</span>
+}</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Step 2 -->
+    <section class="dsec" id="encrypt" aria-labelledby="encrypt-h">
+      <div class="dsec__tx">
+        <h2 id="encrypt-h"><span class="stepn">2</span>Encrypt it with your secret key</h2>
+        <p>Encrypt the JSON string with AES, using <code>AES/ECB/PKCS5Padding</code> and the secret key from your dashboard. Base64-encode the result. This string is the <code>data</code> field in the next step.</p>
+        <div class="note"><i data-lucide="info"></i><div>Encrypt in memory and send straight away. Don’t store or log the plain payload, even in debug logs.</div></div>
+      </div>
+      <div class="dsec__code">
+        <div class="code dcode" role="region" aria-label="Encryption examples">
+          <div class="code__bar"><div class="code__tabs code__tabs--plain" role="tablist"><button role="tab" aria-selected="true" data-code-tab="node">Node.js</button><button role="tab" aria-selected="false" data-code-tab="php">PHP</button><button role="tab" aria-selected="false" data-code-tab="java">Java</button></div><button class="copybtn" type="button" data-copy-code><i data-lucide="copy"></i>Copy</button></div>
+<pre tabindex="0" data-code-pane="node"><span class="tok-k">import</span> crypto <span class="tok-k">from</span> <span class="tok-s">"node:crypto"</span>;
+
+<span class="tok-k">export function</span> encryptPayload(payload, secretKey) {
+  <span class="tok-k">const</span> key = Buffer.from(secretKey, <span class="tok-s">"utf8"</span>);
+  <span class="tok-c">// aes-128/192/256-ecb, matching your key length</span>
+  <span class="tok-k">const</span> cipher = crypto.createCipheriv(<span class="tok-s">`aes-${key.length * 8}-ecb`</span>, key, <span class="tok-k">null</span>);
+  <span class="tok-k">return</span> Buffer.concat([
+    cipher.update(JSON.stringify(payload), <span class="tok-s">"utf8"</span>),
+    cipher.final(),
+  ]).toString(<span class="tok-s">"base64"</span>);
+}</pre>
+<pre tabindex="0" data-code-pane="php" hidden><span class="tok-k">function</span> encryptPayload(array $payload, string $secretKey): string {
+    $cipher = <span class="tok-s">'AES-'</span> . (strlen($secretKey) * <span class="tok-n">8</span>) . <span class="tok-s">'-ECB'</span>;
+    <span class="tok-c">// OPENSSL_RAW_DATA then base64 = PKCS5 padding, base64 output</span>
+    $raw = openssl_encrypt(json_encode($payload), $cipher, $secretKey, OPENSSL_RAW_DATA);
+    <span class="tok-k">return</span> base64_encode($raw);
+}</pre>
+<pre tabindex="0" data-code-pane="java" hidden><span class="tok-k">public static</span> String encryptPayload(String json, String secretKey) <span class="tok-k">throws</span> Exception {
+    SecretKeySpec key = <span class="tok-k">new</span> SecretKeySpec(secretKey.getBytes(UTF_8), <span class="tok-s">"AES"</span>);
+    Cipher cipher = Cipher.getInstance(<span class="tok-s">"AES/ECB/PKCS5Padding"</span>);
+    cipher.init(Cipher.ENCRYPT_MODE, key);
+    <span class="tok-k">return</span> Base64.getEncoder().encodeToString(cipher.doFinal(json.getBytes(UTF_8)));
+}</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Step 3 -->
+    <section class="dsec" id="payer-auth" aria-labelledby="pa-h">
+      <div class="dsec__tx" id="ref-transaction">
+        <h2 id="pa-h"><span class="stepn">3</span>Call payerAuth</h2>
+        <p>Send the encrypted <code>data</code> with the payer’s details to the transaction endpoint. The response gives you an <code>authUrl</code> for 3-D Secure.</p>
+        <p><span class="badge badge--ok badge--plain" style="font-family:var(--font-mono)">POST</span> <code>/transaction</code></p>
+        <ul class="params">
+          <li class="param"><div class="param__n"><code>data</code><span class="type">string</span><span class="req">required</span></div><p class="param__d">The encrypted card payload from step 2.</p></li>
+          <li class="param"><div class="param__n"><code>merchantId</code><span class="type">string</span><span class="req">required</span></div><p class="param__d">Your merchant ID from the dashboard.</p></li>
+          <li class="param"><div class="param__n"><code>firstName</code>, <code>lastName</code><span class="type">string</span><span class="req">required</span></div><p class="param__d">The payer’s name as it appears on the card.</p></li>
+          <li class="param"><div class="param__n"><code>phone</code><span class="type">string</span><span class="req">required</span></div><p class="param__d">The payer’s phone number, for example <code>08031234567</code>.</p></li>
+          <li class="param"><div class="param__n"><code>address</code>, <code>city</code>, <code>state</code><span class="type">string</span><span class="req">required</span></div><p class="param__d">The payer’s billing address.</p></li>
+          <li class="param"><div class="param__n"><code>redirectUrl</code><span class="type">string</span><span class="req">required</span></div><p class="param__d">Where we send the customer, with the result, after 3-D Secure.</p></li>
+          <li class="param"><div class="param__n"><code>consent</code><span class="type">"1" | "0"</span><span class="req">required</span></div><p class="param__d"><code>1</code> if the customer agreed to save the card for future payments, otherwise <code>0</code>.</p></li>
+          <li class="param"><div class="param__n"><code>splitCode</code><span class="type">string</span><span class="opt">optional</span></div><p class="param__d">Share this payment using a <a href="#">split rule</a> from your dashboard.</p></li>
+          <li class="param"><div class="param__n"><code>accountCode</code><span class="type">string</span><span class="opt">optional</span></div><p class="param__d">Settle this payment to a separate settlement account.</p></li>
+          <li class="param"><div class="param__n"><code>subMerchantCode</code><span class="type">string</span><span class="opt">aggregators only</span></div><p class="param__d">The sub-merchant this payment belongs to. We issue these codes to aggregators.</p></li>
+        </ul>
+      </div>
+      <div class="dsec__code">
+        <div class="code dcode" role="region" aria-label="payerAuth request">
+          <div class="code__bar"><div class="code__tabs code__tabs--plain" role="tablist"><button role="tab" aria-selected="true" data-code-tab="curl">cURL</button><button role="tab" aria-selected="false" data-code-tab="node">Node.js</button><button role="tab" aria-selected="false" data-code-tab="php">PHP</button></div><button class="copybtn" type="button" data-copy-code><i data-lucide="copy"></i>Copy</button></div>
+<pre tabindex="0" data-code-pane="curl">curl https://thirdparty.paygate.upperlink.ng/api/v1/client/integration/transaction \
+  -u <span class="tok-s">"$PAYGATE_USERNAME:$PAYGATE_PASSWORD"</span> \
+  -H <span class="tok-s">"Content-Type: application/json"</span> \
+  -d <span class="tok-s">'{
+    "data": "0ChhNsonIAfbKV5Q3eN6C3Xi…",
+    "merchantId": "UPLADMINMERCH",
+    "firstName": "Chiamaka",
+    "lastName": "Okafor",
+    "phone": "08031234567",
+    "address": "142 Alausa",
+    "city": "Ikeja",
+    "state": "Lagos",
+    "redirectUrl": "https://shop.example.ng/paid",
+    "consent": "0"
+  }'</span></pre>
+<pre tabindex="0" data-code-pane="node" hidden><span class="tok-k">const</span> res = <span class="tok-k">await</span> fetch(<span class="tok-s">`${BASE_URL}/transaction`</span>, {
+  method: <span class="tok-s">"POST"</span>,
+  headers,
+  body: JSON.stringify({
+    data: encryptPayload(card, process.env.PAYGATE_SECRET_KEY),
+    merchantId: process.env.PAYGATE_MERCHANT_ID,
+    firstName: <span class="tok-s">"Chiamaka"</span>, lastName: <span class="tok-s">"Okafor"</span>,
+    phone: <span class="tok-s">"08031234567"</span>,
+    address: <span class="tok-s">"142 Alausa"</span>, city: <span class="tok-s">"Ikeja"</span>, state: <span class="tok-s">"Lagos"</span>,
+    redirectUrl: <span class="tok-s">"https://shop.example.ng/paid"</span>,
+    consent: <span class="tok-s">"0"</span>,
+  }),
+});
+<span class="tok-k">const</span> { authUrl } = <span class="tok-k">await</span> res.json();</pre>
+<pre tabindex="0" data-code-pane="php" hidden>$res = $http-&gt;post(BASE_URL . <span class="tok-s">'/transaction'</span>, [
+    <span class="tok-s">'auth'</span> =&gt; [getenv(<span class="tok-s">'PAYGATE_USERNAME'</span>), getenv(<span class="tok-s">'PAYGATE_PASSWORD'</span>)],
+    <span class="tok-s">'json'</span> =&gt; [
+        <span class="tok-s">'data'</span>        =&gt; encryptPayload($card, getenv(<span class="tok-s">'PAYGATE_SECRET_KEY'</span>)),
+        <span class="tok-s">'merchantId'</span>  =&gt; getenv(<span class="tok-s">'PAYGATE_MERCHANT_ID'</span>),
+        <span class="tok-s">'firstName'</span>   =&gt; <span class="tok-s">'Chiamaka'</span>, <span class="tok-s">'lastName'</span> =&gt; <span class="tok-s">'Okafor'</span>,
+        <span class="tok-s">'phone'</span>       =&gt; <span class="tok-s">'08031234567'</span>,
+        <span class="tok-s">'address'</span>     =&gt; <span class="tok-s">'142 Alausa'</span>, <span class="tok-s">'city'</span> =&gt; <span class="tok-s">'Ikeja'</span>, <span class="tok-s">'state'</span> =&gt; <span class="tok-s">'Lagos'</span>,
+        <span class="tok-s">'redirectUrl'</span> =&gt; <span class="tok-s">'https://shop.example.ng/paid'</span>,
+        <span class="tok-s">'consent'</span>     =&gt; <span class="tok-s">'0'</span>,
+    ],
+]);</pre>
+        </div>
+        <div class="code dcode" role="region" aria-label="payerAuth response">
+          <div class="code__bar"><span class="dcode__label"><span class="st">200 OK</span> · Response</span><button class="copybtn" type="button" data-copy-code><i data-lucide="copy"></i>Copy</button></div>
+<pre tabindex="0">{
+  <span class="tok-s">"code"</span>: <span class="tok-s">"200"</span>,
+  <span class="tok-s">"description"</span>: <span class="tok-s">"Successful"</span>,
+  <span class="tok-s">"transactionId"</span>: <span class="tok-s">"92525020415390054"</span>,
+  <span class="tok-s">"submitTimeUtc"</span>: <span class="tok-s">"2025-02-04T15:40:04Z"</span>,
+  <span class="tok-s">"status"</span>: <span class="tok-s">"COMPLETED"</span>,
+  <span class="tok-s">"authUrl"</span>: <span class="tok-s">"https://middleware.paygate.upperlink.ng/transaction/?reference=92525020415390054"</span>,
+  <span class="tok-s">"processorResponseCode"</span>: <span class="tok-s">"002"</span>,
+  <span class="tok-s">"message"</span>: <span class="tok-s">"DIRECT TO 3DS"</span>
+}</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Step 4 -->
+    <section class="dsec" id="redirect" aria-labelledby="redirect-h">
+      <div class="dsec__tx">
+        <h2 id="redirect-h"><span class="stepn">4</span>Send the customer to 3-D Secure</h2>
+        <p>Open <code>authUrl</code> in the customer’s browser. Their bank asks them to confirm the payment with an OTP, a PIN or their banking app. Cards that don’t need 3-D Secure complete straight away.</p>
+        <p>Afterwards we send the customer to your <code>redirectUrl</code> with the transaction reference and status.</p>
+      </div>
+      <div class="dsec__code">
+        <div class="code dcode" role="region" aria-label="Redirect example">
+          <div class="code__bar"><span class="dcode__label">server.js</span><button class="copybtn" type="button" data-copy-code><i data-lucide="copy"></i>Copy</button></div>
+<pre tabindex="0"><span class="tok-c">// after payerAuth succeeds</span>
+<span class="tok-k">return</span> res.redirect(<span class="tok-n">303</span>, authUrl);</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Step 5 -->
+    <section class="dsec" id="confirm" aria-labelledby="confirm-h">
+      <div class="dsec__tx">
+        <h2 id="confirm-h"><span class="stepn">5</span>Confirm the result before you give value</h2>
+        <p>The redirect tells you how the payment went, but a customer could change the address. Check the transaction status from your server, and only release goods or credit an account when the code is <code>00</code>.</p>
+        <div class="note note--warn"><i data-lucide="triangle-alert"></i><div>A status-query endpoint isn’t in the current docs. <span class="pending">endpoint and webhook details to confirm</span></div></div>
+      </div>
+      <div class="dsec__code">
+        <div class="code dcode" role="region" aria-label="Confirm example">
+          <div class="code__bar"><span class="dcode__label">server.js</span><button class="copybtn" type="button" data-copy-code><i data-lucide="copy"></i>Copy</button></div>
+<pre tabindex="0"><span class="tok-k">app</span>.get(<span class="tok-s">"/paid"</span>, <span class="tok-k">async</span> (req, res) =&gt; {
+  <span class="tok-k">const</span> status = <span class="tok-k">await</span> paygate.getStatus(req.query.reference); <span class="tok-c">// illustrative</span>
+  <span class="tok-k">if</span> (status.code === <span class="tok-s">"00"</span>) <span class="tok-k">await</span> fulfilOrder(status.payGateRef);
+  res.render(<span class="tok-s">"result"</span>, { status });
+});</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Test cards -->
+    <section class="dsec" id="test-cards" aria-labelledby="cards-h">
+      <div class="dsec__tx">
+        <h2 id="cards-h">Test cards</h2>
+        <p>Use these in the sandbox. They never move real money.</p>
+        <div class="tablewrap">
+          <table class="dtable">
+            <thead><tr><th>Scheme</th><th>Card number</th><th>Expiry · CVV</th><th>PIN · OTP</th></tr></thead>
+            <tbody>
+              <tr><td>Visa</td><td class="num">4456 5300 0000 0007 <button class="copy" type="button" data-copy-text="4456530000000007" aria-label="Copy Visa test card number"><i data-lucide="copy"></i></button></td><td class="num">12/30 · 123</td><td>—</td></tr>
+              <tr><td>Mastercard</td><td class="num">5200 0000 0000 0007 <button class="copy" type="button" data-copy-text="5200000000000007" aria-label="Copy Mastercard test card number"><i data-lucide="copy"></i></button></td><td class="num">12/30 · 123</td><td>—</td></tr>
+              <tr><td>Verve</td><td class="num">5060 9905 8000 0217 499 <button class="copy" type="button" data-copy-text="5060990580000217499" aria-label="Copy Verve test card number"><i data-lucide="copy"></i></button></td><td class="num">03/50 · 111</td><td class="num">1111 · 123456</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="dsec__code">
+        <div class="note"><i data-lucide="flask-conical"></i><div><b>Testing 3-D Secure:</b> with the Verve card, enter PIN <code>1111</code> and then OTP <code>123456</code> on the bank page.</div></div>
+      </div>
+    </section>
+
+    <!-- Response codes -->
+    <section class="dsec" id="codes" aria-labelledby="codes-h">
+      <div class="dsec__tx">
+        <h2 id="codes-h">Response codes</h2>
+        <p>Every transaction ends in one of these codes.</p>
+        <div class="tablewrap">
+          <table class="dtable">
+            <thead><tr><th>Code</th><th>Status</th><th>What to do</th></tr></thead>
+            <tbody>
+              <tr><td class="num">00</td><td><span class="badge badge--ok">Successful</span></td><td>Give value. The money is on its way to you.</td></tr>
+              <tr><td class="num">01</td><td><span class="badge badge--wait">Pending</span></td><td>Wait, then check the status again. Don’t charge twice.</td></tr>
+              <tr><td class="num">04</td><td><span class="badge badge--wait">Processing</span></td><td>The bank is still working on it. Check again shortly.</td></tr>
+              <tr><td class="num">02</td><td><span class="badge badge--bad">Failed</span></td><td>Ask the customer to try again or use another card.</td></tr>
+              <tr><td class="num">06</td><td><span class="badge badge--bad">Declined</span></td><td>The bank refused it. Ask for another card.</td></tr>
+              <tr><td class="num">07</td><td><span class="badge badge--plain">Canceled</span></td><td>The customer stopped the payment. Nothing was charged.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="dsec__code">
+        <div class="code dcode" role="region" aria-label="Handling codes">
+          <div class="code__bar"><span class="dcode__label">status.js</span><button class="copybtn" type="button" data-copy-code><i data-lucide="copy"></i>Copy</button></div>
+<pre tabindex="0"><span class="tok-k">const</span> STATUS = {
+  <span class="tok-s">"00"</span>: <span class="tok-s">"successful"</span>, <span class="tok-s">"01"</span>: <span class="tok-s">"pending"</span>,
+  <span class="tok-s">"04"</span>: <span class="tok-s">"processing"</span>, <span class="tok-s">"02"</span>: <span class="tok-s">"failed"</span>,
+  <span class="tok-s">"06"</span>: <span class="tok-s">"declined"</span>, <span class="tok-s">"07"</span>: <span class="tok-s">"canceled"</span>,
+};</pre>
+        </div>
+      </div>
+    </section>
+
+    <footer class="dfoot">
+      <div class="helpful" data-helpful><span>Was this page helpful?</span><button class="btn btn--secondary" type="button" data-press><i data-lucide="thumbs-up"></i>Yes</button><button class="btn btn--secondary" type="button" data-press><i data-lucide="thumbs-down"></i>No</button></div>
+      <nav class="pager" aria-label="Previous and next guides"><a href="#"><span>Previous</span><b>Hosted checkout</b></a><a href="#"><span>Next</span><b>Split settlements</b></a></nav>
+      <div class="dfoot__legal"><span>Questions? Email <a href="mailto:support@upperlink.ng">support@upperlink.ng</a> <span class="pending">support address to confirm</span></span><span>© 2026 Upperlink Limited · Mock-up: endpoints from the current Postman docs</span></div>
+    </footer>
+  </main>
+</div>
+
+<div class="palette" data-palette hidden role="dialog" aria-modal="true" aria-label="Search the docs">
+  <div class="palette__box">
+    <div class="palette__in"><i data-lucide="search"></i><input type="search" placeholder="Search guides and API reference" aria-label="Search guides and API reference" data-palette-input><kbd style="font:500 .75rem var(--font-mono);color:var(--ink-3)">Esc</kbd></div>
+    <ul data-palette-list></ul>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/motion@12.4.7/dist/motion.js"></script>
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script>lucide.createIcons({ attrs: { "stroke-width": 1.75, "aria-hidden": "true" } });</script>
+<script src="_site.js?v=10"></script>
+<script src="_pattern.js?v=10"></script>
+<script src="_docs.js?v=10"></script>
+<script src="_review.js?v=11"></script>
+</body>
+</html>

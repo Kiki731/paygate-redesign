@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en-NG">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PayGate Sign Up</title>
+<meta name="description" content="Create an Upperlink PayGate merchant account. Test with sandbox keys straight away, then go live after a document review.">
+<link rel="icon" href="assets/logos/upl-paygate-icon.svg">
+<script>try{var t=localStorage.getItem("pg-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="_tokens.css?v=11">
+<link rel="stylesheet" href="_site.css?v=11">
+<link rel="stylesheet" href="_home.css?v=11">
+<link rel="stylesheet" href="_auth.css?v=11">
+<style>
+  .progress { list-style: none; margin: 0 0 28px; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+  .progress li { display: grid; gap: 8px; font-size: .75rem; color: var(--ink-3); }
+  .progress li::before { content: ""; height: 4px; border-radius: 4px; background: var(--line); transition: background var(--t-med); }
+  .progress li.is-done::before, .progress li.is-on::before { background: var(--brand); }
+  .progress li.is-on { color: var(--ink); font-weight: 500; }
+  .types { display: grid; gap: 10px; border: 0; margin: 0; padding: 0; }
+  .types legend { margin-bottom: 4px; }
+  .type { position: relative; display: grid; grid-template-columns: 40px 1fr; gap: 2px 14px; padding: 16px; border-radius: 14px; box-shadow: inset 0 0 0 1px var(--line-strong); cursor: pointer; transition: box-shadow var(--t-fast), background var(--t-fast); }
+  .type:hover { background: var(--mist); }
+  .type input { position: absolute; opacity: 0; }
+  .type:has(input:checked) { box-shadow: inset 0 0 0 2px var(--brand); background: var(--blue-50); }
+  :root[data-theme="dark"] .type:has(input:checked) { background: rgba(75, 85, 255, .12); }
+  .type:has(input:focus-visible) { outline: 2px solid var(--focus); outline-offset: 2px; }
+  .type > svg { grid-row: span 2; width: 40px; height: 40px; padding: 9px; border-radius: 10px; background: var(--mist); color: var(--brand); }
+  :root[data-theme="dark"] .type > svg { color: #c9ccff; }
+  .type b { font-weight: 600; }
+  .type span { font-size: .875rem; color: var(--ink-2); }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .meter { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; margin-top: 8px; }
+  .meter i { height: 4px; border-radius: 4px; background: var(--line); transition: background var(--t-fast); }
+  .meter[data-s="1"] i:nth-child(-n+1) { background: var(--bad); }
+  .meter[data-s="2"] i:nth-child(-n+2) { background: var(--wait); }
+  .meter[data-s="3"] i:nth-child(-n+3), .meter[data-s="4"] i { background: var(--ok); }
+  .rules { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: .8125rem; color: var(--ink-3); }
+  .rules li { display: inline-flex; align-items: center; gap: 4px; }
+  .rules li.ok { color: var(--ok); }
+  .rules svg { width: 14px; height: 14px; }
+  .next { display: grid; gap: 10px; margin-top: 8px; list-style: none; padding: 0; }
+  .next li { display: grid; grid-template-columns: 28px 1fr auto; gap: 12px; align-items: center; padding: 14px; border-radius: 12px; box-shadow: inset 0 0 0 1px var(--line); }
+  .next li > svg { width: 22px; height: 22px; color: var(--brand); }
+  .next li.done > svg { color: var(--ok); }
+  .next li b { font-weight: 600; display: block; }
+  .next li span { font-size: .875rem; color: var(--ink-2); }
+  .doclist { columns: 1; margin: 8px 0 0; padding-left: 18px; color: var(--ink-2); font-size: .875rem; }
+  .art__list { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 12px; }
+  .art__list li { display: flex; gap: 12px; color: rgba(240, 242, 255, .88); }
+  .art__list svg { width: 20px; height: 20px; color: #8fe3b8; flex: none; margin-top: 2px; }
+  .auth__body { width: min(460px, 100%); }
+  @media (max-width: 520px) { .grid2 { grid-template-columns: 1fr; } .progress li { font-size: 0; } }
+</style>
+</head>
+<body class="pg-auth">
+<div class="states" role="region" aria-label="Mock-up review: preview a step">
+  <span>Mock-up review · step</span>
+  <div class="seg" role="group" aria-label="Preview step">
+    <button type="button" aria-pressed="true" data-jump="type">1 Business</button>
+    <button type="button" aria-pressed="false" data-jump="details">2 Details</button>
+    <button type="button" aria-pressed="false" data-jump="verify">3 Verify</button>
+    <button type="button" aria-pressed="false" data-jump="done">4 Next steps</button>
+  </div>
+</div>
+
+<div class="auth">
+  <main class="auth__form" id="main">
+    <div class="auth__top">
+      <a href="index.html" aria-label="Upperlink PayGate home"><img class="logo--auto" src="assets/logos/upl-paygate-icon.svg" alt="Upperlink PayGate" width="95" height="30"></a>
+      <span style="display:flex;align-items:center;gap:8px"><span class="small">Have an account? <a href="login.html" style="color:var(--link);font-weight:500">Log in</a></span><button class="iconbtn" type="button" data-theme-toggle aria-pressed="false" aria-label="Switch colour theme"><i data-lucide="moon"></i></button></span>
+    </div>
+
+    <div class="auth__body">
+      <ol class="progress" aria-label="Sign-up progress" data-progress>
+        <li class="is-on" aria-current="step">Business</li><li>Your details</li><li>Verify email</li><li>Next steps</li>
+      </ol>
+
+      <!-- 1 business type -->
+      <section data-step="type" aria-labelledby="s1-h">
+        <h1 id="s1-h" tabindex="-1">Create your PayGate account</h1>
+        <p class="auth__sub">Start with the sandbox today. Go live once we’ve reviewed your documents.</p>
+        <form novalidate data-form-type style="margin-top:28px">
+          <fieldset class="types">
+            <legend class="small" style="color:var(--ink-2);font-weight:500">What kind of business is it?</legend>
+            <label class="type"><input type="radio" name="btype" value="co" checked><i data-lucide="building-2"></i><b>Registered company</b><span>Limited company registered with the CAC (RC number)</span></label>
+            <label class="type"><input type="radio" name="btype" value="bn"><i data-lucide="store"></i><b>Business name</b><span>Sole proprietor or partnership (BN number)</span></label>
+            <label class="type"><input type="radio" name="btype" value="inst"><i data-lucide="landmark"></i><b>School, institution or government</b><span>Universities, schools, agencies and MDAs</span></label>
+          </fieldset>
+          <button class="btn btn--primary full" type="submit" data-press>Continue</button>
+        </form>
+      </section>
+
+      <!-- 2 details -->
+      <section data-step="details" aria-labelledby="s2-h" hidden>
+        <h1 id="s2-h" tabindex="-1">Tell us about you</h1>
+        <p class="auth__sub">You’ll be the account owner. You can invite your team later.</p>
+        <form novalidate data-form-details>
+          <div class="grid2">
+            <div class="field"><label for="fn">Full name</label><input class="input" id="fn" autocomplete="name" required><span class="hint" hidden>Enter your full name</span></div>
+            <div class="field"><label for="ph">Phone</label><input class="input" id="ph" type="tel" inputmode="tel" autocomplete="tel" placeholder="080…" required><span class="hint" hidden>Enter a phone number</span></div>
+          </div>
+          <div class="field"><label for="bz">Business name</label><input class="input" id="bz" autocomplete="organization" required><span class="hint" hidden>Enter the registered business name</span></div>
+          <div class="field"><label for="em">Work email</label><input class="input" id="em" type="email" autocomplete="email" inputmode="email" placeholder="you@business.ng" required><span class="hint" hidden>Enter an email like name@business.ng</span></div>
+          <div class="field">
+            <label for="pw">Create a password</label>
+            <div class="pw"><input class="input" id="pw" type="password" autocomplete="new-password" required aria-describedby="pw-rules"><button class="iconbtn" type="button" data-showpw aria-pressed="false" aria-label="Show password"><i data-lucide="eye"></i></button></div>
+            <div class="meter" data-meter data-s="0" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+            <ul class="rules" id="pw-rules" data-rules><li data-r="len"><i data-lucide="circle"></i>10+ characters</li><li data-r="mix"><i data-lucide="circle"></i>Upper and lower case</li><li data-r="num"><i data-lucide="circle"></i>A number</li><li data-r="sym"><i data-lucide="circle"></i>A symbol</li></ul>
+            <span class="hint" hidden>Use at least 10 characters with a number</span>
+          </div>
+          <label class="check"><input type="checkbox" required data-terms>I agree to the <a href="legal.html#terms" style="color:var(--link)">terms</a> and <a href="legal.html#privacy" style="color:var(--link)">privacy policy</a></label>
+          <span class="hint" data-terms-hint hidden style="color:var(--bad);margin-top:-10px">Please accept the terms to continue</span>
+          <button class="btn btn--primary full" type="submit" data-press><span class="spin" hidden></span><span data-label>Create account</span></button>
+          <button class="linkbtn" type="button" data-to="type">← Change business type</button>
+        </form>
+      </section>
+
+      <!-- 3 verify -->
+      <section data-step="verify" aria-labelledby="s3-h" hidden>
+        <h1 id="s3-h" tabindex="-1">Check your email</h1>
+        <p class="auth__sub">We sent a 6-digit code to <b data-email-echo>you@business.ng</b>.</p>
+        <form novalidate data-form-verify style="margin-top:28px">
+          <fieldset style="border:0;margin:0;padding:0;display:grid;gap:8px">
+            <legend class="small" style="margin-bottom:8px;color:var(--ink-2);font-weight:500">Verification code</legend>
+            <div class="otp" data-otp>
+              <input class="input" inputmode="numeric" autocomplete="one-time-code" maxlength="1" aria-label="Digit 1"><input class="input" inputmode="numeric" maxlength="1" aria-label="Digit 2"><input class="input" inputmode="numeric" maxlength="1" aria-label="Digit 3"><input class="input" inputmode="numeric" maxlength="1" aria-label="Digit 4"><input class="input" inputmode="numeric" maxlength="1" aria-label="Digit 5"><input class="input" inputmode="numeric" maxlength="1" aria-label="Digit 6">
+            </div>
+            <span class="hint" data-otphint hidden style="color:var(--bad)">Enter all 6 digits</span>
+          </fieldset>
+          <button class="btn btn--primary full" type="submit" data-press>Verify email</button>
+          <div class="auth__row"><button class="linkbtn" type="button" data-to="details">← Wrong email?</button><button class="linkbtn" type="button">Resend code</button></div>
+        </form>
+      </section>
+
+      <!-- 4 next steps -->
+      <section data-step="done" aria-labelledby="s4-h" hidden>
+        <h1 id="s4-h" tabindex="-1">You’re in. Start testing.</h1>
+        <p class="auth__sub">Your sandbox keys are ready. To take real payments, send us your documents.</p>
+        <ul class="next">
+          <li class="done"><i data-lucide="circle-check"></i><div><b>Account created</b><span>Email verified</span></div><span class="badge badge--ok">Done</span></li>
+          <li class="done"><i data-lucide="flask-conical"></i><div><b>Sandbox keys</b><span>Test with Visa, Mastercard and Verve test cards</span></div><a class="btn btn--secondary btn--sm" href="docs.html#test-cards">Docs</a></li>
+          <li><i data-lucide="file-up"></i><div><b>Upload documents</b><span data-doc-type>For a registered company:</span><ul class="doclist" data-doclist></ul></div><span class="badge badge--wait">To do</span></li>
+          <li><i data-lucide="badge-check"></i><div><b>Review and go live</b><span>We review documents and switch on live keys <span class="pending">review time to confirm</span></span></div><span class="badge badge--plain">Next</span></li>
+        </ul>
+        <a class="btn btn--primary full" href="login.html" data-press style="margin-top:20px">Go to my dashboard</a>
+      </section>
+    </div>
+
+    <div class="auth__foot">
+      <span class="lic"><i data-lucide="badge-check"></i>Licensed by the Central Bank of Nigeria · PCI DSS</span>
+      <span><a href="support.html">Help</a> · <a href="legal.html#privacy">Privacy</a> · Photo: Freepik on <a href="https://www.freepik.com" rel="noopener">Freepik</a></span>
+    </div>
+  </main>
+
+  <aside class="auth__art" aria-label="Why PayGate">
+    <img src="assets/images/web/small-business-owner.jpg" alt="" width="2000" height="1333" style="object-position:72% 30%">
+    <div class="haze haze--band" data-haze></div>
+    <div class="art__copy" style="max-width:34ch">
+      <h2>Take your first payment this week.</h2>
+      <ul class="art__list">
+        <li><i data-lucide="check"></i>Sandbox keys the moment you sign up</li>
+        <li><i data-lucide="check"></i>Cards, transfers, NQR and POS in one dashboard</li>
+        <li><i data-lucide="check"></i>Split settlements and team roles included</li>
+        <li><i data-lucide="check"></i>A Lagos team to help you go live</li>
+      </ul>
+      <div class="art__lic"><span><i data-lucide="shield-check"></i>CBN PSSP · PTSP</span><span><i data-lucide="shield-check"></i>NIBSS aggregator</span><span><i data-lucide="shield-check"></i>PCI DSS</span></div>
+    </div>
+  </aside>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/motion@12.4.7/dist/motion.js"></script>
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script>lucide.createIcons({ attrs: { "stroke-width": 1.75, "aria-hidden": "true" } });</script>
+<script src="_site.js?v=11"></script>
+<script>
+(() => {
+  const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches || /[?&]still\b/.test(location.search);
+  const G = window.gsap && !reduce ? gsap : null, M = window.Motion;
+  const icons = () => lucide.createIcons({ attrs: { "stroke-width": 1.75, "aria-hidden": "true" } });
+  const DOCS = {
+    co: ["For a registered company:", ["Certificate of Incorporation", "Status report", "MEMART", "ID of directors and shareholders", "Utility bills (directors and company)", "BVN of owners with 25% or more"]],
+    bn: ["For a business name:", ["Certificate of registration", "Status report", "ID of proprietors", "Utility bill of proprietors"]],
+    inst: ["For an institution or agency:", ["Establishment document or letter of authority", "ID of authorised signatories", "Utility bill of the institution"]],
+  };
+  const ORDER = ["type", "details", "verify", "done"];
+
+  const tb = $("[data-theme-toggle]");
+  const syncTheme = () => { const t = document.documentElement.dataset.theme, d = t ? t === "dark" : matchMedia("(prefers-color-scheme: dark)").matches; tb.innerHTML = `<i data-lucide="${d ? "sun" : "moon"}"></i>`; tb.setAttribute("aria-label", d ? "Switch to light theme" : "Switch to dark theme"); icons(); };
+  tb.addEventListener("click", () => setTimeout(syncTheme, 0)); syncTheme();
+
+  const go = (name, focus = true) => {
+    $$("[data-step]").forEach((s) => (s.hidden = s.dataset.step !== name));
+    const k = ORDER.indexOf(name);
+    $$("[data-progress] li").forEach((li, i) => { li.className = i < k ? "is-done" : i === k ? "is-on" : ""; i === k ? li.setAttribute("aria-current", "step") : li.removeAttribute("aria-current"); });
+    $$("[data-jump]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.jump === name)));
+    if (name === "done") {
+      const [label, list] = DOCS[$("input[name=btype]:checked").value];
+      $("[data-doc-type]").textContent = label; $("[data-doclist]").innerHTML = list.map((d) => `<li>${d}</li>`).join("");
+    }
+    const s = $(`[data-step="${name}"]`);
+    if (focus) s.querySelector("h1").focus({ preventScroll: true });
+    if (name === "verify") $("[data-otp] input").focus();
+    if (G) G.from(s.children, { opacity: 0, y: 12, filter: "blur(6px)", duration: 0.5, stagger: 0.05, ease: "expo.out", clearProps: "all" });
+  };
+  $$("[data-to]").forEach((b) => b.addEventListener("click", () => go(b.dataset.to)));
+  $$("[data-jump]").forEach((b) => b.addEventListener("click", () => go(b.dataset.jump)));
+
+  $("[data-form-type]").addEventListener("submit", (e) => { e.preventDefault(); go("details"); });
+
+  /* password strength */
+  const pw = $("#pw"), meter = $("[data-meter]");
+  const RULES = { len: (v) => v.length >= 10, mix: (v) => /[a-z]/.test(v) && /[A-Z]/.test(v), num: (v) => /\d/.test(v), sym: (v) => /[^A-Za-z0-9]/.test(v) };
+  pw.addEventListener("input", () => {
+    let n = 0;
+    $$("[data-r]").forEach((li) => { const ok = RULES[li.dataset.r](pw.value); n += ok; li.classList.toggle("ok", ok); li.querySelector("svg")?.remove(); li.insertAdjacentHTML("afterbegin", `<i data-lucide="${ok ? "circle-check" : "circle"}"></i>`); });
+    meter.dataset.s = pw.value ? n : 0; icons();
+  });
+  const eye = $("[data-showpw]");
+  eye.addEventListener("click", () => { const show = pw.type === "password"; pw.type = show ? "text" : "password"; eye.setAttribute("aria-pressed", String(show)); eye.setAttribute("aria-label", show ? "Hide password" : "Show password"); eye.innerHTML = `<i data-lucide="${show ? "eye-off" : "eye"}"></i>`; icons(); });
+
+  /* details */
+  const fd = $("[data-form-details]");
+  fd.addEventListener("submit", (e) => {
+    e.preventDefault(); let first = null;
+    $$(".field input[required]", fd).forEach((i) => {
+      const f = i.closest(".field"), h = $(".hint", f);
+      let bad = !i.value.trim();
+      if (i.type === "email") bad = bad || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(i.value);
+      if (i.id === "pw") bad = bad || !(RULES.len(i.value) && RULES.num(i.value));
+      f.classList.toggle("field--error", bad); i.setAttribute("aria-invalid", String(bad));
+      if (h) { h.hidden = !bad; h.id = h.id || i.id + "-e"; i.setAttribute("aria-describedby", (i.id === "pw" ? "pw-rules " : "") + h.id); }
+      if (bad && !first) first = i;
+    });
+    const terms = $("[data-terms]"); $("[data-terms-hint]").hidden = terms.checked; if (!terms.checked && !first) first = terms;
+    if (first) { first.focus(); if (G) G.fromTo(first, { x: -6 }, { x: 0, duration: 0.4, ease: "elastic.out(1, 0.3)" }); return; }
+    $("[data-email-echo]").textContent = $("#em").value;
+    const btn = $("button[type=submit]", fd); btn.disabled = true; $(".spin", btn).hidden = false; $("[data-label]", btn).textContent = "Creating account…";
+    setTimeout(() => { btn.disabled = false; $(".spin", btn).hidden = true; $("[data-label]", btn).textContent = "Create account"; go("verify"); }, reduce ? 0 : 900);
+  });
+
+  /* verify */
+  const boxes = $$("[data-otp] input");
+  boxes.forEach((b, i) => {
+    b.addEventListener("input", () => { b.value = b.value.replace(/\D/g, "").slice(-1); if (b.value && boxes[i + 1]) boxes[i + 1].focus(); });
+    b.addEventListener("keydown", (e) => { if (e.key === "Backspace" && !b.value && boxes[i - 1]) boxes[i - 1].focus(); });
+    b.addEventListener("paste", (e) => { const d = (e.clipboardData.getData("text") || "").replace(/\D/g, "").slice(0, 6); if (!d) return; e.preventDefault(); d.split("").forEach((c, k) => boxes[k] && (boxes[k].value = c)); boxes[Math.min(d.length, 5)].focus(); });
+  });
+  $("[data-form-verify]").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const ok = boxes.every((b) => b.value); $("[data-otphint]").hidden = ok;
+    if (!ok) { (boxes.find((b) => !b.value) || boxes[0]).focus(); return; }
+    go("done");
+  });
+
+  if (M && !reduce) M.press("[data-press]", (el) => { M.animate(el, { scale: 0.97 }, { type: "spring", stiffness: 700, damping: 30 }); return () => M.animate(el, { scale: 1 }, { type: "spring", stiffness: 500, damping: 18 }); });
+  if (G) $$("[data-haze]").forEach((h) => G.to(h, { xPercent: 5, scaleY: 1.15, duration: 8, ease: "sine.inOut", yoyo: true, repeat: -1 }));
+})();
+</script>
+<script src="_review.js?v=11"></script>
+</body>
+</html>

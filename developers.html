@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en-NG">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PayGate for Developers</title>
+<meta name="description" content="Integrate Upperlink PayGate with payment links, hosted checkout or the card API. Sandbox, test cards and clear response codes.">
+<meta property="og:title" content="Upperlink PayGate">
+<meta property="og:description" content="Get paid every way Nigeria pays. Online and at the counter.">
+<link rel="icon" href="assets/logos/upl-paygate-icon.svg">
+<script>try{var t=localStorage.getItem("pg-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="_tokens.css?v=11">
+<link rel="stylesheet" href="_site.css?v=11">
+<link rel="stylesheet" href="_home.css?v=11">
+<link rel="stylesheet" href="_pages.css?v=11">
+</head>
+<body class="pg-home pg-sub">
+<a class="btn btn--primary" href="#main" style="position:absolute;left:-9999px;top:8px;z-index:99" onfocus="this.style.left='8px'" onblur="this.style.left='-9999px'">Skip to content</a>
+<!-- Upperlink arrow line-art, reused across haze cards -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="arrow-fade" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="600" y2="600">
+      <stop stop-color="currentColor" stop-opacity="0"/><stop offset=".52" stop-color="currentColor" stop-opacity=".07"/><stop offset="1" stop-color="currentColor" stop-opacity="0"/>
+    </linearGradient>
+    <symbol id="upl-arrow" viewBox="0 0 600 600"><path d="M300 40h220a40 40 0 0 1 40 40v220a24 24 0 0 1-41 17l-71-71-286 286a30 30 0 0 1-42 0l-42-42a30 30 0 0 1 0-42l286-286-71-71A24 24 0 0 1 300 40Z" fill="none" stroke="url(#arrow-fade)" stroke-width="1.2"/></symbol>
+  </defs>
+</svg>
+
+<header class="topnav" data-nav>
+  <div class="topnav__in wrap">
+    <a class="topnav__logo" href="index.html" aria-label="Upperlink PayGate home"><img class="logo--auto" src="assets/logos/upl-paygate-icon.svg" alt="" width="95" height="30"></a>
+    <nav class="topnav__links" aria-label="Main">
+      <div class="dd" data-dd>
+        <button type="button" aria-expanded="false" aria-controls="dd-products">Products <i data-lucide="chevron-down"></i></button>
+        <div class="dd__panel" id="dd-products" hidden>
+          <a href="index.html#rails"><i data-lucide="credit-card"></i><b>Online payments</b><span>Card, transfer and NQR checkout</span></a>
+          <a href="index.html#terminals"><i data-lucide="smartphone-nfc"></i><b>Upperlink Terminals</b><span>Take payments at the counter</span></a>
+          <a href="index.html#rail-links"><i data-lucide="link"></i><b>Payment links</b><span>Share a link, get paid</span></a>
+          <a href="index.html#tour"><i data-lucide="split"></i><b>Split settlements</b><span>Share every payment by rule</span></a>
+          <a href="index.html#tour"><i data-lucide="layout-dashboard"></i><b>Merchant dashboard</b><span>Every payment, live</span></a>
+          <a href="index.html#developers"><i data-lucide="code-xml"></i><b>API &amp; hosted checkout</b><span>Integrate your way</span></a>
+        </div>
+      </div>
+      <a href="developers.html" aria-current="page">Developers</a>
+      <a href="about.html">Why PayGate</a>
+      <a href="support.html">Support</a>
+    </nav>
+    <div class="topnav__act">
+      <button class="iconbtn" type="button" data-theme-toggle aria-pressed="false" aria-label="Switch colour theme"><i data-lucide="moon"></i><span class="sr" hidden></span></button>
+      <a class="btn btn--ghost btn--sm hide-sm" href="login.html">Log in</a>
+      <a class="btn btn--primary btn--sm hide-sm" href="index.html#contact" data-press>Talk to sales</a>
+      <button class="iconbtn topnav__menu" type="button" aria-expanded="false" aria-controls="drawer" data-menu aria-label="Open menu"><i data-lucide="menu"></i></button>
+    </div>
+  </div>
+  <div class="drawer" id="drawer" hidden>
+    <a href="index.html#rails">Online payments</a><a href="index.html#terminals">Upperlink Terminals</a><a href="index.html#tour">Merchant dashboard</a><a href="developers.html">Developers</a><a href="docs.html">Docs</a><a href="about.html">Why PayGate</a><a href="support.html">Support</a><a href="login.html">Log in</a>
+    <a class="btn btn--primary" href="index.html#contact">Talk to sales</a>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- 1. HERO -->
+  <section class="hero pg-hero" aria-labelledby="hero-h">
+    <canvas class="pat pat--hero" data-pat="arrow" data-strength=".5" data-glow=".32" aria-hidden="true"></canvas>
+    <div class="wrap pg-split">
+      <div class="pg-copy">
+        <p class="pg-kick" data-rise>PayGate for developers</p>
+        <h1 id="hero-h" data-words>Integrate once. <span class="tt-mute">Take every way Nigeria pays.</span></h1>
+        <p class="lede" data-rise>Cards, transfers, NQR and POS behind one set of credentials. Start in the sandbox with test cards, read plain response codes, and go live when your profile is approved.</p>
+        <div class="hero__ctas" data-rise><a class="btn btn--primary" href="docs.html" data-press>Read the docs <i data-lucide="arrow-right"></i></a><a class="btn btn--secondary" href="signup.html" data-press>Get sandbox keys</a></div>
+        <p class="pg-note" data-rise><i data-lucide="flask-conical"></i>Free sandbox · test cards for Visa, Mastercard and Verve</p>
+      </div>
+      <div class="pg-code" data-rise>
+        <div class="haze" data-haze></div>
+        <div class="code" role="region" aria-label="Example request">
+          <div class="code__bar">
+            <div class="code__tabs" role="tablist"><button role="tab" aria-selected="true" data-code-tab="curl">cURL</button><button role="tab" aria-selected="false" data-code-tab="node">Node.js</button><button role="tab" aria-selected="false" data-code-tab="php">PHP</button></div>
+            <button class="runbtn" type="button" data-run><i data-lucide="play"></i>Run in sandbox</button>
+          </div>
+<pre data-code-pane="curl" tabindex="0"><span class="tok-c"># Charge a card: encrypted payload + payer details</span>
+curl https://…/client/integration/transaction \
+  -u <span class="tok-s">"$PAYGATE_USERNAME:$PAYGATE_PASSWORD"</span> \
+  -H <span class="tok-s">"Content-Type: application/json"</span> \
+  -d <span class="tok-s">'{ "data": "0ChhNson…", "merchantId": "UPLADMINMERCH",
+        "redirectUrl": "https://shop.example.ng/paid" }'</span></pre>
+<pre data-code-pane="node" hidden tabindex="0"><span class="tok-k">const</span> res = <span class="tok-k">await</span> fetch(<span class="tok-s">`${BASE_URL}/transaction`</span>, {
+  method: <span class="tok-s">"POST"</span>, headers,
+  body: JSON.stringify({
+    data: encryptPayload(card, SECRET_KEY),
+    merchantId: MERCHANT_ID,
+    redirectUrl: <span class="tok-s">"https://shop.example.ng/paid"</span>,
+  }),
+});</pre>
+<pre data-code-pane="php" hidden tabindex="0">$res = $http-&gt;post(BASE_URL . <span class="tok-s">'/transaction'</span>, [
+  <span class="tok-s">'auth'</span> =&gt; [$username, $password],
+  <span class="tok-s">'json'</span> =&gt; [
+    <span class="tok-s">'data'</span> =&gt; encryptPayload($card, $secretKey),
+    <span class="tok-s">'merchantId'</span> =&gt; $merchantId,
+    <span class="tok-s">'redirectUrl'</span> =&gt; <span class="tok-s">'https://shop.example.ng/paid'</span>,
+  ],
+]);</pre>
+          <div class="resp" data-resp aria-live="polite" tabindex="0"><span class="tok-c">// Press “Run in sandbox” to see the response</span></div>
+        </div>
+        <p class="demo-tag" style="margin-top:10px">Illustrative · full request in the docs</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. INTEGRATION PATHS -->
+  <section class="sec" id="paths" aria-labelledby="paths-h">
+    <div class="wrap">
+      <div class="sec-head"><h2 id="paths-h" class="h1" data-words>Pick how much <span class="tt-mute">you want to build.</span></h2><p class="lede">Every route settles into the same dashboard. Start simple and move up when you need more control.</p></div>
+      <div class="ipaths">
+        <a class="ipath" href="docs.html" data-lift>
+          <span class="ipath__top"><i data-lucide="link"></i><span class="effort" aria-label="Effort: none"><i class="on"></i><i></i><i></i><i></i></span></span>
+          <h3>Payment links</h3><p>Create a link in the dashboard and share it on WhatsApp or email. No code at all.</p>
+          <span class="ipath__fit">Best for: shops, invoices, events</span><span class="more">Payment links <i data-lucide="arrow-right"></i></span>
+        </a>
+        <a class="ipath ipath--rec" href="docs.html" data-lift>
+          <span class="ipath__top"><i data-lucide="panels-top-left"></i><span class="effort" aria-label="Effort: low"><i class="on"></i><i class="on"></i><i></i><i></i></span></span>
+          <h3>Hosted checkout</h3><p>Send customers to a PayGate page for card, transfer and NQR. We handle the card data and 3-D Secure.</p>
+          <span class="ipath__fit">Best for: most websites and apps</span><span class="more">Hosted checkout <i data-lucide="arrow-right"></i></span>
+        </a>
+        <a class="ipath" href="docs.html#doc" data-lift>
+          <span class="ipath__top"><i data-lucide="code-xml"></i><span class="effort" aria-label="Effort: medium"><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></span>
+          <h3>Direct card API</h3><p>Collect card details in your own form, encrypt them and call the API. Full control of the experience.</p>
+          <span class="ipath__fit">Best for: PCI DSS compliant teams</span><span class="more">Card API guide <i data-lucide="arrow-right"></i></span>
+        </a>
+        <a class="ipath" href="docs.html#payer-auth" data-lift>
+          <span class="ipath__top"><i data-lucide="network"></i><span class="effort" aria-label="Effort: high"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></span>
+          <h3>Aggregators and platforms</h3><p>Collect for many sub-merchants with one integration, and route each payment with a sub-merchant code.</p>
+          <span class="ipath__fit">Best for: marketplaces, school and agency platforms</span><span class="more">Sub-merchants <i data-lucide="arrow-right"></i></span>
+        </a>
+      </div>
+      <p class="small" style="margin-top:14px">Hosted checkout and payment-link guides are being written. <span class="pending">to confirm</span></p>
+    </div>
+  </section>
+
+  <!-- 3. GO LIVE -->
+  <section class="sec" id="golive" aria-labelledby="go-h" style="padding-top:0">
+    <div class="wrap">
+      <div class="icard golive">
+        <div class="haze haze--band" data-haze></div>
+        <div class="sec-head" style="margin-bottom:28px"><h2 id="go-h" class="h1" data-words>From sandbox to live <span class="tt-mute">in four steps.</span></h2></div>
+        <ol class="gsteps">
+          <li><span class="stepn">1</span><h3>Get your keys</h3><p>Create an account and copy your merchant ID, API credentials and secret key.</p><a href="docs.html#before">Before you begin <i data-lucide="arrow-right"></i></a></li>
+          <li><span class="stepn">2</span><h3>Test in the sandbox</h3><p>Charge the test cards, walk through 3-D Secure, try a decline.</p><a href="docs.html#test-cards">Test cards <i data-lucide="arrow-right"></i></a></li>
+          <li><span class="stepn">3</span><h3>Handle every result</h3><p>Map the six response codes and confirm payments from your server.</p><a href="docs.html#codes">Response codes <i data-lucide="arrow-right"></i></a></li>
+          <li><span class="stepn">4</span><h3>Go live</h3><p>Submit your business documents. Once approved, switch to your live keys.</p><a href="signup.html">Create an account <i data-lucide="arrow-right"></i></a></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. TOOLKIT -->
+  <section class="sec" id="toolkit" aria-labelledby="kit-h" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head"><h2 id="kit-h" class="h1" data-words>What you get <span class="tt-mute">out of the box.</span></h2></div>
+      <div class="kit">
+        <div class="kit__i"><i data-lucide="flask-conical"></i><h3>Sandbox</h3><p>A full test environment that never moves real money.</p></div>
+        <div class="kit__i"><i data-lucide="credit-card"></i><h3>Test cards</h3><p>Visa, Mastercard and Verve, with PIN and OTP for 3-D Secure.</p></div>
+        <div class="kit__i"><i data-lucide="shield-check"></i><h3>3-D Secure built in</h3><p>We run the bank challenge. You just redirect to one URL.</p></div>
+        <div class="kit__i"><i data-lucide="split"></i><h3>Split settlements</h3><p>Pass a <code>splitCode</code> and each share settles to its own account.</p></div>
+        <div class="kit__i"><i data-lucide="landmark"></i><h3>Separate settlement accounts</h3><p>Route a payment to another account with <code>accountCode</code>.</p></div>
+        <div class="kit__i"><i data-lucide="list-checks"></i><h3>Six clear status codes</h3><p>From <code>00</code> successful to <code>07</code> canceled, each with what to do.</p></div>
+        <div class="kit__i kit__i--soon"><i data-lucide="webhook"></i><h3>Webhooks</h3><p>Status updates pushed to your server. <span class="pending">to confirm</span></p></div>
+        <div class="kit__i kit__i--soon"><i data-lucide="package"></i><h3>SDKs and plugins</h3><p>Libraries and e-commerce plugins. <span class="pending">to confirm</span></p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. CODES + SECURITY -->
+  <section class="sec" aria-labelledby="sec-h" style="padding-top:0">
+    <div class="wrap">
+      <div class="panel panel--dark devp devsec" style="margin-inline:0">
+        <canvas class="pat pat--dev" data-pat="arrow" data-strength=".7" data-glow=".4" data-dark aria-hidden="true"></canvas>
+        <div class="stack" style="--stack:var(--s-5)">
+          <h2 id="sec-h" class="h1" style="color:#fff" data-words>Secure by default. <span style="color:rgba(240,242,255,.62)">Plain when it fails.</span></h2>
+          <ul>
+            <li><i data-lucide="check"></i>HTTP Basic authentication on every request</li>
+            <li><i data-lucide="check"></i>Card details encrypted with your own secret key</li>
+            <li><i data-lucide="check"></i>3-D Secure with every Nigerian issuing bank</li>
+            <li><i data-lucide="check"></i>PCI DSS compliant processing, CBN-licensed</li>
+          </ul>
+          <a class="btn btn--primary" href="docs.html#auth" data-press style="justify-self:start">Authentication guide</a>
+        </div>
+        <div class="codes" role="table" aria-label="Response codes">
+          <div role="row"><span role="cell" class="num">00</span><span role="cell"><span class="badge badge--ok">Successful</span></span><span role="cell">Give value</span></div>
+          <div role="row"><span role="cell" class="num">01</span><span role="cell"><span class="badge badge--wait">Pending</span></span><span role="cell">Check again, don’t charge twice</span></div>
+          <div role="row"><span role="cell" class="num">04</span><span role="cell"><span class="badge badge--wait">Processing</span></span><span role="cell">The bank is still working</span></div>
+          <div role="row"><span role="cell" class="num">02</span><span role="cell"><span class="badge badge--bad">Failed</span></span><span role="cell">Ask the customer to retry</span></div>
+          <div role="row"><span role="cell" class="num">06</span><span role="cell"><span class="badge badge--bad">Declined</span></span><span role="cell">Ask for another card</span></div>
+          <div role="row"><span role="cell" class="num">07</span><span role="cell"><span class="badge badge--plain">Canceled</span></span><span role="cell">Nothing was charged</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. HELP -->
+  <section class="sec" aria-labelledby="help-h" style="padding-top:0">
+    <div class="wrap pg-help">
+      <figure class="pg-help__ph"><img src="assets/images/web/developers.jpg" alt="Two engineers debugging an integration together" loading="lazy" width="1800" height="1012"></figure>
+      <div class="stack" style="--stack:var(--s-5)">
+        <h2 id="help-h" class="h1" data-words>Stuck? <span class="tt-mute">Talk to an engineer.</span></h2>
+        <p class="lede">Our integration team in Lagos reviews your setup before you go live and answers questions in your working hours.</p>
+        <ul class="contact__alt" style="margin-top:0;list-style:none;padding:0">
+          <li><a href="docs.html"><i data-lucide="book-open"></i>Documentation</a></li>
+          <li><a href="support.html"><i data-lucide="life-buoy"></i>Developer support</a></li>
+          <li><a href="#"><i data-lucide="activity"></i>System status <span class="pending">to confirm</span></a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot__grid">
+      <div class="stack"><img class="logo--auto" src="assets/logos/upl-paygate-icon.svg" alt="Upperlink PayGate" width="95" height="30" style="height:30px;width:auto"><p class="small" style="max-width:32ch">One gateway for cards, transfers, NQR and POS. Built in Lagos.</p></div>
+      <div><p class="foot__h">Products</p><ul><li><a href="index.html#rails">Online payments</a></li><li><a href="index.html#terminals">POS terminals</a></li><li><a href="index.html#rail-links">Payment links</a></li><li><a href="index.html#tour">Split settlements</a></li></ul></div>
+      <div><p class="foot__h">Developers</p><ul><li><a href="docs.html">Documentation</a></li><li><a href="docs.html#ref-transaction">API reference</a></li><li><a href="docs.html#test-cards">Test cards</a></li><li><a href="developers.html">Developer overview</a></li><li><a href="#">Status</a></li></ul></div>
+      <div><p class="foot__h">Company</p><ul><li><a href="about.html">About Upperlink</a></li><li><a href="about.html#why">Why PayGate</a></li><li><a href="about.html#licences">Licences and compliance</a></li><li><a href="#">Careers</a></li><li><a href="support.html">Contact and support</a></li></ul></div>
+      <div><p class="foot__h">Legal</p><ul><li><a href="legal.html#terms">Terms and conditions</a></li><li><a href="legal.html#privacy">Privacy policy</a></li><li><a href="legal.html#cookies">Cookie policy</a></li></ul></div>
+    </div>
+    <div class="foot__legal">
+      <p>Upperlink Limited is licensed by the Central Bank of Nigeria as a Payment Solution Service Provider (PSSP) and a Payment Terminal Service Provider (PTSP), and is a NIBSS aggregator. <span class="pending">licence numbers and approved wording pending</span></p>
+      <p>© 2026 Upperlink Limited. Mock-up for review: merchant names, amounts and the API request are illustrative. Photos by wirestock, DC Studio, ASphotofamily and Freepik, on <a href="https://www.freepik.com" rel="noopener">Freepik</a>.</p>
+    </div>
+  </div>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/motion@12.4.7/dist/motion.js"></script>
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script>lucide.createIcons({ attrs: { "stroke-width": 1.75, "aria-hidden": "true" } });</script>
+<script src="_site.js?v=11"></script>
+<script src="_pattern.js?v=11"></script>
+<script src="_home.js?v=11"></script>
+<script src="_pages.js?v=11"></script>
+<script src="_review.js?v=11"></script>
+</body>
+</html>

@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en-NG">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PayGate Stripe Patterns</title>
+<meta name="description" content="Three animated stripe pattern options for Upperlink PayGate, for brand approval.">
+<script>try{var t=localStorage.getItem("pg-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="_tokens.css?v=8">
+<link rel="stylesheet" href="_site.css?v=8">
+<link rel="stylesheet" href="_home.css?v=8">
+<style>
+  .pg-pat main { padding-block: 48px 96px; }
+  .pg-pat .intro { display: grid; gap: 12px; max-width: 70ch; margin-bottom: 56px; }
+  .opt { padding-block: 56px; border-top: 1px solid var(--line); display: grid; gap: 28px; }
+  .opt__head { display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; }
+  .opt__head > div { display: grid; gap: 8px; max-width: 62ch; }
+  .opt__head h2 { font-size: clamp(1.75rem, 1.3rem + 1.4vw, 2.5rem); }
+  .tag { font: 500 .75rem var(--font-mono); color: var(--ink-3); }
+  .demo { display: grid; grid-template-columns: 1.3fr 1fr; gap: 16px; }
+  .swatch { position: relative; border-radius: 16px; overflow: hidden; min-height: 320px; background: var(--card-bg); outline: 1px solid var(--card-line); outline-offset: -1px; isolation: isolate; }
+  .swatch canvas, .swatch svg.fill { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .swatch__label { position: absolute; left: 16px; bottom: 14px; font: 500 .75rem var(--font-mono); color: var(--ink-3); }
+  .uses { display: grid; gap: 16px; }
+  .use-card { position: relative; border-radius: 16px; overflow: hidden; padding: 28px; min-height: 150px; display: grid; align-content: end; gap: 6px; background: var(--card-bg); outline: 1px solid var(--card-line); outline-offset: -1px; isolation: isolate; }
+  .use-card canvas, .use-card svg.fill { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; }
+  .use-card h3 { font-size: 1.25rem; }
+  .use-card p { color: var(--ink-2); font-size: .9375rem; }
+  .use-dark { background: var(--night-950); color: #f0f2ff; outline-color: rgba(232,234,255,.1); --ink: rgba(240,242,255,.95); --ink-2: rgba(240,242,255,.72); --ink-3: rgba(240,242,255,.6); }
+  .divider { position: relative; height: 64px; border-radius: 12px; overflow: hidden; background: var(--card-bg); }
+  .divider canvas, .divider svg.fill { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .notes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; font-size: .9375rem; color: var(--ink-2); }
+  .notes b { display: block; color: var(--ink); margin-bottom: 4px; }
+  .toolbar { position: sticky; top: 0; z-index: 30; background: var(--paper); border-bottom: 1px solid var(--line); }
+  .toolbar .wrap { display: flex; align-items: center; gap: 16px; height: 64px; }
+  .toolbar .wrap > :last-child { margin-left: auto; display: flex; gap: 8px; }
+  @media (max-width: 860px) { .demo { grid-template-columns: 1fr; } .notes { grid-template-columns: 1fr; } }
+  /* Option C (SVG chevrons) motion */
+  .chev-move { animation: chev 9s linear infinite; }
+  @keyframes chev { to { transform: translate(-48px, 48px); } }
+  .paused .chev-move { animation-play-state: paused; }
+  @media (prefers-reduced-motion: reduce) { .chev-move { animation: none; } }
+</style>
+</head>
+<body class="pg-pat">
+<header class="toolbar">
+  <div class="wrap">
+    <img class="logo--auto" src="assets/logos/upl-paygate-icon.svg" alt="Upperlink PayGate" width="95" height="30" style="height:28px;width:auto">
+    <span class="tag">Stripe patterns · for approval · not used on the site yet</span>
+    <div>
+      <button class="btn btn--secondary btn--sm" type="button" data-pause aria-pressed="false"><span>Pause motion</span></button>
+      <button class="btn btn--secondary btn--sm" type="button" data-theme-toggle aria-pressed="false"><span>Dark mode</span></button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="intro">
+    <h1 class="h1">Three stripe patterns <span class="tt-mute">built from Upperlink, not borrowed.</span></h1>
+    <p class="lede">Each one takes something we already own (the arrow in the logo, a receipt, the rails money moves on) and turns it into a quiet, moving texture that sits with the haze. Pick one, or mix. Nothing here is on the homepage until you approve it.</p>
+  </div>
+
+  <!-- A -->
+  <section class="opt" aria-labelledby="a-h">
+    <div class="opt__head">
+      <div><span class="tag">Option A</span><h2 id="a-h">Arrow lines</h2>
+        <p class="muted">Hairline stripes at 45°, the exact angle of the Upperlink arrow. A band of haze colour travels up the lines like money moving through, then fades.</p></div>
+    </div>
+    <div class="demo">
+      <div class="swatch"><canvas data-pat="arrow" data-strength="1"></canvas><span class="swatch__label">Pattern · full strength</span></div>
+      <div class="uses">
+        <div class="use-card"><canvas data-pat="arrow" data-strength=".55"></canvas><h3>Behind a card</h3><p>At half strength it reads as texture, never as decoration fighting the copy.</p></div>
+        <div class="use-card use-dark"><canvas data-pat="arrow" data-strength=".8" data-dark></canvas><h3>On the developer panel</h3><p>On night it glows faintly, like a circuit.</p></div>
+      </div>
+    </div>
+    <div class="divider"><canvas data-pat="arrow" data-strength=".9"></canvas></div>
+  </section>
+
+  <!-- B -->
+  <section class="opt" aria-labelledby="b-h">
+    <div class="opt__head">
+      <div><span class="tag">Option B</span><h2 id="b-h">Receipt stripes</h2>
+        <p class="muted">Vertical stripes of varying weight, read from a receipt and an NQR code. They rise and settle in a slow wave, as if payments were landing one by one.</p></div>
+    </div>
+    <div class="demo">
+      <div class="swatch"><canvas data-pat="receipt" data-strength="1"></canvas><span class="swatch__label">Pattern · full strength</span></div>
+      <div class="uses">
+        <div class="use-card"><canvas data-pat="receipt" data-strength=".5"></canvas><h3>Under a stat or quote</h3><p>The wave can pulse when a number updates.</p></div>
+        <div class="use-card use-dark"><canvas data-pat="receipt" data-strength=".8" data-dark></canvas><h3>On night</h3><p>Brighter stripes pick up the blue and red ends of the haze.</p></div>
+      </div>
+    </div>
+    <div class="divider"><canvas data-pat="receipt" data-strength=".9"></canvas></div>
+  </section>
+
+  <!-- C -->
+  <section class="opt" aria-labelledby="c-h">
+    <div class="opt__head">
+      <div><span class="tag">Option C</span><h2 id="c-h">Arrowhead stripes</h2>
+        <p class="muted">Rows of the arrowhead from the logo, set as a stripe and drifting up and to the right. The most branded of the three: unmistakably Upperlink.</p></div>
+    </div>
+    <div class="demo">
+      <div class="swatch"><svg class="fill" data-chev aria-hidden="true"></svg><span class="swatch__label">Pattern · full strength</span></div>
+      <div class="uses">
+        <div class="use-card"><svg class="fill" data-chev data-strength=".5" aria-hidden="true"></svg><h3>Behind a card</h3><p>Works as a watermark for licences and receipts.</p></div>
+        <div class="use-card use-dark"><svg class="fill" data-chev data-strength=".8" data-dark aria-hidden="true"></svg><h3>On night</h3><p>Gives the dark panels a brand texture.</p></div>
+      </div>
+    </div>
+    <div class="divider"><svg class="fill" data-chev data-strength=".9" aria-hidden="true"></svg></div>
+  </section>
+
+  <section class="opt" aria-labelledby="n-h">
+    <h2 id="n-h" class="h3">How they would be used</h2>
+    <div class="notes">
+      <div><b>Sparingly</b>One pattern, in two or three places at most: the developer panel, the licences card and the final call to action.</div>
+      <div><b>Always behind, never under text</b>Patterns fade out where copy sits, the same way the haze does.</div>
+      <div><b>Calm motion</b>Slow drift only, paused off-screen and switched off for reduced motion.</div>
+    </div>
+  </section>
+</main>
+
+<script src="_site.js?v=8"></script>
+<script>
+(() => {
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const STOPS = [[255, 59, 0], [246, 0, 157], [151, 62, 198], [0, 142, 255]]; // Interfere haze
+  const mix = (t) => { t = Math.max(0, Math.min(1, t)) * 3; const i = Math.min(2, Math.floor(t)), f = t - i, a = STOPS[i], b = STOPS[i + 1]; return a.map((v, k) => Math.round(v + (b[k] - v) * f)); };
+  const isDark = (el) => el.hasAttribute("data-dark") || document.documentElement.dataset.theme === "dark" || (!document.documentElement.dataset.theme && matchMedia("(prefers-color-scheme: dark)").matches);
+  let paused = false;
+  const items = [];
+
+  function arrow(ctx, w, h, t, s, dark) {
+    const gap = 14, base = dark ? 255 : 6;
+    ctx.lineWidth = 1;
+    const sweep = (t * 0.12) % 1.6 - 0.3;        // band position along the diagonal
+    for (let x = -h; x < w + h; x += gap) {
+      const d = (x + h) / (w + 2 * h);            // 0..1 across
+      const near = Math.max(0, 1 - Math.abs(d - sweep) / 0.32);
+      const [r, g, b] = mix(d);
+      const a0 = (dark ? 0.1 : 0.09) * s, a1 = 0.75 * s * near;
+      ctx.strokeStyle = `rgba(${base},${base + (dark ? 0 : 2)},${dark ? 255 : 46},${a0})`;
+      ctx.beginPath(); ctx.moveTo(x, h); ctx.lineTo(x + h, 0); ctx.stroke();
+      if (a1 > 0.01) { ctx.strokeStyle = `rgba(${r},${g},${b},${a1})`; ctx.lineWidth = 1.4; ctx.beginPath(); ctx.moveTo(x, h); ctx.lineTo(x + h, 0); ctx.stroke(); ctx.lineWidth = 1; }
+    }
+    // fade toward the top-left where copy usually sits
+    const fade = ctx.createLinearGradient(0, 0, w * 0.6, h);
+    fade.addColorStop(0, dark ? "rgba(5,6,26,.9)" : "rgba(255,255,255,.85)"); fade.addColorStop(1, "rgba(255,255,255,0)");
+    ctx.globalCompositeOperation = "destination-out"; ctx.fillStyle = fade; ctx.fillRect(0, 0, w, h); ctx.globalCompositeOperation = "source-over";
+  }
+
+  function receipt(ctx, w, h, t, s, dark) {
+    let x = 8, k = 0, seed = 3;
+    const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+    while (x < w) {
+      const bw = [1, 1, 2, 3, 1, 4, 2, 1][Math.floor(rnd() * 8)] * 1.5, gap = 4 + rnd() * 6;
+      const d = x / w, wave = 0.5 + 0.5 * Math.sin(t * 0.9 - d * 9 + k * 0.15);
+      const hh = h * (0.28 + 0.5 * wave * (0.6 + rnd() * 0.4));
+      const [r, g, b] = mix(d);
+      const grd = ctx.createLinearGradient(0, h, 0, h - hh);
+      grd.addColorStop(0, `rgba(${r},${g},${b},${(dark ? 0.55 : 0.38) * s})`); grd.addColorStop(1, `rgba(${r},${g},${b},0)`);
+      ctx.fillStyle = grd; ctx.fillRect(x, h - hh, bw, hh);
+      x += bw + gap; k++;
+    }
+  }
+
+  function mount(cv) {
+    const ctx = cv.getContext("2d"), s = parseFloat(cv.dataset.strength || "1"), kind = cv.dataset.pat;
+    const st = { cv, ctx, s, kind, visible: true, t0: performance.now() };
+    st.size = () => { const r = cv.getBoundingClientRect(), dpr = Math.min(devicePixelRatio || 1, 2); cv.width = r.width * dpr; cv.height = r.height * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); st.w = r.width; st.h = r.height; };
+    st.draw = (now) => { ctx.clearRect(0, 0, st.w, st.h); const t = reduce ? 6 : (now - st.t0) / 1000; (kind === "arrow" ? arrow : receipt)(ctx, st.w, st.h, t, s, isDark(cv)); };
+    st.size(); st.draw(performance.now());
+    new ResizeObserver(() => { st.size(); st.draw(performance.now()); }).observe(cv);
+    new IntersectionObserver(([e]) => (st.visible = e.isIntersecting)).observe(cv);
+    items.push(st);
+  }
+  document.querySelectorAll("canvas[data-pat]").forEach(mount);
+  const loop = (now) => { if (!paused && !reduce) items.forEach((st) => st.visible && st.draw(now)); requestAnimationFrame(loop); };
+  requestAnimationFrame(loop);
+  new MutationObserver(() => items.forEach((st) => st.draw(performance.now()))).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+
+  // Option C: SVG arrowhead rows, drifting up-right
+  document.querySelectorAll("svg[data-chev]").forEach((svg, n) => {
+    const s = parseFloat(svg.dataset.strength || "1"), dark = svg.hasAttribute("data-dark");
+    const id = "chev" + n, gid = "chevg" + n;
+    svg.innerHTML = `<defs>
+      <linearGradient id="${gid}" x1="0" y1="1" x2="1" y2="0">
+        <stop offset="0" stop-color="rgb(255,59,0)" stop-opacity="${0.5 * s}"/><stop offset=".38" stop-color="rgb(246,0,157)" stop-opacity="${0.42 * s}"/>
+        <stop offset=".71" stop-color="rgb(151,62,198)" stop-opacity="${0.42 * s}"/><stop offset="1" stop-color="rgb(0,142,255)" stop-opacity="${0.5 * s}"/></linearGradient>
+      <pattern id="${id}" width="48" height="48" patternUnits="userSpaceOnUse">
+        <path d="M14 34 L34 14 M20 14 H34 V28" fill="none" stroke="url(#${gid})" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
+      </pattern>
+      <linearGradient id="${id}f" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".55" stop-color="#fff" stop-opacity="1"/></linearGradient>
+      <mask id="${id}m"><rect width="100%" height="100%" fill="url(#${id}f)"/></mask>
+    </defs>
+    <g mask="url(#${id}m)"><g class="chev-move"><rect x="-96" y="-96" width="3200" height="3200" fill="url(#${id})"/></g></g>`;
+    if (dark) svg.style.opacity = "1";
+  });
+
+  document.querySelector("[data-pause]").addEventListener("click", (e) => {
+    paused = !paused; const b = e.currentTarget;
+    b.setAttribute("aria-pressed", String(paused)); b.querySelector("span").textContent = paused ? "Play motion" : "Pause motion";
+    document.body.classList.toggle("paused", paused);
+  });
+})();
+</script>
+<script src="_review.js?v=11"></script>
+</body>
+</html>
