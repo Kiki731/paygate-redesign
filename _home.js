@@ -391,6 +391,17 @@
   });
 
   /* ---------- marquee: seamless loop ---------- */
+  /* ---------- frosted bottom edge (marketing pages only) ---------- */
+  if (document.body.classList.contains("pg-home")) {
+    const frost = document.createElement("div");
+    frost.className = "frost"; frost.setAttribute("aria-hidden", "true");
+    frost.innerHTML = "<i></i><i></i><i></i><i></i>";
+    document.body.appendChild(frost);
+    // clears away at the end of the page so the footer's small print is never frosted
+    const atEnd = () => frost.classList.toggle("is-end", innerHeight + scrollY >= document.documentElement.scrollHeight - 96);
+    addEventListener("scroll", atEnd, { passive: true }); addEventListener("resize", atEnd); atEnd();
+  }
+
   // with motion off the row stands still, so no duplicate logos
   if (reduce) document.documentElement.classList.add("is-still");
   $$("[data-marquee]").forEach((t) => { if (reduce) return; [...t.children].forEach((c) => { const d = c.cloneNode(true); d.setAttribute("aria-hidden", "true"); d.querySelector("img").alt = ""; t.appendChild(d); }); });

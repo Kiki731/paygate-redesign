@@ -475,3 +475,17 @@
 .optswitch a:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 @media (max-width: 480px) { .reviewbar > span { display: none; } }
 [data-film-toggle][hidden] { display: none; }
+
+/* ---------- Frosted bottom edge (progressive blur) ----------
+   Content scrolling up through the bottom ~56px of the screen is frosted, then sharpens.
+   Stacked layers: each blurs more and covers less, so the blur fades out smoothly upwards. */
+.frost { position: fixed; left: 0; right: 0; bottom: 0; height: 56px; z-index: 40; pointer-events: none; transition: opacity 320ms var(--ease-out); }
+.frost i { position: absolute; inset: 0; }
+.frost i:nth-child(1) { backdrop-filter: blur(1px);  -webkit-backdrop-filter: blur(1px);  -webkit-mask-image: linear-gradient(to top, #000 0%, #000 50%, transparent 100%); mask-image: linear-gradient(to top, #000 0%, #000 50%, transparent 100%); }
+.frost i:nth-child(2) { backdrop-filter: blur(2px);  -webkit-backdrop-filter: blur(2px);  -webkit-mask-image: linear-gradient(to top, #000 0%, #000 35%, transparent 75%); mask-image: linear-gradient(to top, #000 0%, #000 35%, transparent 75%); }
+.frost i:nth-child(3) { backdrop-filter: blur(4px);  -webkit-backdrop-filter: blur(4px);  -webkit-mask-image: linear-gradient(to top, #000 0%, #000 20%, transparent 50%); mask-image: linear-gradient(to top, #000 0%, #000 20%, transparent 50%); }
+.frost i:nth-child(4) { backdrop-filter: blur(8px);  -webkit-backdrop-filter: blur(8px);  -webkit-mask-image: linear-gradient(to top, #000 0%, transparent 32%); mask-image: linear-gradient(to top, #000 0%, transparent 32%); }
+.frost.is-end { opacity: 0; }
+/* off on phones (cost and screen space), when transparency is reduced, or where blur isn't supported */
+@media (max-width: 767px), (prefers-reduced-transparency: reduce) { .frost { display: none; } }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .frost { display: none; } }
