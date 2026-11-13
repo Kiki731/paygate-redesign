@@ -3,11 +3,13 @@
    Decorative (aria-hidden); a visible Pause control sits outside it (WCAG 2.2.2). */
 (() => {
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches || /[?&]still\b/.test(location.search);
+  // the amount comes from data-amt on the film (a visitor's own business can change it)
+  const fmt = (n) => "₦" + Number(n).toLocaleString("en-NG", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const DONE = {
-    card: ["Payment successful", "₦45,000.00 · Visa •••• 0921"],
-    transfer: ["Transfer received", "₦45,000.00 · confirmed instantly"],
-    nqr: ["NQR payment received", "₦45,000.00 · scanned from bank app"],
-    pos: ["Approved at the counter", "₦45,000.00 · terminal PG-0217"],
+    card: ["Payment successful", (a) => `${a} · Visa •••• 0921`],
+    transfer: ["Transfer received", (a) => `${a} · confirmed instantly`],
+    nqr: ["NQR payment received", (a) => `${a} · scanned from bank app`],
+    pos: ["Approved at the counter", (a) => `${a} · terminal PG-0217`],
   };
 
   function film(root) {
@@ -22,13 +24,14 @@
     const wait = q("[data-wait]"), waitRow = wait.closest(".checkout__row");
     const scan = q(".scanline"), tapcard = q(".tapcard"), waves = q(".waves"), posTxt = q("[data-pos]"), posScr = q(".pos-term__screen");
 
+    const amt = () => +(root.dataset.amt || 45000);
     const select = (m) => {
       tabs.forEach((t) => t.classList.toggle("is-on", t.dataset.m === m));
       ["card", "transfer", "nqr", "pos"].forEach((k) => (pane(k).hidden = k !== m));
     };
     const resetAll = () => {
       typed.forEach((el) => (el.textContent = el.dataset.placeholder || ""));
-      payLabel.textContent = "Pay ₦45,000.00"; spin.hidden = true;
+      payLabel.textContent = "Pay " + fmt(amt()); spin.hidden = true;
       wait.textContent = "Waiting for your transfer"; waitRow.classList.remove("is-ok");
       posTxt.textContent = "TAP · INSERT · SWIPE"; posScr.classList.remove("is-ok");
       gsap.set([done], { autoAlpha: 0 }); gsap.set(cursor, { autoAlpha: 0 });
@@ -54,10 +57,10 @@
       gsap.to(cursor, { x: r.left - b.left + r.width * 0.62, y: r.top - b.top + r.height * 0.55, duration: 0.7, ease: "power3.inOut" });
     };
     const success = (m) => {
-      const [a, s] = DONE[m]; doneT.textContent = a; doneS.textContent = s;
+      const [a, s] = DONE[m]; doneT.textContent = a; doneS.textContent = s(fmt(amt()));
       window.PG?.pulseNear?.(root);
       // the rest of the hero (chip, live feed, total) reacts to this one moment
-      root.dispatchEvent(new CustomEvent("pg:paid", { bubbles: true, detail: { method: m, amount: 45000 } }));
+      root.dispatchEvent(new CustomEvent("pg:paid", { bubbles: true, detail: { method: m, amount: amt() } }));
       gsap.fromTo(done, { autoAlpha: 0, y: 8, filter: "blur(6px)" }, { autoAlpha: 1, y: 0, filter: "blur(0px)", duration: 0.45, ease: "power3.out" });
       gsap.fromTo(done.querySelector(".tick"), { scale: 0.5 }, { scale: 1, duration: 0.7, ease: "back.out(2.4)" });
     };

@@ -326,6 +326,7 @@
       .to(rec, { clipPath: "inset(0% 0 0 0)", duration: 1.1, ease: "steps(12)" }, "+=0.2")
       .fromTo(term, { y: 0 }, { y: -3, duration: 0.08, repeat: 5, yoyo: true }, "<");
     ScrollTrigger.create({ trigger: term, start: "top 85%", onEnter: print, onEnterBack: print });
+    window.PG.printReceipt = print; // "Tap a card" on the alive page replays it
     if (M) M.hover(".term__media", () => { M.animate(term, { rotate: -2, y: -6 }, { type: "spring", stiffness: 260, damping: 16 }); return () => M.animate(term, { rotate: 0, y: 0 }, { type: "spring", stiffness: 260, damping: 18 }); });
   }
 
