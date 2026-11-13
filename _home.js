@@ -99,7 +99,7 @@
     pulseNear(node) {
       if (!hasG || reduce) return;
       const scope = node.closest(".hero__stage, .icard, section") || document;
-      $$("[data-haze]", scope).forEach((h) => gsap.fromTo(h, { opacity: 0.9 }, { opacity: 1, scaleY: "+=0.25", duration: 0.6, ease: "power2.out", yoyo: true, repeat: 1 }));
+      $$("[data-haze]", scope).forEach((h) => gsap.fromTo(h, { opacity: 0.9 }, { opacity: 1, duration: 0.6, ease: "power2.out", yoyo: true, repeat: 1 })); // brightness only: the breathing tween owns its size
     },
   });
 
@@ -114,7 +114,7 @@
     tl.from(hw, { opacity: 0, y: 14, filter: "blur(10px)", duration: 0.9, stagger: 0.045, clearProps: "filter" })
       .from($$(".hero [data-rise]").filter((el) => !el.matches(".hero__stage, .split__stage, .ab-media, .pg-code")), { opacity: 0, y: 18, duration: 0.8, stagger: 0.08 }, "-=0.55")
       // the product stage only moves: it is never invisible, even on a slow phone
-      .from($$(".hero__stage, .split__stage, .ab-media, .pg-code"), { y: 28, scale: 0.985, duration: 1.1, clearProps: "transform" }, "<0.1");
+      .from($$(".hero__stage, .split__stage, .ab-media, .pg-code"), { y: 24, duration: 0.9, clearProps: "transform" }, "<0.1"); // rise only: no scale, so nothing swells
 
     // section headings: word reveal once, when they enter
     $$("[data-words]").forEach((h) => {
