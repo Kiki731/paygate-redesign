@@ -362,14 +362,25 @@
     if (hasG && !reduce) gsap.from($$("li", shown), { opacity: 0, y: 6, stagger: 0.04, duration: 0.35, ease: "power2.out" });
   }));
 
-  /* ---------- FAQ: smooth open/close ---------- */
-  $$("[data-faq] details").forEach((d) => {
-    const s = $("summary", d), a = $(".ans", d);
-    s.addEventListener("click", (e) => {
-      if (!hasG || reduce) return;
-      e.preventDefault();
-      if (d.open) gsap.to(a, { height: 0, opacity: 0, duration: 0.3, ease: "power2.inOut", onComplete: () => { d.open = false; gsap.set(a, { clearProps: "all" }); } });
-      else { d.open = true; gsap.from(a, { height: 0, opacity: 0, duration: 0.4, ease: "power3.out", clearProps: "all" }); }
+  /* ---------- FAQ: one answer open at a time, smooth open/close ---------- */
+  $$("[data-faq]").forEach((faq) => {
+    const items = $$("details", faq);
+    const close = (d, animate) => {
+      if (!d.open) return;
+      const a = $(".ans", d);
+      if (!animate) { d.open = false; return; }
+      gsap.to(a, { height: 0, opacity: 0, duration: 0.3, ease: "power2.inOut", onComplete: () => { d.open = false; gsap.set(a, { clearProps: "all" }); } });
+    };
+    items.forEach((d) => {
+      const s = $("summary", d), a = $(".ans", d);
+      s.addEventListener("click", (e) => {
+        const anim = hasG && !reduce;
+        e.preventDefault();
+        if (d.open) { close(d, anim); return; }
+        items.forEach((o) => o !== d && close(o, anim));
+        d.open = true;
+        if (anim) gsap.from(a, { height: 0, opacity: 0, duration: 0.4, ease: "power3.out", clearProps: "all" });
+      });
     });
   });
 
