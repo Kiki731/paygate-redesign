@@ -168,52 +168,114 @@
     }
   }
 
-  /* ---------- split calculator ---------- */
-  const splitCard = $("[data-split]"), rowsEl = $("[data-split-rows]"), amtIn = $("[data-split-amt]"), sumEl = $("[data-split-total]");
-  let pcts = [];
-  function renderSplit() {
-    if (!splitCard) return;
-    const T = TYPES[biz.type];
-    pcts = [T.split[0][1], T.split[1][1]];
-    amtIn.value = T.amt.toLocaleString("en-NG");
-    rowsEl.innerHTML = T.split.map((s, k) => k < 2
-      ? `<div class="srow"><label for="sp${k}">${s[0]}<span class="pct" data-pct="${k}"></span></label><span class="num" data-share="${k}"></span><div class="bar" aria-hidden="true"><i data-bar="${k}"></i></div><input type="range" id="sp${k}" min="0" max="100" step="5" value="${s[1]}" data-range="${k}" aria-label="${s[0]} share, percent"></div>`
-      : `<div class="srow srow--rest"><span style="font-weight:500">${s[0]}<span class="pct" data-pct="2"></span></span><span class="num" data-share="2"></span><div class="bar" aria-hidden="true"><i data-bar="2"></i></div></div>`).join("");
-    $$("[data-range]", rowsEl).forEach((r) => r.addEventListener("input", () => {
-      const k = +r.dataset.range, other = 1 - k; pcts[k] = +r.value;
-      if (pcts[0] + pcts[1] > 100) { pcts[other] = 100 - pcts[k]; $(`[data-range="${other}"]`, rowsEl).value = pcts[other]; }
-      updateSplit();
-    }));
-    updateSplit(true);
+  /* ---------- split settlements: one payment flows into three accounts ---------- */
+  const flow = $("[data-flow]");
+  const PRESETS = { school: ["School fees", 70, 20], enterprise: ["Marketplace", 85, 10], agency: ["Revenue", 80, 15], shop: ["Shop", 80, 15], hospitality: ["Restaurant", 85, 10] };
+  let fp = [70, 20], fType = "school", got = [0, 0, 0];
+  const svg = $("[data-flow-svg]"), accts = $("[data-flow-accts]"), bar = $("[data-flow-bar]");
+  const X = [100, 300, 500];
+  const lanePath = (k) => `M300 0 C300 70, ${X[k]} 60, ${X[k]} 150`;
+  function renderFlow(type) {
+    if (!flow) return;
+    fType = type || fType;
+    const T = TYPES[fType];
+    fp = [T.split[0][1], T.split[1][1]]; got = [0, 0, 0];
+    $("[data-flow-amt]").textContent = naira(T.amt);
+    svg.innerHTML = `${[0, 1, 2].map((k) => `<path class="lane lane--${k}" d="${lanePath(k)}" data-lane="${k}"/>`).join("")}<g data-coins></g>`;
+    accts.innerHTML = T.split.map((s, k) => `<div class="acct" data-acct="${k}"><span class="pct" data-fpct="${k}"></span><b>${s[0]}</b><span class="num" data-fshare="${k}"></span><span class="got" data-fgot="${k}">₦0 received</span></div>`).join("");
+    $$("[data-flow-presets] button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.preset === fType)));
+    updateFlow();
   }
-  function updateSplit(instant) {
-    const amt = +String(amtIn.value).replace(/\D/g, "") || 0;
-    const p = [pcts[0], pcts[1], Math.max(0, 100 - pcts[0] - pcts[1])];
+  function updateFlow() {
+    const T = TYPES[fType], p = [fp[0], fp[1], 100 - fp[0] - fp[1]];
     p.forEach((v, k) => {
-      $(`[data-pct="${k}"]`, rowsEl).textContent = v + "%";
-      $(`[data-share="${k}"]`, rowsEl).textContent = naira((amt * v) / 100);
-      const bar = $(`[data-bar="${k}"]`, rowsEl);
-      if (G && !instant) G.to(bar, { width: v + "%", duration: 0.5, ease: "power3.out" }); else bar.style.width = v + "%";
+      $(`[data-fpct="${k}"]`).textContent = v + "%";
+      $(`[data-fshare="${k}"]`).textContent = short((T.amt * v) / 100);
+      $(`[data-lane="${k}"]`).style.strokeWidth = 3 + v * 0.22;
+      $(`[data-seg="${k}"]`).style.width = v + "%";
     });
-    sumEl.textContent = naira(amt);
+    const hs = $$(".flow__handle", bar);
+    [fp[0], fp[0] + fp[1]].forEach((pos, k) => {
+      hs[k].style.left = pos + "%";
+      hs[k].setAttribute("aria-valuemin", k ? fp[0] : 0); hs[k].setAttribute("aria-valuemax", k ? 100 : fp[0] + fp[1]);
+      hs[k].setAttribute("aria-valuenow", pos);
+      hs[k].setAttribute("aria-label", k ? `Where ${T.split[1][0]} ends and ${T.split[2][0]} begins` : `Where ${T.split[0][0]} ends and ${T.split[1][0]} begins`);
+      hs[k].setAttribute("aria-valuetext", k ? `${T.split[1][0]} ${fp[1]}%, ${T.split[2][0]} ${100 - fp[0] - fp[1]}%` : `${T.split[0][0]} ${fp[0]}%`);
+    });
   }
-  amtIn?.addEventListener("input", () => { const d = amtIn.value.replace(/\D/g, "").slice(0, 12); amtIn.value = d ? (+d).toLocaleString("en-NG") : ""; updateSplit(); });
-  if (splitCard && G) ScrollTrigger.create({ trigger: splitCard, start: "top 80%", once: true, onEnter: () => { $$("[data-bar]", rowsEl).forEach((b) => { const w = b.style.width; G.fromTo(b, { width: 0 }, { width: w, duration: 1.1, ease: "expo.out" }); }); } });
+  function setHandle(k, pos) {
+    pos = Math.round(pos / 5) * 5;
+    if (k === 0) { const end = fp[0] + fp[1]; fp[0] = Math.max(5, Math.min(end - 5, pos)); fp[1] = end - fp[0]; }
+    else { fp[1] = Math.max(5, Math.min(95 - fp[0], pos - fp[0])) ; }
+    updateFlow();
+  }
+  function sendPayment() {
+    const T = TYPES[fType], p = [fp[0], fp[1], 100 - fp[0] - fp[1]], g = $("[data-coins]", svg);
+    const src = $(".flow__src");
+    if (G) G.fromTo(src, { scale: 1 }, { scale: 1.06, duration: 0.15, yoyo: true, repeat: 1 });
+    p.forEach((v, k) => {
+      if (!v) return;
+      const path = $(`[data-lane="${k}"]`), len = path.getTotalLength();
+      const coin = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+      coin.setAttribute("class", "coin"); coin.setAttribute("r", 4 + v * 0.05); g.appendChild(coin);
+      const land = () => {
+        coin.remove(); got[k] += (T.amt * v) / 100;
+        const a = $(`[data-acct="${k}"]`); a.classList.add("is-hit"); setTimeout(() => a.classList.remove("is-hit"), 500);
+        a.style.setProperty("--fill", Math.min(100, (got[k] / (T.amt * v / 100)) * 18) + "%");
+        $(`[data-fgot="${k}"]`).textContent = short(got[k]) + " received";
+      };
+      if (!G) { land(); return; }
+      const o = { t: 0 };
+      G.to(o, { t: 1, duration: 0.9 + k * 0.05, delay: 0.12 * k, ease: "power2.in", onUpdate: () => { const pt = path.getPointAtLength(o.t * len); coin.setAttribute("cx", pt.x); coin.setAttribute("cy", pt.y); }, onComplete: land });
+    });
+  }
+  if (flow) {
+    $("[data-flow-presets]").innerHTML = Object.entries(PRESETS).map(([k, v]) => `<button type="button" data-preset="${k}" aria-pressed="false">${v[0]}</button>`).join("");
+    $$("[data-flow-presets] button").forEach((b) => b.addEventListener("click", () => { renderFlow(b.dataset.preset); if (G) sendPayment(); }));
+    $("[data-flow-send]").addEventListener("click", sendPayment);
+    // drag the handles on the bar (pointer) or nudge them (arrow keys)
+    $$(".flow__handle", bar).forEach((h) => {
+      const k = +h.dataset.h;
+      h.addEventListener("pointerdown", (e) => {
+        h.setPointerCapture(e.pointerId);
+        const move = (ev) => { const r = bar.getBoundingClientRect(); setHandle(k, ((ev.clientX - r.left) / r.width) * 100); };
+        const up = () => { h.removeEventListener("pointermove", move); h.removeEventListener("pointerup", up); };
+        h.addEventListener("pointermove", move); h.addEventListener("pointerup", up);
+      });
+      h.addEventListener("keydown", (e) => {
+        const now = k ? fp[0] + fp[1] : fp[0], step = { ArrowLeft: -5, ArrowDown: -5, ArrowRight: 5, ArrowUp: 5 }[e.key];
+        if (step) { e.preventDefault(); setHandle(k, now + step); }
+      });
+    });
+    renderFlow(biz.type);
+    // once, when it comes into view: three payments flow in on their own
+    if (G) ScrollTrigger.create({ trigger: flow, start: "top 70%", once: true, onEnter: () => { sendPayment(); setTimeout(sendPayment, 1300); setTimeout(sendPayment, 2600); } });
+  }
+  function renderSplit() { renderFlow(biz.type); }
 
-  /* ---------- ticker ---------- */
-  const tick = $("[data-ticker]");
-  if (tick) {
-    const T = [["₦45,000", "Card · Ikeja"], ["₦250,000", "School fees · Abuja"], ["₦3,200", "NQR · Kano"], ["₦75,000", "Levy · Alausa"], ["₦18,750", "POS · Port Harcourt"], ["₦1,200,000", "Transfer · Victoria Island"], ["₦12,900", "Marketplace order · Enugu"], ["₦8,400", "NQR · Ibadan"], ["₦32,500", "POS · Benin City"], ["₦120,000", "Transfer · Kaduna"]];
-    const html = T.map(([a, b]) => `<span><i></i><b>${a}</b>${b}</span>`).join("");
-    tick.innerHTML = html + (reduce ? "" : html.replace(/<span>/g, '<span aria-hidden="true">'));
+  /* ---------- how a payment moves: rows rise in, the first payment gets approved ---------- */
+  if (G) {
+    $$(".how__row").forEach((row, i) => {
+      const ph = $(".how__ph", row), chip = $(".how__chip", row), tx = $(".how__tx", row);
+      const tl = gsap.timeline({ scrollTrigger: { trigger: row, start: "top 78%", once: true } });
+      tl.from(ph, { y: 30, opacity: 0, duration: 0.8, ease: "expo.out" })
+        .from(tx.children, { y: 16, opacity: 0, duration: 0.6, stagger: 0.06, ease: "expo.out" }, "<0.1")
+        .from(chip, { y: 12, scale: 0.9, opacity: 0, duration: 0.5, ease: "back.out(2.4)" }, "-=0.3");
+      if (i === 0) tl.call(() => {
+        chip.innerHTML = '<span class="dot"><i data-lucide="check"></i></span><span><strong>₦45,000 · approved</strong><span>Contactless · just now</span></span>'; icons();
+        G.fromTo(chip, { scale: 0.94 }, { scale: 1, duration: 0.5, ease: "back.out(3)" });
+      }, null, "+=1.4");
+    });
   }
 
-  /* ---------- the Nigeria dot map (Anime.js) ---------- */
+  /* ---------- the Nigeria map: payments travel city to city ---------- */
   const map = $("[data-map]"), tip = $("[data-maptip]");
   const CITIES = [["Lagos", 3.38, 6.52], ["Ibadan", 3.9, 7.38], ["Abuja", 7.49, 9.06], ["Kano", 8.52, 12.0], ["Port Harcourt", 7.01, 4.82], ["Enugu", 7.5, 6.44], ["Kaduna", 7.44, 10.52], ["Benin City", 5.62, 6.34], ["Jos", 8.89, 9.9], ["Maiduguri", 13.16, 11.85], ["Calabar", 8.33, 4.95], ["Sokoto", 5.24, 13.06], ["Ilorin", 4.55, 8.5], ["Owerri", 7.03, 5.48], ["Abeokuta", 3.35, 7.15], ["Yola", 12.46, 9.2]];
   const W = 600, H = 500, LON = [2.6, 14.8], LAT = [4.2, 13.95];
   const px = (lon, lat) => [((lon - LON[0]) / (LON[1] - LON[0])) * W, ((LAT[1] - lat) / (LAT[1] - LAT[0])) * (H - 10) + 5];
   const inside = (x, y, rings) => { let c = false; rings.forEach((r) => { for (let i = 0, j = r.length - 1; i < r.length; j = i++) { const [xi, yi] = r[i], [xj, yj] = r[j]; if (((yi > y) !== (yj > y)) && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi) c = !c; } }); return c; };
+  const SVGNS = "http://www.w3.org/2000/svg";
+  let arcLayer = null;
   async function drawMap() {
     if (!map) return;
     try {
@@ -224,30 +286,52 @@
       const dots = [];
       for (let lat = LAT[1]; lat >= LAT[0]; lat -= 0.2) for (let lon = LON[0]; lon <= LON[1]; lon += 0.2) if (inside(lon, lat, rings)) { const [x, y] = px(lon, lat); dots.push(`<circle class="d" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="2.4"/>`); }
       const cities = CITIES.map(([n, lo, la], k) => { const [x, y] = px(lo, la); return `<circle class="ring" data-ring="${k}" cx="${x}" cy="${y}" r="4" opacity="0"/><circle class="city" cx="${x}" cy="${y}" r="3.6"/>`; }).join("");
-      map.innerHTML = dots.join("") + cities;
+      const defs = `<defs><linearGradient id="arcg" gradientUnits="objectBoundingBox" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8fe3b8" stop-opacity="0"/><stop offset=".5" stop-color="#8fe3b8" stop-opacity=".9"/><stop offset="1" stop-color="#c9ccff" stop-opacity=".9"/></linearGradient></defs>`;
+      map.innerHTML = defs + dots.join("") + `<g data-arcs></g>` + cities;
+      arcLayer = $("[data-arcs]", map);
       if (!reduce && window.anime) {
         anime({ targets: map.querySelectorAll(".d"), opacity: [0, 1], duration: 900, delay: anime.stagger(3, { from: "center" }), easing: "easeOutQuad" });
-        startPulses();
-      }
+        startArcs();
+      } else staticArcs();
     } catch (e) { map.closest(".deep__map").hidden = true; }
   }
   const countEl2 = $("[data-deep-count]"), nEl = $("[data-deep-n]");
-  let deepTotal = 184212450, deepN = 41280, pulseTimer = 0, mapVisible = false;
-  const KINDS = ["Card", "Transfer", "NQR", "POS", "School fees", "Levy"];
-  function pulse() {
-    if (!mapVisible || document.hidden) return;
-    const k = Math.floor(Math.random() * CITIES.length), ring = map.querySelector(`[data-ring="${k}"]`);
-    const amt = [3200, 12500, 18750, 45000, 75000, 250000, 120000][Math.floor(Math.random() * 7)];
-    anime({ targets: ring, r: [4, 26], opacity: [0.9, 0], duration: 1600, easing: "easeOutQuad" });
+  let deepTotal = 184212450, deepN = 41280, arcTimer = 0, mapVisible = false, inFlight = 0, tipTurn = 0;
+  const AMTS = [3200, 12500, 18750, 45000, 75000, 250000, 120000, 8400];
+  const arcD = (a, b) => {
+    const [x1, y1] = px(CITIES[a][1], CITIES[a][2]), [x2, y2] = px(CITIES[b][1], CITIES[b][2]);
+    const mx = (x1 + x2) / 2, my = (y1 + y2) / 2, d = Math.hypot(x2 - x1, y2 - y1);
+    return { d: `M${x1} ${y1} Q${mx} ${my - Math.max(40, d * 0.45)} ${x2} ${y2}`, end: [x2, y2] };
+  };
+  function fly() {
+    if (!mapVisible || document.hidden || !arcLayer || inFlight >= 5) return;
+    let a = Math.floor(Math.random() * CITIES.length), b = Math.floor(Math.random() * CITIES.length);
+    if (a === b) b = (b + 5) % CITIES.length;
+    const { d } = arcD(a, b), amt = AMTS[Math.floor(Math.random() * AMTS.length)];
+    const path = document.createElementNS(SVGNS, "path"); path.setAttribute("d", d); path.setAttribute("class", "arc"); arcLayer.appendChild(path);
+    const runner = document.createElementNS(SVGNS, "circle"); runner.setAttribute("r", 3); runner.setAttribute("class", "runner"); arcLayer.appendChild(runner);
+    const len = path.getTotalLength(); path.style.strokeDasharray = len; path.style.strokeDashoffset = len;
+    inFlight++;
+    const o = { t: 0 };
+    anime({ targets: o, t: 1, duration: 1500 + Math.random() * 600, easing: "easeInOutSine",
+      update: () => { path.style.strokeDashoffset = len * (1 - o.t); const pt = path.getPointAtLength(o.t * len); runner.setAttribute("cx", pt.x); runner.setAttribute("cy", pt.y); },
+      complete: () => {
+        runner.remove(); inFlight--;
+        anime({ targets: map.querySelector(`[data-ring="${b}"]`), r: [4, 22], opacity: [0.9, 0], duration: 1300, easing: "easeOutQuad" });
+        anime({ targets: path, opacity: [1, 0], duration: 900, easing: "easeOutQuad", complete: () => path.remove() });
+        deepTotal += amt; deepN += 1; countEl2.textContent = short(deepTotal); nEl.textContent = deepN.toLocaleString("en-NG");
+        if (++tipTurn % 3 === 0) showTip(b, `${short(amt)}`, `${CITIES[a][0]} → ${CITIES[b][0]}`);
+      } });
+  }
+  function showTip(k, amt, label) {
     const box = map.getBoundingClientRect(), fig = map.parentElement.getBoundingClientRect();
     const [x, y] = px(CITIES[k][1], CITIES[k][2]);
     tip.style.left = (box.left - fig.left + (x / W) * box.width) + "px"; tip.style.top = (box.top - fig.top + (y / H) * box.height) + "px";
-    tip.querySelector("b").textContent = short(amt); tip.querySelector("span").textContent = `${CITIES[k][0]} · ${KINDS[Math.floor(Math.random() * KINDS.length)]}`;
-    anime({ targets: tip, opacity: [0, 1, 1, 0], translateY: [6, 0, 0, -4], duration: 1500, easing: "easeOutQuad" });
-    deepTotal += amt; deepN += 1;
-    countEl2.textContent = short(deepTotal); nEl.textContent = deepN.toLocaleString("en-NG");
+    tip.querySelector("b").textContent = amt; tip.querySelector("span").textContent = label;
+    anime({ targets: tip, opacity: [0, 1, 1, 0], translateY: [6, 0, 0, -4], duration: 1800, easing: "easeOutQuad" });
   }
-  function startPulses() { clearInterval(pulseTimer); pulseTimer = setInterval(pulse, 1700); }
+  function staticArcs() { [[3, 0], [2, 4], [9, 5], [11, 2]].forEach(([a, b]) => { const p = document.createElementNS(SVGNS, "path"); p.setAttribute("d", arcD(a, b).d); p.setAttribute("class", "arc"); arcLayer.appendChild(p); }); }
+  function startArcs() { clearInterval(arcTimer); fly(); arcTimer = setInterval(fly, 650); }
   if (countEl2) {
     countEl2.textContent = short(deepTotal); nEl.textContent = deepN.toLocaleString("en-NG");
     const seen = (v) => { mapVisible = v; if (v && !map.childElementCount) drawMap(); };

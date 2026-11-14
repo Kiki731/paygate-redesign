@@ -36,7 +36,7 @@
     .split__photo { aspect-ratio: 4 / 3; }
   }
 </style>
-<link rel="stylesheet" href="_alive.css?v=16">
+<link rel="stylesheet" href="_alive.css?v=20">
 </head>
 <body class="pg-home pg-alive">
 <a class="btn btn--primary" href="#main" style="position:absolute;left:-9999px;top:8px;z-index:99" onfocus="this.style.left='8px'" onblur="this.style.left='-9999px'">Skip to content</a>
@@ -91,7 +91,7 @@
     <div class="wrap split">
       <div class="split__copy">
         <h1 id="hero-h" data-words>Get paid every way Nigeria pays. <span class="tt-mute">Online and at the counter.</span></h1>
-        <p class="lede" data-rise>Cards, transfers, NQR and POS terminals through one gateway. See every payment the moment it lands, and settle it without chasing anyone.</p>
+        <p class="lede" data-rise>Collect by card, transfer, NQR and POS through one gateway. Every payment is confirmed in seconds, settled to your account and reconciled for you.</p>
         <div class="hero__ctas" data-rise>
           <a class="btn btn--primary" href="#developers" data-press>Start integrating <i data-lucide="arrow-right"></i></a>
           <a class="btn btn--secondary" href="#contact" data-press>Talk to sales</a>
@@ -176,66 +176,8 @@
     </div>
   </section>
 
-  <!-- 2b. SEE YOURSELF -->
-  <section class="sec" id="yours" aria-labelledby="yours-h" style="padding-bottom:clamp(40px,6vw,72px)">
-    <div class="wrap">
-      <div class="icard you" data-you>
-        <div class="haze haze--band" data-haze></div>
-        <div class="you__form">
-          <h2 id="yours-h" class="h1" data-words>See PayGate <span class="tt-mute">with your business in it.</span></h2>
-          <p class="lede">Type your business name and pick what you do. The checkout, dashboard and the rest of this page will use it.</p>
-          <form class="stack" style="--stack:var(--s-5)" data-you-form novalidate>
-            <div class="field"><label for="you-name">Business name</label><input class="input" id="you-name" maxlength="40" autocomplete="organization" placeholder="Adaeze Fabrics" data-you-name></div>
-            <fieldset class="you__types"><legend class="small">What kind of business?</legend>
-              <label><input type="radio" name="you-type" value="shop" checked><i data-lucide="store"></i>Shop or SME</label>
-              <label><input type="radio" name="you-type" value="hospitality"><i data-lucide="utensils"></i>Restaurant or hotel</label>
-              <label><input type="radio" name="you-type" value="school"><i data-lucide="graduation-cap"></i>School or university</label>
-              <label><input type="radio" name="you-type" value="agency"><i data-lucide="landmark"></i>Government or MDA</label>
-              <label><input type="radio" name="you-type" value="enterprise"><i data-lucide="building-2"></i>Enterprise or platform</label>
-            </fieldset>
-            <div class="you__go"><a class="btn btn--primary" href="#day" data-press data-magnet>See your day on PayGate <i data-lucide="arrow-down"></i></a><button class="btn btn--ghost" type="button" data-you-clear>Start over</button></div>
-            <p class="small you__note"><i data-lucide="lock"></i>Stays in this browser. Nothing is sent anywhere.</p>
-          </form>
-        </div>
-        <div class="you__preview" aria-live="polite">
-          <div class="chat">
-            <div class="chat__top"><span class="chat__av" data-you-initials>AF</span><div><b data-you-label>Adaeze Fabrics</b><span>Business account</span></div></div>
-            <div class="chat__msg chat__msg--in">Good morning! How do I pay for the order?</div>
-            <div class="chat__msg chat__msg--out">
-              <span>Pay here, any card, transfer or NQR:</span>
-              <span class="paylink"><i data-lucide="link"></i><span><b data-you-label>Adaeze Fabrics</b><span class="num" data-you-link>pay.paygate.ng/adaeze-fabrics</span></span><b class="num" data-you-amount>₦45,000.00</b></span>
-            </div>
-            <div class="chat__msg chat__msg--in">Done ✓</div>
-          </div>
-          <div class="you__receipt" data-you-receipt><span class="dot"><i data-lucide="check"></i></span><div><b><span data-you-amount>₦45,000.00</span> received</b><span>to <span data-you-label>Adaeze Fabrics</span> · just now</span></div></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 3. STATEMENT · deep band with live map -->
-  <section class="wrap" aria-labelledby="deep-h" style="padding-top:clamp(24px,4vw,48px)">
-    <div class="panel panel--dark deep" data-deep>
-      <canvas class="pat pat--dev" data-pat="arrow" data-strength=".6" data-glow=".38" data-dark aria-hidden="true"></canvas>
-      <div class="haze haze--band" data-haze></div>
-      <div class="deep__copy stack" style="--stack:var(--s-5)">
-        <h2 id="deep-h" class="deep__q" data-scrub>Every naira your customers send should land where it belongs, on time, with a record you can trust.</h2>
-        <p>From a stall in Balogun to a state revenue service, that is the whole job of a payment gateway. It is the only job we do.</p>
-        <div class="deep__stats" aria-label="Demo figures">
-          <div><b class="num" data-deep-count>₦0</b><span>collected across Nigeria today</span></div>
-          <div><b class="num" data-deep-n>0</b><span>payments today</span></div>
-        </div>
-        <span class="demo-tag" style="color:rgba(240,242,255,.6)">Demo figures · for illustration</span>
-      </div>
-      <figure class="deep__map" aria-hidden="true">
-        <svg viewBox="0 0 600 500" data-map></svg>
-        <div class="maptip" data-maptip><b class="num">₦12,500</b><span>Kano · Transfer</span></div>
-      </figure>
-    </div>
-  </section>
-
   <!-- 4. RAILS -->
-  <section class="band band--mist" id="rails" aria-labelledby="rails-h">
+  <section class="sec" id="rails" aria-labelledby="rails-h">
     <div class="wrap">
       <div class="sec-head">
         <h2 id="rails-h" class="h1" data-words>One gateway. <span class="tt-mute">Every way your customers pay.</span></h2>
@@ -282,24 +224,31 @@
     </div>
   </section>
 
-  <!-- 4b. A DAY ON PAYGATE -->
-  <section class="story" id="day" aria-labelledby="day-h" data-story>
-    <div class="wrap story__in">
-      <div class="story__copy">
-        <p class="story__kick" data-story-kick>A day at <span data-you-label>Adaeze Fabrics</span></p>
-        <h2 id="day-h" class="h1">Your day, <span class="tt-mute">on PayGate.</span></h2>
-        <p class="story__clock num" data-story-clock aria-hidden="true">08:05</p>
-        <ol class="story__steps" data-story-steps></ol>
-      </div>
-      <div class="story__device" aria-hidden="true">
-        <div class="haze" data-haze></div>
-        <div class="phone">
-          <div class="phone__top"><span class="phone__av" data-you-initials>AF</span><div><b data-you-label>Adaeze Fabrics</b><span>PayGate dashboard</span></div><span class="live-dot"></span></div>
-          <div class="phone__total"><span class="small">Collected today</span><b class="num" data-story-total>₦0.00</b><span class="small"><span data-story-count>0</span> payments</span></div>
-          <div class="phone__bars" data-story-bars><i style="--w:0"></i><i style="--w:0"></i><i style="--w:0"></i><i style="--w:0"></i></div>
-          <ul class="phone__feed" data-story-feed></ul>
-        </div>
-      </div>
+  <!-- HOW A PAYMENT MOVES -->
+  <section class="band band--mist" id="how" aria-labelledby="how-h">
+    <div class="wrap">
+      <div class="sec-head"><h2 id="how-h" class="h1" data-words>From payment to settlement. <span class="tt-mute">Three steps, no chasing.</span></h2>
+        <p class="lede">Your customer pays, it’s confirmed in seconds, and the money is settled and reconciled for you.</p></div>
+      <ol class="how" data-how>
+        <li class="how__row">
+          <figure class="how__ph"><img src="assets/images/web/pay-phone-pos.jpg" alt="A customer taps her phone on a card terminal to pay" loading="lazy" width="1800" height="1200">
+            <div class="chip how__chip" aria-hidden="true"><span class="dot dot--wait"><i data-lucide="loader"></i></span><span><strong>₦45,000 · authorising</strong><span>Contactless · just now</span></span></div></figure>
+          <div class="how__tx"><span class="how__n num">01 · Collect</span><h3>Your customer pays, any way they like</h3><p>On your website, by bank transfer, by scanning your NQR code, with a payment link on WhatsApp, or with a tap on an Upperlink terminal. One gateway takes them all.</p>
+            <ul class="how__pts"><li><i data-lucide="credit-card"></i>Verve, Mastercard, Visa</li><li><i data-lucide="landmark"></i>Bank transfer</li><li><i data-lucide="qr-code"></i>NQR</li><li><i data-lucide="smartphone-nfc"></i>POS</li><li><i data-lucide="link"></i>Payment links</li></ul></div>
+        </li>
+        <li class="how__row">
+          <figure class="how__ph"><img src="assets/images/web/security-ops.jpg" alt="An analyst monitoring live payment systems" loading="lazy" width="1800" height="2700" style="object-position:50% 30%">
+            <div class="chip how__chip" aria-hidden="true"><span class="dot"><i data-lucide="zap"></i></span><span><strong>Confirmed in seconds</strong><span>3-D Secure passed · bank approved</span></span></div></figure>
+          <div class="how__tx"><span class="how__n num">02 · Confirm</span><h3>Confirmed in seconds, not at the end of the day</h3><p>3-D Secure, fraud screening and bank approval happen while your customer is still on the page. Our direct connection to NIBSS means a transfer is confirmed the moment it lands, so you can hand over the goods with confidence.</p>
+            <ul class="how__pts"><li><i data-lucide="zap"></i>Instant confirmation</li><li><i data-lucide="network"></i>Direct NIBSS connection</li><li><i data-lucide="shield-check"></i>3-D Secure and fraud checks</li></ul></div>
+        </li>
+        <li class="how__row">
+          <figure class="how__ph"><img src="assets/images/web/bookkeeper-phone.jpg" alt="A business owner checks her settlement on her phone" loading="lazy" width="1800" height="1200">
+            <div class="chip how__chip" aria-hidden="true"><span class="dot"><i data-lucide="banknote"></i></span><span><strong>₦4,812,350 settled</strong><span>1,284 payments reconciled</span></span></div></figure>
+          <div class="how__tx"><span class="how__n num">03 · Settle and reconcile</span><h3>Settled to your account, reconciled for you</h3><p>Money settles to the account you nominate, shared by your split rules if you set them. Every payment is matched to its reference, so reconciliation is done before your finance team opens a spreadsheet.</p>
+            <ul class="how__pts"><li><i data-lucide="banknote"></i>Automatic settlement</li><li><i data-lucide="split"></i>Split settlements</li><li><i data-lucide="list-checks"></i>Reconciliation reports</li><li><i data-lucide="file-down"></i>Exports for auditors</li><li><i data-lucide="clock"></i>Settlement timeline <span class="pending">to confirm</span></li></ul></div>
+        </li>
+      </ol>
     </div>
   </section>
 
@@ -331,11 +280,6 @@
     </div>
   </section>
 
-  <!-- 5b. TICKER -->
-  <section class="ticker" aria-label="Recent payments, demo">
-    <div class="ticker__track" data-ticker></div>
-  </section>
-
   <!-- 6. DASHBOARD TOUR -->
   <section class="sec" id="tour" aria-labelledby="tour-h">
     <div class="wrap">
@@ -348,7 +292,7 @@
           <button role="tab" aria-selected="true" aria-controls="v-live" id="tt-live"><b><i data-lucide="activity"></i>Real-time visibility</b><span>See successful, pending, failed and declined payments the moment they happen.</span><span class="bar"><i></i></span></button>
           <button role="tab" aria-selected="false" aria-controls="v-split" id="tt-split"><b><i data-lucide="split"></i>Split settlements</b><span>Split payouts by amount or percentage, then settle each share automatically.</span><span class="bar"><i></i></span></button>
           <button role="tab" aria-selected="false" aria-controls="v-team" id="tt-team"><b><i data-lucide="users"></i>Team roles</b><span>Give each person only the access their job needs.</span><span class="bar"><i></i></span></button>
-          <button role="tab" aria-selected="false" aria-controls="v-rec" id="tt-rec"><b><i data-lucide="file-down"></i>Records and exports</b><span>Download payment history with status and amounts for reconciliation.</span><span class="bar"><i></i></span></button>
+          <button role="tab" aria-selected="false" aria-controls="v-rec" id="tt-rec"><b><i data-lucide="file-down"></i>Reconciliation</b><span>Every payment matched to its reference. Export reconciled records in one click.</span><span class="bar"><i></i></span></button>
           <button role="tab" aria-selected="false" aria-controls="v-audit" id="tt-audit"><b><i data-lucide="scroll-text"></i>Audit trail</b><span>Every system and user action recorded, so audits stay simple.</span><span class="bar"><i></i></span></button>
         </div>
         <div class="icard tour__view">
@@ -391,7 +335,7 @@
             </div>
 
             <div class="dash__pane" role="tabpanel" id="v-rec" aria-labelledby="tt-rec" hidden>
-              <p class="dash__title">Download records</p><p class="small">For reconciliation and your accountant</p>
+              <p class="dash__title">Reconciliation</p><p class="small">1,284 payments matched to their references · ready for your accountant</p>
               <div class="export">
                 <div class="field"><label for="rng">Date range</label><select class="select" id="rng"><option>1 Oct – 31 Oct 2026</option><option>This week</option><option>Today</option></select></div>
                 <div class="opts"><div class="opt sel"><b>CSV</b><span class="small">For spreadsheets</span></div><div class="opt"><b>PDF</b><span class="small">For records</span></div></div>
@@ -414,18 +358,108 @@
     </div>
   </section>
 
-  <!-- 6b. SPLIT CALCULATOR -->
+  <!-- NIGERIA MAP PANEL -->
+  <section class="sec sec--panel" aria-labelledby="deep-h">
+    <div class="wrap">
+      <div class="panel panel--dark deep" data-deep>
+        <canvas class="pat pat--dev" data-pat="arrow" data-strength=".6" data-glow=".38" data-dark aria-hidden="true"></canvas>
+        <div class="haze haze--band" data-haze></div>
+        <div class="deep__copy stack" style="--stack:var(--s-5)">
+          <h2 id="deep-h" class="deep__q" data-scrub>Every naira your customers send should land where it belongs, on time, with a record you can trust.</h2>
+          <p>From a stall in Balogun to a state revenue service, that is the whole job of a payment gateway. It is the only job we do.</p>
+          <div class="deep__stats" aria-label="Demo figures">
+            <div><b class="num" data-deep-count>₦0</b><span>collected across Nigeria today</span></div>
+            <div><b class="num" data-deep-n>0</b><span>payments today</span></div>
+          </div>
+          <span class="demo-tag" style="color:rgba(240,242,255,.6)">Demo figures · for illustration</span>
+        </div>
+        <figure class="deep__map" aria-hidden="true">
+          <svg viewBox="0 0 600 500" data-map></svg>
+          <div class="maptip" data-maptip><b class="num">₦12,500</b><span>Kano → Lagos</span></div>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEE YOURSELF -->
+  <section class="sec sec--you" id="yours" aria-labelledby="yours-h">
+    <div class="wrap">
+      <div class="icard you" data-you>
+        <div class="haze haze--band" data-haze></div>
+        <div class="you__form">
+          <h2 id="yours-h" class="h1" data-words>See PayGate <span class="tt-mute">with your business in it.</span></h2>
+          <p class="lede">Type your business name and pick what you do. The checkout, dashboard and the rest of this page will use it.</p>
+          <form class="stack" style="--stack:var(--s-5)" data-you-form novalidate>
+            <div class="field"><label for="you-name">Business name</label><input class="input" id="you-name" maxlength="40" autocomplete="organization" placeholder="Adaeze Fabrics" data-you-name></div>
+            <fieldset class="you__types"><legend class="small">What kind of business?</legend>
+              <label><input type="radio" name="you-type" value="shop" checked><i data-lucide="store"></i>Shop or SME</label>
+              <label><input type="radio" name="you-type" value="hospitality"><i data-lucide="utensils"></i>Restaurant or hotel</label>
+              <label><input type="radio" name="you-type" value="school"><i data-lucide="graduation-cap"></i>School or university</label>
+              <label><input type="radio" name="you-type" value="agency"><i data-lucide="landmark"></i>Government or MDA</label>
+              <label><input type="radio" name="you-type" value="enterprise"><i data-lucide="building-2"></i>Enterprise or platform</label>
+            </fieldset>
+            <div class="you__go"><a class="btn btn--primary" href="#day" data-press data-magnet>See your day on PayGate <i data-lucide="arrow-down"></i></a><button class="btn btn--ghost" type="button" data-you-clear>Start over</button></div>
+            <p class="small you__note"><i data-lucide="lock"></i>Stays in this browser. Nothing is sent anywhere.</p>
+          </form>
+        </div>
+        <div class="you__preview" aria-live="polite">
+          <div class="chat">
+            <div class="chat__top"><span class="chat__av" data-you-initials>AF</span><div><b data-you-label>Adaeze Fabrics</b><span>Business account</span></div></div>
+            <div class="chat__msg chat__msg--in">Good morning! How do I pay for the order?</div>
+            <div class="chat__msg chat__msg--out">
+              <span>Pay here, any card, transfer or NQR:</span>
+              <span class="paylink"><i data-lucide="link"></i><span><b data-you-label>Adaeze Fabrics</b><span class="num" data-you-link>pay.paygate.ng/adaeze-fabrics</span></span><b class="num" data-you-amount>₦45,000.00</b></span>
+            </div>
+            <div class="chat__msg chat__msg--in">Done ✓</div>
+          </div>
+          <div class="you__receipt" data-you-receipt><span class="dot"><i data-lucide="check"></i></span><div><b><span data-you-amount>₦45,000.00</span> received</b><span>to <span data-you-label>Adaeze Fabrics</span> · just now</span></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- YOUR DAY ON PAYGATE -->
+  <section class="story" id="day" aria-labelledby="day-h" data-story>
+    <div class="wrap story__in">
+      <div class="story__copy">
+        <p class="story__kick" data-story-kick>A day at <span data-you-label>Adaeze Fabrics</span></p>
+        <h2 id="day-h" class="h1">Your day, <span class="tt-mute">on PayGate.</span></h2>
+        <p class="story__clock num" data-story-clock aria-hidden="true">08:05</p>
+        <ol class="story__steps" data-story-steps></ol>
+      </div>
+      <div class="story__device" aria-hidden="true">
+        <div class="haze" data-haze></div>
+        <div class="phone">
+          <div class="phone__top"><span class="phone__av" data-you-initials>AF</span><div><b data-you-label>Adaeze Fabrics</b><span>PayGate dashboard</span></div><span class="live-dot"></span></div>
+          <div class="phone__total"><span class="small">Collected today</span><b class="num" data-story-total>₦0.00</b><span class="small"><span data-story-count>0</span> payments</span></div>
+          <div class="phone__bars" data-story-bars><i style="--w:0"></i><i style="--w:0"></i><i style="--w:0"></i><i style="--w:0"></i></div>
+          <ul class="phone__feed" data-story-feed></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPLIT SETTLEMENTS -->
   <section class="band band--mist" id="split" aria-labelledby="split-h">
     <div class="wrap splitc">
-      <div class="stack" style="--stack:var(--s-5)">
+      <div class="splitc__copy">
         <h2 id="split-h" class="h1" data-words>Split it before <span class="tt-mute">it even lands.</span></h2>
-        <p class="lede">Set the rule once. Every payment is shared the moment it arrives, and each share settles to its own account. Try it.</p>
-        <p class="small">Demo only. Real rules are set in your dashboard.</p>
+        <p class="lede">Set the rule once. Every payment is shared the moment it arrives, and each share settles to its own account.</p>
+        <figure class="splitc__ph"><img src="assets/images/web/revenue-review.jpg" alt="Two colleagues reviewing revenue reports" loading="lazy" width="1800" height="1012"></figure>
       </div>
-      <div class="icard icard--raised splitc__card" data-split>
-        <div class="field"><label for="split-amt">Each payment</label><div class="splitc__amt"><span>₦</span><input class="input num" id="split-amt" inputmode="numeric" value="250,000" data-split-amt></div></div>
-        <div class="splitc__rows" data-split-rows></div>
-        <div class="splitc__sum"><span>Shared automatically, every time</span><b class="num" data-split-total>₦250,000.00</b></div>
+      <div class="icard icard--raised flow" data-flow>
+        <div class="flow__top">
+          <div class="flow__presets seg" role="group" aria-label="Example rules" data-flow-presets></div>
+          <button class="btn btn--primary btn--sm" type="button" data-flow-send data-press><i data-lucide="send"></i>Send a payment</button>
+        </div>
+        <div class="flow__src"><span class="small">Each payment</span><b class="num" data-flow-amt>₦250,000.00</b></div>
+        <svg class="flow__svg" viewBox="0 0 600 150" aria-hidden="true" data-flow-svg></svg>
+        <div class="flow__accts" data-flow-accts></div>
+        <div class="flow__bar" data-flow-bar>
+          <span class="flow__seg" data-seg="0"></span><span class="flow__seg" data-seg="1"></span><span class="flow__seg" data-seg="2"></span>
+          <span class="flow__handle" role="slider" tabindex="0" data-h="0"></span><span class="flow__handle" role="slider" tabindex="0" data-h="1"></span>
+        </div>
+        <p class="small flow__hint">Drag the handles to change the split. Demo only: real rules are set in your dashboard.</p>
       </div>
     </div>
   </section>
@@ -458,7 +492,7 @@
   </section>
 
   <!-- 8. TRUST -->
-  <section class="sec" id="trust" aria-labelledby="trust-h" style="padding-top:0">
+  <section class="sec" id="trust" aria-labelledby="trust-h">
     <div class="wrap trustg">
       <div class="stack" style="--stack:var(--s-5)">
         <h2 id="trust-h" class="h1" data-words>Licensed, audited, <span class="tt-mute">and said in plain words.</span></h2>
@@ -530,8 +564,8 @@ $payment = $paygate->payments->create([
   <!-- 10. ONBOARDING -->
   <section class="band band--mist" aria-labelledby="go-h">
     <div class="wrap">
-      <div class="sec-head"><h2 id="go-h" class="h1" data-words>Go live in three steps</h2>
-        <p class="lede">Complete onboarding, submit your KYC documents and start collecting payments within days.</p></div>
+      <div class="go-head"><div class="sec-head" style="margin-bottom:0"><h2 id="go-h" class="h1" data-words>Go live in three steps</h2>
+        <p class="lede">Complete onboarding, submit your KYC documents and start collecting payments within days.</p><a class="btn btn--primary" href="signup.html" data-press style="justify-self:start">Create your account</a></div><figure class="go-ph"><img src="assets/images/web/signup-desk.jpg" alt="A business owner setting up payments at her desk" loading="lazy" width="1800" height="2700"></figure></div>
       <div class="steps">
         <div class="icard step"><span class="step__n">1</span><h3>Create your account</h3><p>Sign up, complete KYC securely and get access to your merchant dashboard.</p></div>
         <div class="icard step"><span class="step__n">2</span><h3>Choose your integration</h3><p>Share a hosted checkout link, add our API to your platform, or request POS terminals.</p></div>
@@ -629,10 +663,10 @@ $payment = $paygate->payments->create([
 <script src="_signature.js?v=13"></script>
 <script src="_checkout-film.js?v=13"></script>
 <script src="_pattern.js?v=13"></script>
-<script src="_home.js?v=13"></script>
+<script src="_home.js?v=20"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
-<script src="_alive.js?v=14"></script>
+<script src="_alive.js?v=20"></script>
 <script src="_review.js?v=13"></script>
 </body>
 </html>
