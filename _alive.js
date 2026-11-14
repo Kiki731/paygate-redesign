@@ -18,7 +18,7 @@
         { t: "08:05", title: "An order paid online", text: "Chiamaka pays for two yards of ankara on your website. You see it before she closes the tab.", ch: "card", who: "Chiamaka O.", amt: 45000, n: 1 },
         { t: "12:30", title: "Walk-ins scan your NQR", text: "Customers at the counter scan one code with any bank app. Twelve of them by lunch.", ch: "nqr", who: "12 NQR payments", amt: 86400, n: 12 },
         { t: "15:10", title: "A tap on your Upperlink terminal", text: "A regular taps her card on your POS. Same dashboard, same record.", ch: "pos", who: "Bimpe A.", amt: 18750, n: 1 },
-        { t: "18:00", title: "Settled, without chasing", text: "Today’s payments settle to your bank account, each with its own record.", ch: "settle" },
+        { t: "18:00", title: "Reconciled, settled tomorrow", text: "Every payment is matched to its reference. The total settles to your bank the next working day (T+1), with a breakdown of amounts and fees.", ch: "settle" },
       ] },
     hospitality: { name: "Ofada Grill & Suites", place: "Lekki, Lagos", amt: 18500, bank: "your bank ••4412",
       split: [["Restaurant account", 85], ["Delivery partner", 10], ["Staff tips"]],
@@ -26,7 +26,7 @@
         { t: "09:15", title: "An event deposit by transfer", text: "A client pays the deposit for Saturday’s party into the account on their invoice.", ch: "transfer", who: "Kemi L.", amt: 350000, n: 1 },
         { t: "13:00", title: "Lunch rush, paid by NQR", text: "Guests scan the code on the table. Nobody waits for change.", ch: "nqr", who: "38 NQR payments", amt: 247000, n: 38 },
         { t: "20:30", title: "Dinner and rooms on POS", text: "Card payments at reception and the bar land in the same place.", ch: "pos", who: "21 POS payments", amt: 612500, n: 21 },
-        { t: "23:00", title: "The night audit is already done", text: "Every room, table and deposit is reconciled before you close.", ch: "settle" },
+        { t: "23:00", title: "The night audit is already done", text: "Every room, table and deposit is reconciled before you close, and settles to your bank T+1.", ch: "settle" },
       ] },
     school: { name: "Crestfield University", place: "Ibadan, Oyo", amt: 250000, bank: "the university account ••4412",
       split: [["University account", 70], ["Faculty account", 20], ["Hostel account"]],
@@ -34,7 +34,7 @@
         { t: "08:00", title: "Fees open for 3,200 students", text: "Each parent gets a payment link by SMS and email, with the student’s ID already on it.", ch: "card", who: "214 fee payments", amt: 53500000, n: 214 },
         { t: "11:30", title: "Transfers matched to each student", text: "Every student has their own account number, so transfers match themselves.", ch: "transfer", who: "388 transfers", amt: 97000000, n: 388 },
         { t: "14:00", title: "Split the moment it lands", text: "Each fee is shared: 70% to the university, 20% to the faculty, 10% to the hostel.", ch: "split" },
-        { t: "18:00", title: "The bursary sees every naira", text: "602 of 3,200 students paid today. Export the list for the auditors in one click.", ch: "settle" },
+        { t: "18:00", title: "The bursary sees every naira", text: "602 of 3,200 students paid today, all reconciled. Settlement reaches each account T+1, and the list exports for the auditors in one click.", ch: "settle" },
       ] },
     agency: { name: "State Revenue Service", place: "Alausa, Ikeja", amt: 75000, bank: "the treasury account ••4412",
       split: [["State treasury", 80], ["Local government", 15], ["Collection agent"]],
@@ -42,7 +42,7 @@
         { t: "07:30", title: "Levies paid online", text: "Businesses pay their annual levy on the agency website, by card or transfer.", ch: "card", who: "1,120 levy payments", amt: 84000000, n: 1120 },
         { t: "10:00", title: "Bank-branch payments matched", text: "Taxpayers who pay at a bank are matched to their assessment by reference.", ch: "transfer", who: "640 transfers", amt: 152000000, n: 640 },
         { t: "14:00", title: "Collections at the revenue office", text: "Officers take card payments on Upperlink terminals at the desk.", ch: "pos", who: "96 POS payments", amt: 7200000, n: 96 },
-        { t: "17:00", title: "Settled, with an audit trail", text: "Every payment, reversal and user action is recorded for the auditors.", ch: "settle" },
+        { t: "17:00", title: "Reconciled, with an audit trail", text: "Every payment is matched to its assessment and settles to the treasury T+1. Fewer revenue leakages, and every user action is on record.", ch: "settle" },
       ] },
     enterprise: { name: "Zenvia Marketplace", place: "Victoria Island, Lagos", amt: 12900, bank: "312 settlement accounts",
       split: [["Seller", 85], ["Marketplace fee", 10], ["Delivery partner"]],
@@ -50,7 +50,7 @@
         { t: "00:00", title: "Checkout runs while you sleep", text: "Thousands of orders paid through the API overnight, by card and transfer.", ch: "card", who: "4,820 API payments", amt: 62178000, n: 4820 },
         { t: "09:00", title: "Every seller gets their share", text: "Sub-merchant codes route each order to the right seller automatically.", ch: "transfer", who: "1,310 transfers", amt: 38600000, n: 1310 },
         { t: "14:00", title: "One integration, every channel", text: "Cards, transfers, NQR and POS across every store, with no new code.", ch: "nqr", who: "2,240 NQR payments", amt: 21400000, n: 2240 },
-        { t: "18:00", title: "Settled to every account", text: "Sellers, partners and your platform fee each settle to their own account.", ch: "settle" },
+        { t: "18:00", title: "Reconciled for every account", text: "Sellers, partners and your platform fee are reconciled tonight and settle to their own accounts T+1.", ch: "settle" },
       ] },
   };
   const ICON = { card: "credit-card", transfer: "landmark", nqr: "qr-code", pos: "smartphone-nfc", settle: "banknote", split: "split" };
@@ -144,7 +144,7 @@
     day.slice(0, i + 1).forEach((d) => {
       if (d.amt) { total += d.amt; count += d.n; by[d.ch] += d.amt; items.push(`<li><span class="ico"><i data-lucide="${ICON[d.ch]}"></i></span><b>${d.who}</b><span class="num">${short(d.amt)}</span><span class="meta">${LABEL[d.ch]} · ${d.t}</span><span class="badge badge--ok">Successful</span></li>`); }
       else if (d.ch === "split") items.push(`<li><span class="ico"><i data-lucide="split"></i></span><b>${T.split.map((s) => s[0]).join(" · ")}</b><span class="num">3 shares</span><span class="meta">Split rule · ${d.t}</span><span class="badge badge--plain">Split</span></li>`);
-      else items.push(`<li class="is-settle"><span class="ico"><i data-lucide="banknote"></i></span><b>Settled to ${T.bank}</b><span class="num">${short(total)}</span><span class="meta">Settlement · ${d.t}</span><span class="badge badge--ok">Paid out</span></li>`);
+      else items.push(`<li class="is-settle"><span class="ico"><i data-lucide="banknote"></i></span><b>Settles T+1 to ${T.bank}</b><span class="num">${short(total)}</span><span class="meta">Reconciled · ${d.t}</span><span class="badge badge--ok">Reconciled</span></li>`);
     });
     feedEl.innerHTML = items.reverse().slice(0, 4).join(""); icons();
     const bars = $$("[data-story-bars] i"); ["card", "transfer", "nqr", "pos"].forEach((k, n) => bars[n].style.setProperty("--w", total ? (by[k] / total) * 100 : 0));

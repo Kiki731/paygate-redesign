@@ -90,7 +90,7 @@
     <div class="wrap split">
       <div class="split__copy">
         <h1 id="hero-h" data-words>Get paid every way Nigeria pays. <span class="tt-mute">Online and at the counter.</span></h1>
-        <p class="lede" data-rise>Collect by card, transfer, NQR and POS through one gateway. Every payment is confirmed in seconds, settled to your account and reconciled for you.</p>
+        <p class="lede" data-rise>Collect by card, transfer, NQR and POS through one gateway, in Naira or Dollars. Every payment is confirmed in real time, settled the next working day and reconciled for you.</p>
         <div class="hero__ctas" data-rise>
           <a class="btn btn--primary" href="#developers" data-press>Start integrating <i data-lucide="arrow-right"></i></a>
           <a class="btn btn--secondary" href="#contact" data-press>Talk to sales</a>
@@ -197,13 +197,13 @@
         <article class="rail" data-rail>
           <span class="rail__ico"><i data-lucide="credit-card"></i></span>
           <h3>Cards</h3>
-          <p>Verve, Mastercard and Visa on your website or app, with 3-D Secure and tokenised card storage.</p>
+          <p>Visa, Mastercard, Verve, American Express and UnionPay on your website or app, with 3-D Secure and tokenised card storage.</p>
           <div class="rail__ui"><div class="frag"><div class="row"><span class="minicard" aria-hidden="true"></span><span class="num">•••• 0921</span><span class="badge badge--ok">Approved</span></div></div></div>
         </article>
         <article class="rail" data-rail>
           <span class="rail__ico"><i data-lucide="landmark"></i></span>
           <h3>Bank transfer</h3>
-          <p>Give each customer an account to pay into. The payment is matched and confirmed for both of you.</p>
+          <p>Each order gets its own virtual account for the exact amount. The transfer is matched and confirmed for both of you.</p>
           <div class="rail__ui"><div class="frag"><div class="row"><span class="small">Pay into</span><span class="num">0123 456 789</span></div><div class="row"><span class="small">Status</span><span class="badge badge--wait" data-flip>Waiting</span></div></div></div>
         </article>
         <article class="rail" data-rail>
@@ -221,13 +221,13 @@
         <article class="rail" data-rail>
           <span class="rail__ico"><i data-lucide="banknote"></i></span>
           <h3>Naira and Dollars</h3>
-          <p>Collect in NGN or USD from local and international customers through the same checkout.</p>
+          <p>Collect in NGN or USD from local and international customers, and settle in either currency.</p>
           <div class="rail__ui"><div class="frag"><div class="row"><div class="seg" role="group" aria-label="Currency"><button type="button" aria-pressed="true" data-cur="ngn">NGN</button><button type="button" aria-pressed="false" data-cur="usd">USD</button></div><span class="num" data-cur-amt>₦250,000.00</span></div></div></div>
         </article>
         <article class="rail" id="rail-links" data-rail>
           <span class="rail__ico"><i data-lucide="link"></i></span>
-          <h3>Payment links</h3>
-          <p>No website yet? Send a link on WhatsApp or email and get paid on a hosted checkout.</p>
+          <h3>Payment links and pages</h3>
+          <p>No website yet? Create a product or payment page, one-time or subscription, and share its link on WhatsApp or email.</p>
           <div class="rail__ui"><div class="frag"><div class="row"><span class="num" style="font-size:.8125rem;overflow:hidden;text-overflow:ellipsis">pay.paygate.example/adaeze</span><button class="btn btn--secondary btn--sm" type="button" data-copy style="min-height:32px;padding:0 10px">Copy</button></div></div></div>
         </article>
       </div>
@@ -377,7 +377,7 @@
         <div class="secl">
           <div><i data-lucide="shield-check"></i>3-D Secure on card payments</div>
           <div><i data-lucide="shield-check"></i>Tokenised card data</div>
-          <div><i data-lucide="shield-check"></i>Fraud screening and risk controls</div>
+          <div><i data-lucide="shield-check"></i>Transaction limits and daily fraud monitoring</div><div><i data-lucide="shield-check"></i>Every merchant KYC-verified</div>
           <div><i data-lucide="shield-check"></i>Role-based access</div>
         </div>
       </div>
@@ -476,7 +476,7 @@ $payment = $paygate->payments->create([
         <details><summary>Who can use Upperlink PayGate?<span class="pm"><i data-lucide="plus"></i></span></summary><div class="ans">Registered companies, business names, schools and institutions, and government agencies and MDAs in Nigeria that need to collect payments online, at the counter, or both.</div></details>
         <details><summary>Can small businesses use PayGate?<span class="pm"><i data-lucide="plus"></i></span></summary><div class="ans">Yes. A business registered as a business name onboards with a shorter document list. Talk to us if you’re not sure which applies to you.</div></details>
         <details><summary>Can I add PayGate to my website or app?<span class="pm"><i data-lucide="plus"></i></span></summary><div class="ans">Yes. Use a hosted checkout or payment link with no code, or integrate our API for full control. Webhooks keep your system updated.</div></details>
-        <details><summary>How do I receive the money I collect?<span class="pm"><i data-lucide="plus"></i></span></summary><div class="ans">Settlements are paid into the bank account you nominate. With split settlements, each share goes to its own account. <span class="pending">settlement timeline to confirm</span></div></details>
+        <details><summary>How do I receive the money I collect?<span class="pm"><i data-lucide="plus"></i></span></summary><div class="ans">Settlements are paid on a T+1 basis (the next working day) into the bank account you nominate, or T+2 if you prefer. Each day you can download a breakdown of every amount and fee. With split settlements, each share goes to its own account.</div></details>
         <details><summary>A payment was successful but hasn’t been settled. What should I do?<span class="pm"><i data-lucide="plus"></i></span></summary><div class="ans">Check its settlement status in your dashboard, then contact support with the transaction reference and we’ll trace it.</div></details>
         <details><summary>My customer was debited but the payment failed. What happens?<span class="pm"><i data-lucide="plus"></i></span></summary><div class="ans">Share the transaction reference with support. Failed debits are reversed to the customer through their bank. <span class="pending">reversal timeline to confirm</span></div></details>
         <details><summary>Can I see my transaction history?<span class="pm"><i data-lucide="plus"></i></span></summary><div class="ans">Yes. Filter every payment by date, channel and status, and download records as CSV or PDF.</div></details>
@@ -493,9 +493,9 @@ $payment = $paygate->payments->create([
         <h2 id="ct-h" class="h1" data-words>Let’s get you paid. <span class="tt-mute">Talk to our team.</span></h2>
         <p class="lede">Tell us how you collect today. We’ll recommend the right setup and pricing for your business.</p>
         <div class="contact__alt">
-          <a href="mailto:sales@upperlink.com"><i data-lucide="mail"></i>sales@upperlink.com</a>
+          <a href="mailto:bd@upperlink.ng"><i data-lucide="mail"></i>bd@upperlink.ng</a>
           <a href="tel:+2348060449642"><i data-lucide="phone"></i>+234 806 0449 642</a>
-          <span><i data-lucide="map-pin"></i>ASSBIFI House, Alausa, Ikeja, Lagos</span>
+          <span><i data-lucide="map-pin"></i>ASSBIFI House, Plot 4 ASSBIFI Road, Central Business District, Alausa, Ikeja, Lagos</span>
         </div>
       </div>
       <form novalidate data-form>
