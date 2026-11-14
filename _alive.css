@@ -207,3 +207,69 @@
   .go-ph { aspect-ratio: 16 / 10; }
 }
 @media (max-width: 560px) { .acct { padding: 10px 6px; } .acct b { font-size: .75rem; } .acct .num { font-size: .875rem; } .flow__top { justify-content: center; } }
+
+/* ======== critique fixes (14 Nov) ======== */
+/* brand-blue text needs a lighter blue on dark surfaces (both the toggle and the system setting) */
+:root { --brand-text: #000bb8; }
+:root[data-theme="dark"] { --brand-text: #a9aeff; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --brand-text: #a9aeff; } }
+.how__n, .story__kick, .acct .pct, .flow__src b, .day__head .num, .deep__more { color: var(--brand-text) !important; }
+
+/* developers follows a band, so it needs its own top space */
+.pg-alive #developers { padding-top: clamp(72px, 10vw, 128px); }
+
+/* split presets wrap instead of being clipped on phones */
+.flow__presets { flex-wrap: wrap; }
+
+/* ---------- make it yours: strip under the hero ---------- */
+.mine { padding-block: clamp(20px, 3vw, 32px) 0; }
+.mine__bar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 10px 10px 10px 18px; border-radius: 16px; background: var(--surface-raised); box-shadow: 0 0 0 1px var(--line), var(--shadow-1); }
+.mine__lbl { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; color: var(--ink); margin-right: auto; }
+.mine__lbl svg { width: 18px; height: 18px; color: var(--brand-text); }
+.mine__bar .input, .mine__bar .select { min-height: 44px; height: 44px; width: auto; }
+.mine__bar .input { flex: 1 1 220px; max-width: 300px; }
+.mine__bar .select { flex: 0 1 220px; }
+.mine__bar .btn { min-height: 44px; }
+.mine__note { margin-top: 8px; padding-left: 18px; }
+@media (max-width: 720px) { .mine__lbl { width: 100%; } .mine__bar .input, .mine__bar .select { max-width: none; flex: 1 1 100%; } .mine__bar .btn { width: 100%; justify-content: center; } }
+
+/* ---------- proof panel ---------- */
+.deep__q { max-width: 16ch; }
+.deep__lic { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.deep__lic li { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 12px; align-items: start; }
+.deep__lic svg { width: 20px; height: 20px; color: #8fe3b8; margin-top: 2px; }
+.deep__lic b { display: block; color: #fff; font-weight: 600; }
+.deep__lic span { color: rgba(240, 242, 255, .7); font-size: .9375rem; }
+.deep__more { display: inline-flex; align-items: center; gap: 6px; font-weight: 500; text-decoration: none; color: #c9ccff !important; }
+.deep__more:hover { text-decoration: underline; }
+.deep__more svg { width: 16px; height: 16px; }
+.deep__map figcaption { margin-top: 8px; text-align: center; font-size: .8125rem; color: rgba(240, 242, 255, .66); }
+.deep__map figcaption b { color: #fff; font-weight: 600; }
+.deep__map .city.is-home { fill: #fff; r: 6; filter: drop-shadow(0 0 8px rgba(143, 227, 184, .9)); }
+
+/* ---------- personaliser with the day and the industry photo ---------- */
+.you { align-items: start; }
+.you__form > form { margin-top: 24px; }
+.day { margin-top: 26px; padding: 18px 20px; border-radius: 14px; background: var(--surface-raised); box-shadow: 0 0 0 1px var(--line); display: grid; gap: 6px; }
+.day__head { display: flex; align-items: baseline; gap: 12px; font-size: .875rem; color: var(--ink-3); }
+.day__head .num { font-size: 1.5rem; font-weight: 500; letter-spacing: -0.03em; }
+.day h3 { font-size: 1.25rem; letter-spacing: -0.015em; }
+.day p { color: var(--ink-2); font-size: .9375rem; min-height: 3em; }
+.day__steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; margin-top: 6px; }
+.day__steps button { all: unset; cursor: pointer; display: grid; gap: 6px; padding: 6px 4px; border-radius: 8px; text-align: center; font-size: .75rem; color: var(--ink-3); }
+.day__steps button i { display: block; height: 3px; border-radius: 3px; background: var(--line-strong); }
+.day__steps button.is-past i { background: var(--brand-text); opacity: .45; }
+.day__steps button[aria-pressed="true"] { color: var(--ink); font-weight: 600; }
+.day__steps button[aria-pressed="true"] i { background: var(--brand-text); }
+.day__steps button:hover { background: var(--mist); }
+.day__steps button:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.you__note { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 16px; }
+.you__visual { position: relative; padding-bottom: 40px; }
+.you__ph { margin: 0; border-radius: 20px; overflow: hidden; aspect-ratio: 4 / 3.4; box-shadow: var(--shadow-2); }
+.you__ph img { width: 100%; height: 100%; object-fit: cover; }
+.you__visual .phone { position: absolute; right: -8px; bottom: 0; width: min(300px, 70%); padding: 14px; gap: 10px; border-radius: 26px; }
+.you__visual .phone__top span.num { font-size: .6875rem; color: var(--ink-3); display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 170px; }
+.you__visual .phone__total b { font-size: 1.375rem; }
+.you__visual .phone__feed { min-height: 0; gap: 6px; }
+.you__visual .phone__feed li { padding: 8px; }
+@media (max-width: 980px) { .you__visual { padding-bottom: 0; display: grid; gap: 14px; } .you__visual .phone { position: relative; right: auto; width: 100%; } .you__ph { aspect-ratio: 16 / 10; } }

@@ -37,7 +37,7 @@
         { t: "18:00", title: "The bursary sees every naira", text: "602 of 3,200 students paid today, all reconciled. Settlement reaches each account T+1, and the list exports for the auditors in one click.", ch: "settle" },
       ] },
     agency: { name: "State Revenue Service", place: "Alausa, Ikeja", amt: 75000, bank: "the treasury account ••4412",
-      split: [["State treasury", 80], ["Local government", 15], ["Collection agent"]],
+      split: [["State treasury", 80], ["Local governments", 15], ["Agency operations"]],
       day: [
         { t: "07:30", title: "Levies paid online", text: "Businesses pay their annual levy on the agency website, by card or transfer.", ch: "card", who: "1,120 levy payments", amt: 84000000, n: 1120 },
         { t: "10:00", title: "Bank-branch payments matched", text: "Taxpayers who pay at a bank are matched to their assessment by reference.", ch: "transfer", who: "640 transfers", amt: 152000000, n: 640 },
@@ -66,14 +66,19 @@
   const slug = (n) => n.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/&/g, "and").replace(/[^a-z0-9\s-]/g, "").trim().replace(/\s+/g, "-").slice(0, 32) || "your-business";
 
   /* ---------- put their business on the page ---------- */
+  const PHOTO = { shop: ["market-traders.jpg", "Traders at a fruit stall"], hospitality: ["hotel-pos.jpg", "A hotel attendant holding a card terminal"], school: ["students-campus.jpg", "University students on campus"], agency: ["finance-team.jpg", "A finance team reviewing collections"], enterprise: ["enterprise-team.jpg", "A team working in a busy office"] };
+  const MAP_CITY = { shop: 0, hospitality: 0, school: 1, agency: 0, enterprise: 0 };
   const film = $("#film-hero");
   const heroAvatar = film?.querySelector(".checkout__avatar");
   const apply = () => {
     const T = TYPES[biz.type], name = nameOf(), custom = !!biz.name.trim() || biz.type !== "shop";
     $$("[data-you-label]").forEach((el) => (el.textContent = name));
     $$("[data-you-initials]").forEach((el) => (el.textContent = initials(name)));
-    $$("[data-you-link]").forEach((el) => (el.textContent = "pay.paygate.ng/" + slug(name)));
+    $$("[data-you-link]").forEach((el) => (el.textContent = "paygate.upperlink.ng/pay/" + slug(name)));
     $$("[data-you-amount]").forEach((el) => (el.textContent = naira(T.amt)));
+    const ph = $("[data-you-photo]");
+    if (ph && !ph.src.endsWith(PHOTO[biz.type][0])) { ph.src = "../assets/images/web/" + PHOTO[biz.type][0]; ph.alt = PHOTO[biz.type][1]; }
+    const mc = $("[data-map-city]"); if (mc) mc.textContent = CITIES_LBL[MAP_CITY[biz.type]];
     if (film) {
       film.dataset.amt = T.amt;
       film.querySelector(".checkout__head strong").textContent = name;
@@ -91,80 +96,86 @@
     const chip = $("[data-chip] strong"); if (chip && !chip.dataset.live) chip.textContent = short(T.amt) + " received";
     const crumb = $(".dash__top .crumb"); if (crumb) crumb.textContent = name + " · Dashboard";
     const rec = $(".terminal__receipt"); if (rec) { rec.querySelector("b").textContent = name.toUpperCase(); rec.querySelector("span").textContent = T.place; }
-    renderStory(); renderSplit();
+    renderStory(); renderSplit(); markHome();
   };
 
-  /* ---------- the form ---------- */
+  /* ---------- two forms, one visitor: the strip under the hero and the full section ---------- */
   const form = $("[data-you-form]"), nameIn = $("[data-you-name]");
+  const mine = $("[data-mine]"), mineName = $("[data-mine-name]"), mineType = $("[data-mine-type]");
+  let saveT = 0;
+  const sync = (from) => {
+    if (from !== "you" && nameIn) { nameIn.value = biz.name; const r = form.querySelector(`input[name="you-type"][value="${biz.type}"]`); if (r) r.checked = true; }
+    if (from !== "mine" && mine) { mineName.value = biz.name; mineType.value = biz.type; }
+    if (nameIn) nameIn.placeholder = TYPES[biz.type].name;
+  };
+  const changed = (from) => {
+    if (from === "you") biz = { name: nameIn.value.slice(0, 40), type: form.querySelector('input[name="you-type"]:checked').value };
+    if (from === "mine") biz = { name: mineName.value.slice(0, 40), type: mineType.value };
+    sync(from); apply(); clearTimeout(saveT); saveT = setTimeout(() => save(biz), 250);
+  };
   if (form) {
-    nameIn.value = biz.name;
-    const r = form.querySelector(`input[name="you-type"][value="${biz.type}"]`); if (r) r.checked = true;
-    let t = 0;
-    const changed = () => {
-      biz = { name: nameIn.value.slice(0, 40), type: form.querySelector('input[name="you-type"]:checked').value };
-      nameIn.placeholder = TYPES[biz.type].name;
-      apply(); clearTimeout(t); t = setTimeout(() => save(biz), 250);
-      if (G) G.fromTo("[data-you-receipt]", { y: 6, scale: 0.98 }, { y: 0, scale: 1, duration: 0.5, ease: "back.out(2.5)" });
-    };
-    nameIn.addEventListener("input", changed);
-    form.addEventListener("change", (e) => { if (e.target.name === "you-type") changed(); });
+    nameIn.addEventListener("input", () => changed("you"));
+    form.addEventListener("change", (e) => { if (e.target.name === "you-type") changed("you"); });
     form.addEventListener("submit", (e) => e.preventDefault());
-    $("[data-you-clear]").addEventListener("click", () => { forget(); nameIn.value = ""; form.querySelector('input[value="shop"]').checked = true; biz = { name: "", type: "shop" }; nameIn.placeholder = TYPES.shop.name; apply(); $(".welcome")?.remove(); nameIn.focus(); });
   }
+  if (mine) {
+    mineName.addEventListener("input", () => changed("mine"));
+    mineType.addEventListener("change", () => changed("mine"));
+    mine.addEventListener("submit", (e) => { e.preventDefault(); $("#yours")?.scrollIntoView({ behavior: reduce ? "auto" : "smooth" }); });
+  }
+  sync();
+  $("[data-you-clear]")?.addEventListener("click", () => { forget(); biz = { name: "", type: "shop" }; sync(); apply(); $(".welcome")?.remove(); nameIn?.focus(); });
 
   /* ---------- welcome back ---------- */
   if (stored && (stored.name || stored.type !== "shop")) {
     const w = document.createElement("p");
     w.className = "welcome";
-    w.innerHTML = `<span>Welcome back, <b></b>.</span><a href="#day">See your day on PayGate</a><button type="button">Not you?</button>`;
+    w.innerHTML = `<span>Welcome back, <b></b>.</span><a href="#yours">See your day on PayGate</a><button type="button">Not you?</button>`;
     w.querySelector("b").textContent = nameOf();
     w.querySelector("button").addEventListener("click", () => $("[data-you-clear]")?.click());
     $(".split__copy .hero__ctas, .hero__copy .hero__ctas")?.after(w);
     if (G) G.from(w, { opacity: 0, y: 8, duration: 0.6, delay: 1.2, ease: "expo.out" });
   }
 
-  /* ---------- a day on PayGate ---------- */
-  const story = $("[data-story]");
-  const stepsEl = $("[data-story-steps]"), feedEl = $("[data-story-feed]"), totalEl = $("[data-story-total]"), countEl = $("[data-story-count]"), clockEl = $("[data-story-clock]");
-  let cur = -1, shownTotal = 0, shownCount = 0;
-  const flat = () => !G || matchMedia("(max-width: 980px)").matches;
+  /* ---------- a day on PayGate: four moments, played in place (no pinned scroll) ---------- */
+  const dayBox = $(".day"), stepsBox = $("[data-day-steps]");
+  const feedEl = $("[data-story-feed]"), totalEl = $("[data-story-total]"), countEl = $("[data-story-count]");
+  let cur = -1, shownTotal = 0, shownCount = 0, dayTimer = 0, dayVisible = false, dayPaused = false;
   function renderStory() {
-    if (!story) return;
+    if (!dayBox) return;
     const day = TYPES[biz.type].day;
-    stepsEl.innerHTML = day.map((d) => `<li><b>${d.t} · ${d.title}</b><span>${d.text}</span></li>`).join("");
-    const keep = cur; cur = -1; setStep(flat() ? day.length - 1 : Math.max(0, keep), true);
+    stepsBox.innerHTML = day.map((d, k) => `<button type="button" aria-pressed="false" data-day="${k}"><span class="num">${d.t}</span><i></i></button>`).join("");
+    $$("[data-day]", stepsBox).forEach((b) => b.addEventListener("click", () => { dayPaused = true; setStep(+b.dataset.day); }));
+    const keep = Math.max(0, cur); cur = -1; setStep(reduce ? day.length - 1 : Math.min(keep, day.length - 1), true);
   }
   function setStep(i, instant) {
     const T = TYPES[biz.type], day = T.day;
     if (i === cur) return; const forward = i > cur; cur = i;
-    $$("li", stepsEl).forEach((li, k) => { li.classList.toggle("is-on", k === i); li.classList.toggle("is-past", k < i); });
-    clockEl.textContent = day[i].t;
+    $$("[data-day]", stepsBox).forEach((b, k) => { b.setAttribute("aria-pressed", String(k === i)); b.classList.toggle("is-past", k < i); });
+    $("[data-day-clock]").textContent = day[i].t; $("[data-day-title]").textContent = day[i].title; $("[data-day-text]").textContent = day[i].text;
     let total = 0, count = 0; const by = { card: 0, transfer: 0, nqr: 0, pos: 0 };
     const items = [];
     day.slice(0, i + 1).forEach((d) => {
-      if (d.amt) { total += d.amt; count += d.n; by[d.ch] += d.amt; items.push(`<li><span class="ico"><i data-lucide="${ICON[d.ch]}"></i></span><b>${d.who}</b><span class="num">${short(d.amt)}</span><span class="meta">${LABEL[d.ch]} · ${d.t}</span><span class="badge badge--ok">Successful</span></li>`); }
+      if (d.amt) { total += d.amt; count += d.n; by[d.ch] += d.amt; items.push(`<li><span class="ico"><i data-lucide="${ICON[d.ch]}"></i></span><b>${d.who}</b><span class="num">${short(d.amt)}</span><span class="meta">${LABEL[d.ch]} · ${d.t}</span><span class="badge badge--ok">${d.n > 1 ? "All successful" : "Successful"}</span></li>`); }
       else if (d.ch === "split") items.push(`<li><span class="ico"><i data-lucide="split"></i></span><b>${T.split.map((s) => s[0]).join(" · ")}</b><span class="num">3 shares</span><span class="meta">Split rule · ${d.t}</span><span class="badge badge--plain">Split</span></li>`);
       else items.push(`<li class="is-settle"><span class="ico"><i data-lucide="banknote"></i></span><b>Settles T+1 to ${T.bank}</b><span class="num">${short(total)}</span><span class="meta">Reconciled · ${d.t}</span><span class="badge badge--ok">Reconciled</span></li>`);
     });
-    feedEl.innerHTML = items.reverse().slice(0, 4).join(""); icons();
+    feedEl.innerHTML = items.reverse().slice(0, 3).join(""); icons();
     const bars = $$("[data-story-bars] i"); ["card", "transfer", "nqr", "pos"].forEach((k, n) => bars[n].style.setProperty("--w", total ? (by[k] / total) * 100 : 0));
     if (G && !instant) {
       if (forward) G.from(feedEl.firstElementChild, { y: -12, opacity: 0, scale: 0.97, duration: 0.5, ease: "back.out(2)" });
+      G.fromTo(["[data-day-title]", "[data-day-text]"], { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.4, stagger: 0.05, ease: "power3.out" });
       const o = { v: shownTotal, c: shownCount };
       G.to(o, { v: total, c: count, duration: 0.9, ease: "power2.out", overwrite: true, onUpdate: () => { totalEl.textContent = naira(o.v); countEl.textContent = Math.round(o.c).toLocaleString("en-NG"); } });
-      G.fromTo(clockEl, { opacity: 0.3, y: forward ? 8 : -8 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" });
     } else { totalEl.textContent = naira(total); countEl.textContent = count.toLocaleString("en-NG"); }
     shownTotal = total; shownCount = count;
   }
-  if (story) {
-    if (flat()) story.classList.add("story--flat");
+  if (dayBox) {
     renderStory();
-    if (!flat() && window.ScrollTrigger) {
-      const n = () => TYPES[biz.type].day.length;
-      ScrollTrigger.create({
-        trigger: story, start: () => `top top+=${$(".topnav")?.offsetHeight || 68}`, end: () => "+=" + n() * 520, pin: true, anticipatePin: 1,
-        onUpdate: (self) => setStep(Math.min(n() - 1, Math.floor(self.progress * n()))),
-      });
+    // plays through the day while it is on screen; a tap on a moment hands control to the visitor
+    if (G && window.ScrollTrigger) {
+      ScrollTrigger.create({ trigger: dayBox, start: "top 85%", end: "bottom 10%", onToggle: (s) => (dayVisible = s.isActive) });
+      dayTimer = setInterval(() => { if (dayVisible && !dayPaused && !document.hidden) setStep((cur + 1) % TYPES[biz.type].day.length); }, 3400);
     }
   }
 
@@ -268,13 +279,14 @@
     });
   }
 
-  /* ---------- the Nigeria map: payments travel city to city ---------- */
+  /* ---------- the Nigeria map: customers everywhere paying one business ---------- */
   const map = $("[data-map]"), tip = $("[data-maptip]");
   const CITIES = [["Lagos", 3.38, 6.52], ["Ibadan", 3.9, 7.38], ["Abuja", 7.49, 9.06], ["Kano", 8.52, 12.0], ["Port Harcourt", 7.01, 4.82], ["Enugu", 7.5, 6.44], ["Kaduna", 7.44, 10.52], ["Benin City", 5.62, 6.34], ["Jos", 8.89, 9.9], ["Maiduguri", 13.16, 11.85], ["Calabar", 8.33, 4.95], ["Sokoto", 5.24, 13.06], ["Ilorin", 4.55, 8.5], ["Owerri", 7.03, 5.48], ["Abeokuta", 3.35, 7.15], ["Yola", 12.46, 9.2]];
   const W = 600, H = 500, LON = [2.6, 14.8], LAT = [4.2, 13.95];
   const px = (lon, lat) => [((lon - LON[0]) / (LON[1] - LON[0])) * W, ((LAT[1] - lat) / (LAT[1] - LAT[0])) * (H - 10) + 5];
   const inside = (x, y, rings) => { let c = false; rings.forEach((r) => { for (let i = 0, j = r.length - 1; i < r.length; j = i++) { const [xi, yi] = r[i], [xj, yj] = r[j]; if (((yi > y) !== (yj > y)) && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi) c = !c; } }); return c; };
   const SVGNS = "http://www.w3.org/2000/svg";
+  const CITIES_LBL = CITIES.map((c) => c[0]);
   let arcLayer = null;
   async function drawMap() {
     if (!map) return;
@@ -288,25 +300,26 @@
       const cities = CITIES.map(([n, lo, la], k) => { const [x, y] = px(lo, la); return `<circle class="ring" data-ring="${k}" cx="${x}" cy="${y}" r="4" opacity="0"/><circle class="city" cx="${x}" cy="${y}" r="3.6"/>`; }).join("");
       const defs = `<defs><linearGradient id="arcg" gradientUnits="objectBoundingBox" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8fe3b8" stop-opacity="0"/><stop offset=".5" stop-color="#8fe3b8" stop-opacity=".9"/><stop offset="1" stop-color="#c9ccff" stop-opacity=".9"/></linearGradient></defs>`;
       map.innerHTML = defs + dots.join("") + `<g data-arcs></g>` + cities;
-      arcLayer = $("[data-arcs]", map);
+      arcLayer = $("[data-arcs]", map); markHome();
       if (!reduce && window.anime) {
         anime({ targets: map.querySelectorAll(".d"), opacity: [0, 1], duration: 900, delay: anime.stagger(3, { from: "center" }), easing: "easeOutQuad" });
         startArcs();
       } else staticArcs();
     } catch (e) { map.closest(".deep__map").hidden = true; }
   }
-  const countEl2 = $("[data-deep-count]"), nEl = $("[data-deep-n]");
-  let deepTotal = 184212450, deepN = 41280, arcTimer = 0, mapVisible = false, inFlight = 0, tipTurn = 0;
+  // every arc is a customer somewhere in Nigeria paying the visitor's business: payer -> merchant
+  let arcTimer = 0, mapVisible = false, inFlight = 0, tipTurn = 0;
   const AMTS = [3200, 12500, 18750, 45000, 75000, 250000, 120000, 8400];
+  const dest = () => MAP_CITY[biz.type];
   const arcD = (a, b) => {
     const [x1, y1] = px(CITIES[a][1], CITIES[a][2]), [x2, y2] = px(CITIES[b][1], CITIES[b][2]);
     const mx = (x1 + x2) / 2, my = (y1 + y2) / 2, d = Math.hypot(x2 - x1, y2 - y1);
     return { d: `M${x1} ${y1} Q${mx} ${my - Math.max(40, d * 0.45)} ${x2} ${y2}`, end: [x2, y2] };
   };
+  function markHome() { if (map) $$(".city", map).forEach((c, k) => c.classList.toggle("is-home", k === dest())); }
   function fly() {
     if (!mapVisible || document.hidden || !arcLayer || inFlight >= 5) return;
-    let a = Math.floor(Math.random() * CITIES.length), b = Math.floor(Math.random() * CITIES.length);
-    if (a === b) b = (b + 5) % CITIES.length;
+    const b = dest(); let a = Math.floor(Math.random() * CITIES.length); if (a === b) a = (a + 3) % CITIES.length;
     const { d } = arcD(a, b), amt = AMTS[Math.floor(Math.random() * AMTS.length)];
     const path = document.createElementNS(SVGNS, "path"); path.setAttribute("d", d); path.setAttribute("class", "arc"); arcLayer.appendChild(path);
     const runner = document.createElementNS(SVGNS, "circle"); runner.setAttribute("r", 3); runner.setAttribute("class", "runner"); arcLayer.appendChild(runner);
@@ -319,8 +332,7 @@
         runner.remove(); inFlight--;
         anime({ targets: map.querySelector(`[data-ring="${b}"]`), r: [4, 22], opacity: [0.9, 0], duration: 1300, easing: "easeOutQuad" });
         anime({ targets: path, opacity: [1, 0], duration: 900, easing: "easeOutQuad", complete: () => path.remove() });
-        deepTotal += amt; deepN += 1; countEl2.textContent = short(deepTotal); nEl.textContent = deepN.toLocaleString("en-NG");
-        if (++tipTurn % 3 === 0) showTip(b, `${short(amt)}`, `${CITIES[a][0]} → ${CITIES[b][0]}`);
+        if (++tipTurn % 3 === 0) showTip(b, `Example · ${short(amt)}`, `from ${CITIES[a][0]}`);
       } });
   }
   function showTip(k, amt, label) {
@@ -330,14 +342,12 @@
     tip.querySelector("b").textContent = amt; tip.querySelector("span").textContent = label;
     anime({ targets: tip, opacity: [0, 1, 1, 0], translateY: [6, 0, 0, -4], duration: 1800, easing: "easeOutQuad" });
   }
-  function staticArcs() { [[3, 0], [2, 4], [9, 5], [11, 2]].forEach(([a, b]) => { const p = document.createElementNS(SVGNS, "path"); p.setAttribute("d", arcD(a, b).d); p.setAttribute("class", "arc"); arcLayer.appendChild(p); }); }
-  function startArcs() { clearInterval(arcTimer); fly(); arcTimer = setInterval(fly, 650); }
-  if (countEl2) {
-    countEl2.textContent = short(deepTotal); nEl.textContent = deepN.toLocaleString("en-NG");
+  function staticArcs() { [3, 2, 9, 11, 4].forEach((a) => { const p = document.createElementNS(SVGNS, "path"); p.setAttribute("d", arcD(a === dest() ? 6 : a, dest()).d); p.setAttribute("class", "arc"); arcLayer.appendChild(p); }); }
+  function startArcs() { clearInterval(arcTimer); fly(); arcTimer = setInterval(fly, 700); }
+  if (map) {
     const seen = (v) => { mapVisible = v; if (v && !map.childElementCount) drawMap(); };
     if (window.ScrollTrigger) ScrollTrigger.create({ trigger: "[data-deep]", start: "top bottom+=200", end: "bottom top-=200", onToggle: (self) => seen(self.isActive) });
     else seen(true);
-    if (G) { const o = { v: 0, n: 0 }; ScrollTrigger.create({ trigger: "[data-deep]", start: "top 75%", once: true, onEnter: () => G.to(o, { v: deepTotal, n: deepN, duration: 2, ease: "power3.out", onUpdate: () => { countEl2.textContent = short(o.v); nEl.textContent = Math.round(o.n).toLocaleString("en-NG"); } }) }); }
   }
 
   /* ---------- small rewards ---------- */

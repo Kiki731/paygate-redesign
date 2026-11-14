@@ -489,3 +489,9 @@
 /* off on phones (cost and screen space), when transparency is reduced, or where blur isn't supported */
 @media (max-width: 767px), (prefers-reduced-transparency: reduce) { .frost { display: none; } }
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .frost { display: none; } }
+
+/* text link for developers beside the hero buttons */
+.hero__dev { display: inline-flex; align-items: center; gap: 4px; padding: 0 8px; min-height: 52px; color: var(--link); font-weight: 500; text-decoration: none; }
+.hero__dev:hover { text-decoration: underline; }
+.hero__dev svg { width: 16px; height: 16px; }
+.hero__dev:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 6px; }
