@@ -8,9 +8,8 @@
   const icons = () => window.lucide && lucide.createIcons({ attrs: { "stroke-width": 1.75, "aria-hidden": "true" } });
   const naira = (n) => "₦" + Math.round(n).toLocaleString("en-NG") + ".00";
   const short = (n) => "₦" + Math.round(n).toLocaleString("en-NG");
-  const KEY = "pg-biz";
 
-  /* ---------- who the visitor is ---------- */
+  /* ---------- the five kinds of organisation PayGate serves ---------- */
   const TYPES = {
     shop: { name: "Adaeze Fabrics", place: "Balogun, Lagos", amt: 45000, bank: "your bank ••4412",
       split: [["Your business account", 80], ["Supplier", 15], ["Delivery partner"]],
@@ -56,100 +55,58 @@
   const ICON = { card: "credit-card", transfer: "landmark", nqr: "qr-code", pos: "smartphone-nfc", settle: "banknote", split: "split" };
   const LABEL = { card: "Card", transfer: "Transfer", nqr: "NQR", pos: "POS" };
 
-  const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || null; } catch (e) { return null; } };
-  const save = (b) => { try { localStorage.setItem(KEY, JSON.stringify(b)); } catch (e) {} };
-  const forget = () => { try { localStorage.removeItem(KEY); } catch (e) {} };
-  const stored = load();
-  let biz = { name: stored?.name || "", type: TYPES[stored?.type] ? stored.type : "shop" };
-  const nameOf = () => biz.name.trim() || TYPES[biz.type].name;
-  const initials = (n) => n.split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0]).join("").toUpperCase() || "PG";
-  const slug = (n) => n.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/&/g, "and").replace(/[^a-z0-9\s-]/g, "").trim().replace(/\s+/g, "-").slice(0, 32) || "your-business";
-
-  /* ---------- put their business on the page ---------- */
+  /* ---------- built for how you collect: one industry at a time (nothing is remembered) ---------- */
+  const COPY = {
+    shop: ["Shops and SMEs", "Take cards, transfers and NQR in the shop and online, sell with payment pages, and see every naira in one dashboard.", ["Start collecting", "11-signup.html"]],
+    hospitality: ["Restaurants and hotels", "Deposits by transfer, tables by NQR, rooms and bars on POS, all reconciled before you close for the night.", ["Request terminals", "#contact"]],
+    school: ["Schools and universities", "Fees from thousands of parents, matched to each student and split to university, faculty and hostel accounts automatically.", ["Talk to us about school fees", "#contact"]],
+    agency: ["Government and MDAs", "Collect taxes, levies and fees online, at the bank and at the desk, with fewer revenue leakages and an audit trail for every naira.", ["Collect revenue with PayGate", "#contact"]],
+    enterprise: ["Enterprises and platforms", "One integration for every channel, sub-merchant routing, and settlement to hundreds of accounts on your rules.", ["Read the developer guide", "08-developers.html"]],
+  };
   const PHOTO = { shop: ["market-traders.jpg", "Traders at a fruit stall"], hospitality: ["hotel-pos.jpg", "A hotel attendant holding a card terminal"], school: ["students-campus.jpg", "University students on campus"], agency: ["finance-team.jpg", "A finance team reviewing collections"], enterprise: ["enterprise-team.jpg", "A team working in a busy office"] };
-  const MAP_CITY = { shop: 0, hospitality: 0, school: 1, agency: 0, enterprise: 0 };
-  const film = $("#film-hero");
-  const heroAvatar = film?.querySelector(".checkout__avatar");
-  const apply = () => {
-    const T = TYPES[biz.type], name = nameOf(), custom = !!biz.name.trim() || biz.type !== "shop";
-    $$("[data-you-label]").forEach((el) => (el.textContent = name));
-    $$("[data-you-initials]").forEach((el) => (el.textContent = initials(name)));
-    $$("[data-you-link]").forEach((el) => (el.textContent = "paygate.upperlink.ng/pay/" + slug(name)));
-    $$("[data-you-amount]").forEach((el) => (el.textContent = naira(T.amt)));
+  const ORDER = Object.keys(COPY);
+  let ind = "shop";
+  const initials = (n) => n.split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0]).join("").toUpperCase() || "PG";
+  const tabs = $$("[data-ind]"), panel = $("#ind-panel");
+  const showInd = (k, focus) => {
+    ind = k;
+    const T = TYPES[k], [title, lede, [cta, href]] = COPY[k];
+    tabs.forEach((t) => { const on = t.dataset.ind === k; t.setAttribute("aria-selected", String(on)); t.tabIndex = on ? 0 : -1; });
+    if (focus) $(`[data-ind="${k}"]`).focus();
+    if (panel) panel.setAttribute("aria-labelledby", "ind-" + k);
+    $("[data-ind-title]").textContent = title; $("[data-ind-lede]").textContent = lede;
+    const c = $("[data-ind-cta]"); c.firstChild.textContent = cta + " "; c.setAttribute("href", href);
+    $$("[data-you-label]").forEach((el) => (el.textContent = T.name));
+    $$("[data-you-initials]").forEach((el) => (el.textContent = initials(T.name)));
     const ph = $("[data-you-photo]");
-    if (ph && !ph.src.endsWith(PHOTO[biz.type][0])) { ph.src = "../assets/images/web/" + PHOTO[biz.type][0]; ph.alt = PHOTO[biz.type][1]; }
-    const mc = $("[data-map-city]"); if (mc) mc.textContent = CITIES_LBL[MAP_CITY[biz.type]];
-    if (film) {
-      film.dataset.amt = T.amt;
-      film.querySelector(".checkout__head strong").textContent = name;
-      film.querySelector(".checkout__head div span").textContent = T.place;
-      film.querySelector(".checkout__amt .num").textContent = naira(T.amt);
-      film.querySelector('[data-pane="pos"] .pos-term__screen b').textContent = naira(T.amt);
-      const acct = film.querySelector('[data-pane="transfer"] .checkout__row:nth-child(2) span:last-child'); if (acct) acct.textContent = name;
-      const lbl = film.querySelector("[data-label]"); if (lbl && /^Pay /.test(lbl.textContent)) lbl.textContent = "Pay " + naira(T.amt);
-      // Adaeze keeps her photo; anyone else gets their initials
-      let tile = film.querySelector(".checkout__merchant");
-      if (custom) { if (!tile) { tile = document.createElement("span"); tile.className = "checkout__merchant"; heroAvatar?.after(tile); } tile.textContent = initials(name); if (heroAvatar) heroAvatar.hidden = true; }
-      else { tile?.remove(); if (heroAvatar) heroAvatar.hidden = false; }
-    }
-    const cap = $(".split__co figcaption"); if (cap) cap.textContent = `Animated demo: a customer pays ${name} ${naira(T.amt)} by card, then bank transfer, NQR and a POS terminal, and each payment is confirmed.`;
-    const chip = $("[data-chip] strong"); if (chip && !chip.dataset.live) chip.textContent = short(T.amt) + " received";
-    const crumb = $(".dash__top .crumb"); if (crumb) crumb.textContent = name + " · Dashboard";
-    const rec = $(".terminal__receipt"); if (rec) { rec.querySelector("b").textContent = name.toUpperCase(); rec.querySelector("span").textContent = T.place; }
-    renderStory(); renderSplit(); markHome();
+    if (ph && !ph.src.endsWith(PHOTO[k][0])) { ph.src = "../assets/images/web/" + PHOTO[k][0]; ph.alt = PHOTO[k][1]; }
+    cur = -1; renderStory();
+    if (G && panel) G.fromTo([".you__form > *", ".you__visual"], { opacity: 0.4, y: 6 }, { opacity: 1, y: 0, duration: 0.45, stagger: 0.03, ease: "power3.out", clearProps: "transform,opacity" });
   };
+  // a click or key means the visitor is reading: autoplay stops
+  tabs.forEach((t, i) => {
+    t.addEventListener("click", () => { dayPaused = true; showInd(t.dataset.ind); });
+    t.addEventListener("keydown", (e) => {
+      const last = tabs.length - 1; let to = null;
+      if (e.key === "ArrowRight") to = i === last ? 0 : i + 1; if (e.key === "ArrowLeft") to = i === 0 ? last : i - 1;
+      if (e.key === "Home") to = 0; if (e.key === "End") to = last;
+      if (to !== null) { e.preventDefault(); dayPaused = true; showInd(tabs[to].dataset.ind, true); }
+    });
+  });
 
-  /* ---------- two forms, one visitor: the strip under the hero and the full section ---------- */
-  const form = $("[data-you-form]"), nameIn = $("[data-you-name]");
-  const mine = $("[data-mine]"), mineName = $("[data-mine-name]"), mineType = $("[data-mine-type]");
-  let saveT = 0;
-  const sync = (from) => {
-    if (from !== "you" && nameIn) { nameIn.value = biz.name; const r = form.querySelector(`input[name="you-type"][value="${biz.type}"]`); if (r) r.checked = true; }
-    if (from !== "mine" && mine) { mineName.value = biz.name; mineType.value = biz.type; }
-    if (nameIn) nameIn.placeholder = TYPES[biz.type].name;
-  };
-  const changed = (from) => {
-    if (from === "you") biz = { name: nameIn.value.slice(0, 40), type: form.querySelector('input[name="you-type"]:checked').value };
-    if (from === "mine") biz = { name: mineName.value.slice(0, 40), type: mineType.value };
-    sync(from); apply(); clearTimeout(saveT); saveT = setTimeout(() => save(biz), 250);
-  };
-  if (form) {
-    nameIn.addEventListener("input", () => changed("you"));
-    form.addEventListener("change", (e) => { if (e.target.name === "you-type") changed("you"); });
-    form.addEventListener("submit", (e) => e.preventDefault());
-  }
-  if (mine) {
-    mineName.addEventListener("input", () => changed("mine"));
-    mineType.addEventListener("change", () => changed("mine"));
-    mine.addEventListener("submit", (e) => { e.preventDefault(); $("#yours")?.scrollIntoView({ behavior: reduce ? "auto" : "smooth" }); });
-  }
-  sync();
-  $("[data-you-clear]")?.addEventListener("click", () => { forget(); biz = { name: "", type: "shop" }; sync(); apply(); $(".welcome")?.remove(); nameIn?.focus(); });
-
-  /* ---------- welcome back ---------- */
-  if (stored && (stored.name || stored.type !== "shop")) {
-    const w = document.createElement("p");
-    w.className = "welcome";
-    w.innerHTML = `<span>Welcome back, <b></b>.</span><a href="#yours">See your day on PayGate</a><button type="button">Not you?</button>`;
-    w.querySelector("b").textContent = nameOf();
-    w.querySelector("button").addEventListener("click", () => $("[data-you-clear]")?.click());
-    $(".split__copy .hero__ctas, .hero__copy .hero__ctas")?.after(w);
-    if (G) G.from(w, { opacity: 0, y: 8, duration: 0.6, delay: 1.2, ease: "expo.out" });
-  }
-
-  /* ---------- a day on PayGate: four moments, played in place (no pinned scroll) ---------- */
+  /* ---------- a day on PayGate for the chosen industry: four moments, played in place ---------- */
   const dayBox = $(".day"), stepsBox = $("[data-day-steps]");
   const feedEl = $("[data-story-feed]"), totalEl = $("[data-story-total]"), countEl = $("[data-story-count]");
   let cur = -1, shownTotal = 0, shownCount = 0, dayTimer = 0, dayVisible = false, dayPaused = false;
   function renderStory() {
     if (!dayBox) return;
-    const day = TYPES[biz.type].day;
+    const day = TYPES[ind].day;
     stepsBox.innerHTML = day.map((d, k) => `<button type="button" aria-pressed="false" data-day="${k}"><span class="num">${d.t}</span><i></i></button>`).join("");
     $$("[data-day]", stepsBox).forEach((b) => b.addEventListener("click", () => { dayPaused = true; setStep(+b.dataset.day); }));
-    const keep = Math.max(0, cur); cur = -1; setStep(reduce ? day.length - 1 : Math.min(keep, day.length - 1), true);
+    shownTotal = 0; shownCount = 0; setStep(reduce ? day.length - 1 : 0, true);
   }
   function setStep(i, instant) {
-    const T = TYPES[biz.type], day = T.day;
+    const T = TYPES[ind], day = T.day;
     if (i === cur) return; const forward = i > cur; cur = i;
     $$("[data-day]", stepsBox).forEach((b, k) => { b.setAttribute("aria-pressed", String(k === i)); b.classList.toggle("is-past", k < i); });
     $("[data-day-clock]").textContent = day[i].t; $("[data-day-title]").textContent = day[i].title; $("[data-day-text]").textContent = day[i].text;
@@ -171,11 +128,15 @@
     shownTotal = total; shownCount = count;
   }
   if (dayBox) {
-    renderStory();
-    // plays through the day while it is on screen; a tap on a moment hands control to the visitor
+    showInd("shop");
+    // plays through each industry's day, then moves to the next industry, while the section is on screen
     if (G && window.ScrollTrigger) {
-      ScrollTrigger.create({ trigger: dayBox, start: "top 85%", end: "bottom 10%", onToggle: (s) => (dayVisible = s.isActive) });
-      dayTimer = setInterval(() => { if (dayVisible && !dayPaused && !document.hidden) setStep((cur + 1) % TYPES[biz.type].day.length); }, 3400);
+      ScrollTrigger.create({ trigger: "#industries", start: "top 75%", end: "bottom 15%", onToggle: (s) => (dayVisible = s.isActive) });
+      dayTimer = setInterval(() => {
+        if (!dayVisible || dayPaused || document.hidden) return;
+        const n = TYPES[ind].day.length;
+        if (cur < n - 1) setStep(cur + 1); else showInd(ORDER[(ORDER.indexOf(ind) + 1) % ORDER.length]);
+      }, 3400);
     }
   }
 
@@ -258,11 +219,10 @@
         if (step) { e.preventDefault(); setHandle(k, now + step); }
       });
     });
-    renderFlow(biz.type);
+    renderFlow("school");
     // once, when it comes into view: three payments flow in on their own
     if (G) ScrollTrigger.create({ trigger: flow, start: "top 70%", once: true, onEnter: () => { sendPayment(); setTimeout(sendPayment, 1300); setTimeout(sendPayment, 2600); } });
   }
-  function renderSplit() { renderFlow(biz.type); }
 
   /* ---------- how a payment moves: rows rise in, the first payment gets approved ---------- */
   if (G) {
@@ -310,7 +270,7 @@
   // every arc is a customer somewhere in Nigeria paying the visitor's business: payer -> merchant
   let arcTimer = 0, mapVisible = false, inFlight = 0, tipTurn = 0;
   const AMTS = [3200, 12500, 18750, 45000, 75000, 250000, 120000, 8400];
-  const dest = () => MAP_CITY[biz.type];
+  const dest = () => 0;
   const arcD = (a, b) => {
     const [x1, y1] = px(CITIES[a][1], CITIES[a][2]), [x2, y2] = px(CITIES[b][1], CITIES[b][2]);
     const mx = (x1 + x2) / 2, my = (y1 + y2) / 2, d = Math.hypot(x2 - x1, y2 - y1);
@@ -361,7 +321,6 @@
     });
   }
 
-  apply();
   icons();
   if (window.ScrollTrigger) addEventListener("load", () => ScrollTrigger.refresh());
 })();

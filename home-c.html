@@ -36,7 +36,7 @@
     .split__photo { aspect-ratio: 4 / 3; }
   }
 </style>
-<link rel="stylesheet" href="_alive.css?v=22">
+<link rel="stylesheet" href="_alive.css?v=24">
 </head>
 <body class="pg-home pg-alive">
 <a class="btn btn--primary" href="#main" style="position:absolute;left:-9999px;top:8px;z-index:99" onfocus="this.style.left='8px'" onblur="this.style.left='-9999px'">Skip to content</a>
@@ -161,23 +161,6 @@
     </div>
   </section>
 
-  <!-- MAKE IT YOURS (strip under the hero) -->
-  <section class="mine" aria-label="Try PayGate with your business">
-    <div class="wrap">
-      <form class="mine__bar" data-mine novalidate>
-        <span class="mine__lbl"><i data-lucide="store"></i>See it with your business</span>
-        <label class="sr-only" for="mine-name">Business name</label>
-        <input class="input" id="mine-name" maxlength="40" autocomplete="organization" placeholder="Your business name" data-mine-name>
-        <label class="sr-only" for="mine-type">Business type</label>
-        <select class="select" id="mine-type" data-mine-type>
-          <option value="shop">Shop or SME</option><option value="hospitality">Restaurant or hotel</option><option value="school">School or university</option><option value="agency">Government or MDA</option><option value="enterprise">Enterprise or platform</option>
-        </select>
-        <a class="btn btn--secondary btn--sm" href="#yours" data-press>See your day <i data-lucide="arrow-down"></i></a>
-      </form>
-      <p class="small mine__note">The checkout above changes as you type. Stays in this browser.</p>
-    </div>
-  </section>
-
   <!-- 2. LOGOS -->
   <section class="logos" aria-label="Organisations using PayGate">
     <div class="wrap">
@@ -290,7 +273,7 @@
         <figure class="deep__map">
           <svg viewBox="0 0 600 500" data-map aria-hidden="true"></svg>
           <div class="maptip" data-maptip aria-hidden="true"><b class="num">₦12,500</b><span>from Kano</span></div>
-          <figcaption>Illustration: customers anywhere in Nigeria paying <b data-you-label>Adaeze Fabrics</b> in <span data-map-city>Lagos</span>.</figcaption>
+          <figcaption>Illustration: customers anywhere in Nigeria paying one business in Lagos.</figcaption>
         </figure>
       </div>
     </div>
@@ -324,36 +307,29 @@
     </div>
   </section>
 
-  <!-- SEE YOURSELF + YOUR DAY -->
-  <section class="sec sec--you" id="yours" aria-labelledby="yours-h">
+  <!-- BUILT FOR HOW YOU COLLECT -->
+  <section class="sec sec--you" id="industries" aria-labelledby="ind-h">
     <div class="wrap">
-      <div class="icard you" data-you>
+      <div class="sec-head"><h2 id="ind-h" class="h1" data-words>Built for how you collect. <span class="tt-mute">From one stall to a whole state.</span></h2></div>
+      <div class="ind-tabs" role="tablist" aria-label="Who PayGate is for" data-ind-tabs><button role="tab" id="ind-shop" aria-controls="ind-panel" aria-selected="true" tabindex="0" data-ind="shop"><i data-lucide="store"></i>Shops and SMEs<span class="ind-tab__bar" aria-hidden="true"><i></i></span></button><button role="tab" id="ind-hospitality" aria-controls="ind-panel" aria-selected="false" tabindex="-1" data-ind="hospitality"><i data-lucide="utensils"></i>Restaurants and hotels<span class="ind-tab__bar" aria-hidden="true"><i></i></span></button><button role="tab" id="ind-school" aria-controls="ind-panel" aria-selected="false" tabindex="-1" data-ind="school"><i data-lucide="graduation-cap"></i>Schools and universities<span class="ind-tab__bar" aria-hidden="true"><i></i></span></button><button role="tab" id="ind-agency" aria-controls="ind-panel" aria-selected="false" tabindex="-1" data-ind="agency"><i data-lucide="landmark"></i>Government and MDAs<span class="ind-tab__bar" aria-hidden="true"><i></i></span></button><button role="tab" id="ind-enterprise" aria-controls="ind-panel" aria-selected="false" tabindex="-1" data-ind="enterprise"><i data-lucide="building-2"></i>Enterprises and platforms<span class="ind-tab__bar" aria-hidden="true"><i></i></span></button></div>
+      <div class="icard you" id="ind-panel" role="tabpanel" aria-labelledby="ind-shop" data-you>
         <div class="haze haze--band" data-haze></div>
         <div class="you__form">
-          <h2 id="yours-h" class="h1" data-words>See PayGate <span class="tt-mute">with your business in it.</span></h2>
-          <p class="lede">Pick what you do and type your name. Here is a day on PayGate for a business like yours.</p>
-          <form class="stack" style="--stack:var(--s-5)" data-you-form novalidate>
-            <div class="field"><label for="you-name">Business name</label><input class="input" id="you-name" maxlength="40" autocomplete="organization" placeholder="Adaeze Fabrics" data-you-name></div>
-            <fieldset class="you__types"><legend class="small">What kind of business?</legend>
-              <label><input type="radio" name="you-type" value="shop" checked><i data-lucide="store"></i>Shop or SME</label>
-              <label><input type="radio" name="you-type" value="hospitality"><i data-lucide="utensils"></i>Restaurant or hotel</label>
-              <label><input type="radio" name="you-type" value="school"><i data-lucide="graduation-cap"></i>School or university</label>
-              <label><input type="radio" name="you-type" value="agency"><i data-lucide="landmark"></i>Government or MDA</label>
-              <label><input type="radio" name="you-type" value="enterprise"><i data-lucide="building-2"></i>Enterprise or platform</label>
-            </fieldset>
-          </form>
+          <h3 class="you__title" data-ind-title>Shops and SMEs</h3>
+          <p class="lede" data-ind-lede></p>
           <div class="day" aria-live="polite">
-            <p class="day__head"><span class="num" data-day-clock>08:05</span><span data-day-kick>A day at <span data-you-label>Adaeze Fabrics</span></span></p>
-            <h3 data-day-title>An order paid online</h3>
+            <p class="day__head"><span class="num" data-day-clock>08:05</span><span>A day on PayGate</span></p>
+            <h4 data-day-title>An order paid online</h4>
             <p data-day-text></p>
             <div class="day__steps" role="group" aria-label="Moments in the day" data-day-steps></div>
           </div>
-          <p class="small you__note"><i data-lucide="lock"></i>Stays in this browser. Nothing is sent anywhere. <button class="linkbtn" type="button" data-you-clear>Start over</button></p>
+          <a class="btn btn--primary you__cta" href="#contact" data-press data-ind-cta>Start collecting <i data-lucide="arrow-right"></i></a>
+          <p class="small you__note">Example business and figures, for illustration.</p>
         </div>
         <div class="you__visual">
-          <figure class="you__ph"><img src="assets/images/web/market-traders.jpg" alt="" width="1800" height="1200" data-you-photo></figure>
+          <figure class="you__ph"><img src="assets/images/web/market-traders.jpg" alt="Traders at a fruit stall" width="1800" height="1200" data-you-photo></figure>
           <div class="phone" aria-hidden="true">
-            <div class="phone__top"><span class="phone__av" data-you-initials>AF</span><div><b data-you-label>Adaeze Fabrics</b><span class="num" data-you-link>paygate.upperlink.ng/pay/adaeze-fabrics</span></div><span class="live-dot"></span></div>
+            <div class="phone__top"><span class="phone__av" data-you-initials>AF</span><div><b data-you-label>Adaeze Fabrics</b><span class="num" data-you-link>PayGate dashboard</span></div><span class="live-dot"></span></div>
             <div class="phone__total"><span class="small">Collected today</span><b class="num" data-story-total>₦0.00</b><span class="small"><span data-story-count>0</span> payments</span></div>
             <div class="phone__bars" data-story-bars><i style="--w:0"></i><i style="--w:0"></i><i style="--w:0"></i><i style="--w:0"></i></div>
             <ul class="phone__feed" data-story-feed></ul>
@@ -605,7 +581,7 @@ $payment = $paygate->payments->create([
 <script src="_home.js?v=23"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
-<script src="_alive.js?v=22"></script>
+<script src="_alive.js?v=24"></script>
 <script src="_review.js?v=13"></script>
 </body>
 </html>
