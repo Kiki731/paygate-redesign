@@ -57,9 +57,39 @@
   .art__dots { display: flex; align-items: center; gap: 8px; margin-bottom: 18px; }
   .art__dots button[data-dot] { all: unset; cursor: pointer; height: 4px; width: 28px; border-radius: 4px; background: rgba(255, 255, 255, .35); }
   .art__dots button[data-dot][aria-pressed="true"] { background: #fff; width: 44px; }
-  .art__dots button[data-dot]:focus-visible, .art__pause:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
-  .art__pause { all: unset; cursor: pointer; margin-left: 6px; display: inline-flex; white-space: nowrap; padding: 4px 8px; border-radius: 8px; background: rgba(0, 0, 0, .25); align-items: center; gap: 6px; font-size: .75rem; color: rgba(255, 255, 255, .85); }
-  .art__pause svg { width: 14px; height: 14px; }
+  .art__dots button[data-dot]:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
+  /* ---------- lighter, tighter sign-up (team review) ---------- */
+  .auth__form { padding-block: clamp(16px, 2.4vw, 28px); }
+  .auth__body { padding-block: 24px; }
+  .auth h1 { font-size: clamp(1.5rem, 1.2rem + .9vw, 1.875rem); line-height: 1.15; letter-spacing: -0.025em; }
+  .auth__sub { margin-top: 6px; font-size: .9375rem; line-height: 1.45; }
+  .progress { margin-bottom: 20px; }
+  .auth form { gap: 14px; margin-top: 22px; }
+  .auth .field { gap: 6px; }
+  .auth .field label { font-size: .8125rem; }
+  .auth .input, .auth .select { min-height: 44px; height: 44px; font-size: .9375rem; }
+  .auth .btn--primary.full { min-height: 46px; }
+  .types { gap: 8px; }
+  .types legend { font-size: .8125rem; margin-bottom: 2px; }
+  .type { grid-template-columns: 30px minmax(0, 1fr); gap: 1px 12px; padding: 10px 12px; border-radius: 12px; align-items: center; }
+  .type > svg { width: 30px; height: 30px; padding: 6px; border-radius: 8px; }
+  .type b { font-size: .9375rem; line-height: 1.25; }
+  .type span { font-size: .8125rem; line-height: 1.3; }
+  .chosen, .ckbanner { margin-top: 12px; padding: 8px 12px; font-size: .875rem; line-height: 1.35; }
+  .rules { margin-top: 6px; font-size: .75rem; }
+  .meter { margin-top: 6px; }
+  .otp input { height: 50px; font-size: 1.25rem; }
+  .mailview { gap: 12px; margin-top: 18px; }
+  .mailview p { font-size: .9375rem; line-height: 1.45; }
+  .switchmode { margin-top: 14px; font-size: .875rem; }
+  .next { gap: 8px; }
+  .next li { padding: 10px 12px; }
+  .next li b { font-size: .9375rem; }
+  .next li span, .doclist { font-size: .8125rem; line-height: 1.35; }
+  .auth__foot { font-size: .75rem; }
+  .art__copy h2 { font-size: clamp(1.5rem, 1.1rem + 1.2vw, 2.125rem); }
+  .art__list { gap: 8px; }
+  .art__list li { font-size: .9375rem; line-height: 1.35; }
   .type b { font-weight: 600; }
   .type span { font-size: .875rem; color: var(--ink-2); }
   .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
@@ -123,7 +153,7 @@
             <legend class="small" style="color:var(--ink-2);font-weight:500">What kind of business is it?</legend>
             <label class="type"><input type="radio" name="btype" value="co" checked><i data-lucide="building-2"></i><b>Registered company</b><span>Limited company registered with the CAC (RC number)</span></label>
             <label class="type"><input type="radio" name="btype" value="bn"><i data-lucide="store"></i><b>Business name</b><span>Sole proprietor or partnership (BN number)</span></label>
-            <label class="type"><input type="radio" name="btype" value="startup"><i data-lucide="rocket"></i><b>Start-up</b><span>Early-stage or newly registered company building its first product</span></label>
+            <label class="type"><input type="radio" name="btype" value="startup"><i data-lucide="rocket"></i><b>Start-up</b><span>Early-stage or newly registered company</span></label>
             <label class="type"><input type="radio" name="btype" value="inst"><i data-lucide="landmark"></i><b>School, institution or government</b><span>Universities, schools, agencies and MDAs</span></label>
           </fieldset>
           <button class="btn btn--primary full" type="submit" data-press>Continue</button>
@@ -152,7 +182,6 @@
           <label class="check"><input type="checkbox" required data-terms>I agree to the <a href="legal.html#terms" style="color:var(--link)">terms</a> and <a href="legal.html#privacy" style="color:var(--link)">privacy policy</a></label>
           <span class="hint" data-terms-hint hidden style="color:var(--bad);margin-top:-10px">Please accept the terms to continue</span>
           <button class="btn btn--primary full" type="submit" data-press><span class="spin" hidden></span><span data-label>Create account</span></button>
-          <button class="linkbtn" type="button" data-to="type">← Change business type</button>
         </form>
       </section>
 
@@ -212,7 +241,6 @@
     <div class="art__copy" style="max-width:34ch">
       <div class="art__dots" role="group" aria-label="PayGate products" data-dots>
         <button type="button" aria-pressed="true" aria-label="Card payments" data-dot="0"></button><button type="button" aria-pressed="false" aria-label="Bank transfers" data-dot="1"></button><button type="button" aria-pressed="false" aria-label="POS terminals" data-dot="2"></button>
-        <button class="art__pause" type="button" aria-pressed="false" data-slides-pause><i data-lucide="pause"></i><span>Pause</span></button>
       </div>
       <h2>Take your first payment this week.</h2>
       <ul class="art__list">
@@ -292,14 +320,11 @@
   $$("[data-mode]").forEach((b) => b.addEventListener("click", () => { setMode(b.dataset.mode); (b.dataset.mode === "code" ? $("[data-otp] input") : $("[data-link-open]")).focus(); }));
   $("[data-link-open]").addEventListener("click", () => go("done"));
 
-  /* product photos: change every 5 seconds, pause on hover, focus or the Pause button */
-  const slides = $$("[data-slide]"), dots = $$("[data-dot]"), pauseBtn = $("[data-slides-pause]");
+  /* product photos: change every 5 seconds; hold still while hovered or focused, and with reduced motion */
+  const slides = $$("[data-slide]"), dots = $$("[data-dot]");
   let slide = 0, slidePaused = reduce, hover = false;
   const showSlide = (i) => { slide = i; slides.forEach((f, k) => f.classList.toggle("is-on", k === i)); dots.forEach((d, k) => d.setAttribute("aria-pressed", String(k === i))); };
   dots.forEach((d) => d.addEventListener("click", () => showSlide(+d.dataset.dot)));
-  const setPaused = (v) => { slidePaused = v; pauseBtn.setAttribute("aria-pressed", String(v)); pauseBtn.innerHTML = `<i data-lucide="${v ? "play" : "pause"}"></i><span>${v ? "Play" : "Pause"}</span>`; icons(); };
-  pauseBtn.addEventListener("click", () => setPaused(!slidePaused));
-  if (reduce) setPaused(true);
   const art = $(".auth__art");
   art.addEventListener("mouseenter", () => (hover = true)); art.addEventListener("mouseleave", () => (hover = false));
   art.addEventListener("focusin", () => (hover = true)); art.addEventListener("focusout", () => (hover = false));
