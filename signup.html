@@ -51,6 +51,9 @@
   .art__list li { display: flex; gap: 12px; color: rgba(240, 242, 255, .88); }
   .art__list svg { width: 20px; height: 20px; color: #8fe3b8; flex: none; margin-top: 2px; }
   .auth__body { width: min(460px, 100%); }
+  .ckbanner { display: flex; gap: 10px; align-items: flex-start; margin-top: 14px; padding: 12px 14px; border-radius: 12px; background: var(--ok-bg); font-size: .9375rem; color: var(--ink); }
+  .ckbanner[hidden] { display: none; }
+  .ckbanner svg { width: 18px; height: 18px; color: var(--ok); flex: none; margin-top: 2px; }
   @media (max-width: 520px) { .grid2 { grid-template-columns: 1fr; } .progress li { font-size: 0; } }
 </style>
 </head>
@@ -81,6 +84,7 @@
       <section data-step="type" aria-labelledby="s1-h">
         <h1 id="s1-h" tabindex="-1">Create your PayGate account</h1>
         <p class="auth__sub">Start with the sandbox today. Go live once we’ve reviewed your documents.</p>
+        <p class="ckbanner" data-ckbanner hidden><i data-lucide="sparkles"></i><span>Setting up the checkout you built for <b data-ck-name></b>: <span data-ck-sum></span>.</span></p>
         <form novalidate data-form-type style="margin-top:28px">
           <fieldset class="types">
             <legend class="small" style="color:var(--ink-2);font-weight:500">What kind of business is it?</legend>
@@ -161,7 +165,7 @@
       <h2>Take your first payment this week.</h2>
       <ul class="art__list">
         <li><i data-lucide="check"></i>Sandbox keys the moment you sign up</li>
-        <li><i data-lucide="check"></i>Cards, transfers, NQR and POS in one dashboard</li>
+        <li><i data-lucide="check"></i>Cards, transfers and POS in one dashboard</li>
         <li><i data-lucide="check"></i>Split settlements and team roles included</li>
         <li><i data-lucide="check"></i>A Lagos team to help you go live</li>
       </ul>
@@ -187,6 +191,15 @@
     inst: ["For an institution or agency:", ["Establishment document or letter of authority", "ID of authorised signatories", "Utility bill of the institution"]],
   };
   const ORDER = ["type", "details", "verify", "done"];
+  // a checkout built on the homepage comes with them (kept in this browser only)
+  let built = null; try { built = JSON.parse(localStorage.getItem("pg-checkout")); } catch (e) {}
+  if (built && (built.name || "").trim()) {
+    const b = $("[data-ckbanner]"); b.hidden = false;
+    $("[data-ck-name]").textContent = built.name.trim();
+    const M = { card: "card", transfer: "transfer", pos: "POS" };
+    $("[data-ck-sum]").textContent = "₦" + Number(built.amt || 0).toLocaleString("en-NG") + " · " + (built.methods || []).map((m) => M[m]).join(", ");
+    const bz = $("#bz"); if (bz && !bz.value) bz.value = built.name.trim();
+  }
 
   const tb = $("[data-theme-toggle]");
   const syncTheme = () => { const t = document.documentElement.dataset.theme, d = t ? t === "dark" : matchMedia("(prefers-color-scheme: dark)").matches; tb.innerHTML = `<i data-lucide="${d ? "sun" : "moon"}"></i>`; tb.setAttribute("aria-label", d ? "Switch to light theme" : "Switch to dark theme"); icons(); };

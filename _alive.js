@@ -15,7 +15,7 @@
       split: [["Your business account", 80], ["Supplier", 15], ["Delivery partner"]],
       day: [
         { t: "08:05", title: "An order paid online", text: "Chiamaka pays for two yards of ankara on your website. You see it before she closes the tab.", ch: "card", who: "Chiamaka O.", amt: 45000, n: 1 },
-        { t: "12:30", title: "Walk-ins scan your NQR", text: "Customers at the counter scan one code with any bank app. Twelve of them by lunch.", ch: "nqr", who: "12 NQR payments", amt: 86400, n: 12 },
+        { t: "12:30", title: "Walk-ins pay by transfer", text: "Customers at the counter transfer to a one-time account for the exact amount. Twelve of them by lunch.", ch: "transfer", who: "12 transfers", amt: 86400, n: 12 },
         { t: "15:10", title: "A tap on your Upperlink terminal", text: "A regular taps her card on your POS. Same dashboard, same record.", ch: "pos", who: "Bimpe A.", amt: 18750, n: 1 },
         { t: "18:00", title: "Reconciled, settled tomorrow", text: "Every payment is matched to its reference. The total settles to your bank the next working day (T+1), with a breakdown of amounts and fees.", ch: "settle" },
       ] },
@@ -23,7 +23,7 @@
       split: [["Restaurant account", 85], ["Delivery partner", 10], ["Staff tips"]],
       day: [
         { t: "09:15", title: "An event deposit by transfer", text: "A client pays the deposit for Saturday’s party into the account on their invoice.", ch: "transfer", who: "Kemi L.", amt: 350000, n: 1 },
-        { t: "13:00", title: "Lunch rush, paid by NQR", text: "Guests scan the code on the table. Nobody waits for change.", ch: "nqr", who: "38 NQR payments", amt: 247000, n: 38 },
+        { t: "13:00", title: "Lunch rush, paid at the table", text: "Guests tap their cards on a terminal brought to the table. Nobody waits for change.", ch: "pos", who: "38 POS payments", amt: 247000, n: 38 },
         { t: "20:30", title: "Dinner and rooms on POS", text: "Card payments at reception and the bar land in the same place.", ch: "pos", who: "21 POS payments", amt: 612500, n: 21 },
         { t: "23:00", title: "The night audit is already done", text: "Every room, table and deposit is reconciled before you close, and settles to your bank T+1.", ch: "settle" },
       ] },
@@ -48,7 +48,7 @@
       day: [
         { t: "00:00", title: "Checkout runs while you sleep", text: "Thousands of orders paid through the API overnight, by card and transfer.", ch: "card", who: "4,820 API payments", amt: 62178000, n: 4820 },
         { t: "09:00", title: "Every seller gets their share", text: "Sub-merchant codes route each order to the right seller automatically.", ch: "transfer", who: "1,310 transfers", amt: 38600000, n: 1310 },
-        { t: "14:00", title: "One integration, every channel", text: "Cards, transfers, NQR and POS across every store, with no new code.", ch: "nqr", who: "2,240 NQR payments", amt: 21400000, n: 2240 },
+        { t: "14:00", title: "One integration, every channel", text: "Cards, transfers and POS across every store, with no new code.", ch: "pos", who: "2,240 POS payments", amt: 21400000, n: 2240 },
         { t: "18:00", title: "Reconciled for every account", text: "Sellers, partners and your platform fee are reconciled tonight and settle to their own accounts T+1.", ch: "settle" },
       ] },
   };
@@ -57,8 +57,8 @@
 
   /* ---------- built for how you collect: one industry at a time (nothing is remembered) ---------- */
   const COPY = {
-    shop: ["Shops and SMEs", "Take cards, transfers and NQR in the shop and online, sell with payment pages, and see every naira in one dashboard.", ["Start collecting", "11-signup.html"]],
-    hospitality: ["Restaurants and hotels", "Deposits by transfer, tables by NQR, rooms and bars on POS, all reconciled before you close for the night.", ["Request terminals", "#contact"]],
+    shop: ["Shops and SMEs", "Take cards, transfers and POS in the shop and online, sell with payment pages, and see every naira in one dashboard.", ["Start collecting", "11-signup.html"]],
+    hospitality: ["Restaurants and hotels", "Deposits by transfer, and tables, rooms and bars on POS, all reconciled before you close for the night.", ["Request terminals", "#contact"]],
     school: ["Schools and universities", "Fees from thousands of parents, matched to each student and split to university, faculty and hostel accounts automatically.", ["Talk to us about school fees", "#contact"]],
     agency: ["Government and MDAs", "Collect taxes, levies and fees online, at the bank and at the desk, with fewer revenue leakages and an audit trail for every naira.", ["Collect revenue with PayGate", "#contact"]],
     enterprise: ["Enterprises and platforms", "One integration for every channel, sub-merchant routing, and settlement to hundreds of accounts on your rules.", ["Read the developer guide", "08-developers.html"]],
@@ -110,7 +110,7 @@
     if (i === cur) return; const forward = i > cur; cur = i;
     $$("[data-day]", stepsBox).forEach((b, k) => { b.setAttribute("aria-pressed", String(k === i)); b.classList.toggle("is-past", k < i); });
     $("[data-day-clock]").textContent = day[i].t; $("[data-day-title]").textContent = day[i].title; $("[data-day-text]").textContent = day[i].text;
-    let total = 0, count = 0; const by = { card: 0, transfer: 0, nqr: 0, pos: 0 };
+    let total = 0, count = 0; const by = { card: 0, transfer: 0, pos: 0 };
     const items = [];
     day.slice(0, i + 1).forEach((d) => {
       if (d.amt) { total += d.amt; count += d.n; by[d.ch] += d.amt; items.push(`<li><span class="ico"><i data-lucide="${ICON[d.ch]}"></i></span><b>${d.who}</b><span class="num">${short(d.amt)}</span><span class="meta">${LABEL[d.ch]} · ${d.t}</span><span class="badge badge--ok">${d.n > 1 ? "All successful" : "Successful"}</span></li>`); }
@@ -118,7 +118,7 @@
       else items.push(`<li class="is-settle"><span class="ico"><i data-lucide="banknote"></i></span><b>Settles T+1 to ${T.bank}</b><span class="num">${short(total)}</span><span class="meta">Reconciled · ${d.t}</span><span class="badge badge--ok">Reconciled</span></li>`);
     });
     feedEl.innerHTML = items.reverse().slice(0, 3).join(""); icons();
-    const bars = $$("[data-story-bars] i"); ["card", "transfer", "nqr", "pos"].forEach((k, n) => bars[n].style.setProperty("--w", total ? (by[k] / total) * 100 : 0));
+    const bars = $$("[data-story-bars] i"); ["card", "transfer", "pos"].forEach((k, n) => bars[n].style.setProperty("--w", total ? (by[k] / total) * 100 : 0));
     if (G && !instant) {
       if (forward) G.from(feedEl.firstElementChild, { y: -12, opacity: 0, scale: 0.97, duration: 0.5, ease: "back.out(2)" });
       G.fromTo(["[data-day-title]", "[data-day-text]"], { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.4, stagger: 0.05, ease: "power3.out" });
@@ -319,6 +319,199 @@
       el.addEventListener("pointermove", (e) => { const r = el.getBoundingClientRect(); xTo((e.clientX - r.left - r.width / 2) * 0.25); yTo((e.clientY - r.top - r.height / 2) * 0.35); });
       el.addEventListener("pointerleave", () => { xTo(0); yTo(0); });
     });
+  }
+
+  /* ======================================================================
+     1 · SEND A TEST PAYMENT: the visitor pays ₦100 in the hero film and watches the clock
+     ====================================================================== */
+  const tryBtn = $("[data-try]"), heroFilm = $("#film-hero");
+  if (tryBtn && heroFilm) {
+    const clock = document.createElement("output");
+    clock.className = "try__clock"; clock.setAttribute("aria-live", "polite"); clock.hidden = true;
+    tryBtn.closest(".co-under").after(clock);
+    let raf = 0;
+    const show = (html) => { clock.hidden = false; clock.innerHTML = html; icons(); };
+    heroFilm.addEventListener("pg:try-start", (e) => {
+      const t0 = e.detail.t0;
+      tryBtn.disabled = true;
+      const tick = () => { clock.querySelector("[data-secs]").textContent = ((performance.now() - t0) / 1000).toFixed(2); raf = requestAnimationFrame(tick); };
+      show('<i data-lucide="timer"></i><span>Confirming… <b class="num"><span data-secs>0.00</span> s</b></span>');
+      raf = requestAnimationFrame(tick);
+    });
+    heroFilm.addEventListener("pg:try-done", (e) => {
+      cancelAnimationFrame(raf);
+      show(`<i data-lucide="circle-check"></i><span>Confirmed in <b class="num">${e.detail.secs.toFixed(1)} s</b> · demo</span>`);
+      if (G) G.fromTo(clock, { scale: 0.92 }, { scale: 1, duration: 0.5, ease: "back.out(3)" });
+      setTimeout(() => { tryBtn.disabled = false; }, 3200);
+    });
+    tryBtn.addEventListener("click", () => {
+      if (heroFilm._try) { heroFilm._try(100); return; }
+      // motion off: the same result without the animation
+      show(`<i data-lucide="circle-check"></i><span>₦100 confirmed in <b class="num">1.6 s</b> · demo</span>`);
+    });
+  }
+
+  /* ======================================================================
+     2 · WHEN WILL MY MONEY LAND? live T+1 / T+2 clock (working days only)
+     ====================================================================== */
+  const t1 = $("[data-t1]");
+  if (t1) {
+    let cycle = 1;
+    const isWork = (d) => d.getDay() !== 0 && d.getDay() !== 6;
+    const addWork = (d, n) => { const x = new Date(d); while (n > 0) { x.setDate(x.getDate() + 1); if (isWork(x)) n--; } return x; };
+    const day = (d) => d.toLocaleDateString("en-NG", { weekday: "long", day: "numeric", month: "long" });
+    const time = (d) => d.toLocaleTimeString("en-NG", { hour: "numeric", minute: "2-digit" });
+    const render = () => {
+      const now = new Date();
+      // a weekend payment is processed on the next working day, then settles T+n after that
+      let base = new Date(now); if (!isWork(base)) { base = addWork(base, 1); }
+      const settle = addWork(base, cycle);
+      $("[data-t1-paid]", t1).textContent = `${day(now)}, ${time(now)}`;
+      const out = $("[data-t1-settle]", t1); const txt = day(settle);
+      if (out.textContent !== txt) { out.textContent = txt; if (G) G.fromTo(out, { y: 6, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "power3.out" }); }
+    };
+    $$("[data-t1-cycle]", t1).forEach((b) => b.addEventListener("click", () => {
+      cycle = +b.dataset.t1Cycle;
+      $$("[data-t1-cycle]", t1).forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+      render();
+    }));
+    render(); setInterval(render, 30000);
+  }
+
+  /* ======================================================================
+     3 · BUILD YOUR CHECKOUT: kept in this browser, shown in the hero, carried into sign-up
+     ====================================================================== */
+  const CK = "pg-checkout";
+  const bForm = $("[data-build]");
+  const readCk = () => { try { return JSON.parse(localStorage.getItem(CK)) || null; } catch (e) { return null; } };
+  const saveCk = (c) => { try { localStorage.setItem(CK, JSON.stringify(c)); } catch (e) {} };
+  const dropCk = () => { try { localStorage.removeItem(CK); } catch (e) {} };
+  const DEF = { name: "", item: "", amt: 45000, colour: "#000bb8", methods: ["card", "transfer"] };
+  const saved = readCk();
+  let ck = Object.assign({}, DEF, saved || {});
+  const ckName = () => ck.name.trim() || "Adaeze Fabrics";
+  const slugOf = (n) => n.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/&/g, "and").replace(/[^a-z0-9\s-]/g, "").trim().replace(/\s+/g, "-").slice(0, 32) || "your-business";
+  const METH = { card: ["credit-card", "Card"], transfer: ["landmark", "Transfer"], pos: ["smartphone-nfc", "POS"] };
+  const drawQr = (svg, seedText) => {
+    let s = 0; for (const ch of seedText) s = (s * 31 + ch.charCodeAt(0)) % 233280;
+    const rnd = () => (s = (s * 9301 + 49297) % 233280) / 233280, N = 25, cells = [];
+    const finder = (x, y) => cells.push(`<rect x="${x}" y="${y}" width="7" height="7" rx="1.5" fill="#06082e"/><rect x="${x + 1}" y="${y + 1}" width="5" height="5" rx="1" fill="#fff"/><rect x="${x + 2}" y="${y + 2}" width="3" height="3" rx=".6" fill="${ck.colour}"/>`);
+    for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) { const f = (x < 8 && y < 8) || (x > N - 9 && y < 8) || (x < 8 && y > N - 9); if (!f && rnd() > 0.52) cells.push(`<rect x="${x}" y="${y}" width="1" height="1" fill="#06082e"/>`); }
+    finder(0, 0); finder(N - 7, 0); finder(0, N - 7);
+    svg.innerHTML = cells.join("");
+  };
+  function renderCk(animate) {
+    const name = ckName(), amt = naira(ck.amt || 0);
+    const co = $("[data-b-checkout]"); if (!co) return;
+    co.style.setProperty("--co", ck.colour);
+    $("[data-b-initials]").textContent = initials(name);
+    $("[data-b-label]").textContent = name;
+    $("[data-b-itemout]").textContent = ck.item.trim() || "Order #1042";
+    $("[data-b-total]").textContent = amt;
+    const tabsEl = $("[data-b-tabs]");
+    tabsEl.style.gridTemplateColumns = `repeat(${ck.methods.length}, 1fr)`;
+    tabsEl.innerHTML = ck.methods.map((m, i) => `<span class="ctab${i === 0 ? " is-on" : ""}"><i data-lucide="${METH[m][0]}"></i>${METH[m][1]}</span>`).join("");
+    const first = ck.methods[0];
+    $("[data-b-body]").innerHTML = first === "card"
+      ? `<div class="checkout__row"><span>Card</span><span class="num">•••• •••• •••• ••••</span></div><span class="btn checkout__pay build__pay">Pay ${amt}</span>`
+      : first === "transfer"
+        ? `<div class="checkout__row"><span>Pay into</span><span class="num">0123 456 789</span></div><div class="checkout__row"><span>Amount</span><span class="num">${amt}</span></div><span class="btn checkout__pay build__pay">I’ve sent the money</span>`
+        : `<div class="checkout__row"><span>At the counter</span><span>Tap, insert or swipe</span></div><span class="btn checkout__pay build__pay">${amt} on terminal</span>`;
+    const link = "paygate.upperlink.ng/pay/" + slugOf(name);
+    $("[data-b-link]").textContent = link;
+    drawQr($("[data-b-qr]"), link);
+    icons();
+    if (animate && G) G.fromTo(co, { scale: 0.985 }, { scale: 1, duration: 0.35, ease: "power2.out" });
+    heroFromCk();
+  }
+  // the hero film carries their checkout once they've built one
+  function heroFromCk() {
+    if (!heroFilm || !(readCk() || (ck.name || "").trim())) return;
+    const name = ckName();
+    heroFilm.dataset.amt = ck.amt || 45000;
+    heroFilm.querySelector(".checkout__head strong").textContent = name;
+    heroFilm.querySelector(".checkout__amt .num").textContent = naira(ck.amt || 45000);
+    const posAmt = heroFilm.querySelector('[data-pane="pos"] .pos-term__screen b'); if (posAmt) posAmt.textContent = naira(ck.amt || 45000);
+    const acct = heroFilm.querySelector('[data-pane="transfer"] .checkout__row:nth-child(2) span:last-child'); if (acct) acct.textContent = name;
+    const av = heroFilm.querySelector(".checkout__avatar");
+    let tile = heroFilm.querySelector(".checkout__merchant");
+    if (!tile) { tile = document.createElement("span"); tile.className = "checkout__merchant"; av?.after(tile); }
+    tile.textContent = initials(name); tile.style.background = ck.colour; if (av) av.hidden = true;
+  }
+  if (bForm) {
+    const f = (sel) => $(sel, bForm);
+    f("[data-b-name]").value = ck.name; f("[data-b-item]").value = ck.item;
+    f("[data-b-amt]").value = ck.amt ? Number(ck.amt).toLocaleString("en-NG") : "";
+    $$('input[name="b-colour"]', bForm).forEach((r) => (r.checked = r.value === ck.colour));
+    $$('input[name="b-m"]', bForm).forEach((c) => (c.checked = ck.methods.includes(c.value)));
+    let t = 0;
+    const changed = () => {
+      const amtIn = f("[data-b-amt]"); const digits = amtIn.value.replace(/\D/g, "").slice(0, 10);
+      amtIn.value = digits ? Number(digits).toLocaleString("en-NG") : "";
+      const methods = $$('input[name="b-m"]:checked', bForm).map((c) => c.value);
+      f("[data-b-hint]").hidden = methods.length > 0;
+      if (!methods.length) return;
+      ck = { name: f("[data-b-name]").value.slice(0, 40), item: f("[data-b-item]").value.slice(0, 48), amt: Number(digits) || 0, colour: $('input[name="b-colour"]:checked', bForm).value, methods };
+      renderCk(true); clearTimeout(t); t = setTimeout(() => saveCk(ck), 300);
+    };
+    bForm.addEventListener("input", changed);
+    bForm.addEventListener("change", changed);
+    bForm.addEventListener("submit", (e) => e.preventDefault());
+    $("[data-b-go]").addEventListener("click", () => saveCk(ck));
+    $("[data-b-reset]").addEventListener("click", () => { dropCk(); location.reload(); });
+    renderCk(false);
+  }
+  // welcome back: only when they built a checkout on an earlier visit
+  if (saved && (saved.name || "").trim()) {
+    const w = document.createElement("p");
+    w.className = "welcome";
+    w.innerHTML = `<span>Welcome back, <b></b>. Your checkout is ready.</span><a href="11-signup.html?from=checkout">Finish setting up</a><a href="#build">Edit it</a>`;
+    w.querySelector("b").textContent = saved.name.trim();
+    $(".split__copy .hero__ctas, .hero__copy .hero__ctas")?.after(w);
+    if (G) G.from(w, { opacity: 0, y: 8, duration: 0.6, delay: 1.2, ease: "expo.out" });
+    heroFromCk();
+  }
+
+  /* ======================================================================
+     4 · FOLLOW THE NAIRA: one payment travels down the page with the visitor
+     ====================================================================== */
+  const STAGES = [
+    { key: "paying", label: "Paying", sub: "Your customer is at checkout", at: ".hero" },
+    { key: "paid", label: "Paid", sub: "By card, transfer or POS", at: "#how .how__row:nth-child(1)" },
+    { key: "confirmed", label: "Confirmed", sub: "Checked and bank-approved", at: "#how .how__row:nth-child(2)" },
+    { key: "settled", label: "Settled T+1", sub: "On its way to your account", at: "#how .how__row:nth-child(3)" },
+    { key: "reconciled", label: "Reconciled", sub: "Matched to its reference", at: "#tour" },
+  ];
+  if (window.ScrollTrigger && $(STAGES[1].at)) {
+    const j = document.createElement("nav");
+    j.className = "journey"; j.setAttribute("aria-label", "Follow a payment through this page");
+    j.innerHTML = `<p class="journey__amt"><span class="small">Follow the payment</span><b class="num" data-j-amt>₦45,000.00</b></p>
+      <ol>${STAGES.map((s, i) => `<li data-j="${i}"><a href="${s.at.startsWith("#how") ? "#how" : s.at === ".hero" ? "#main" : s.at}" aria-label="${s.label}: ${s.sub}"><i></i><span><b>${s.label}</b><small>${s.sub}</small></span></a></li>`).join("")}</ol>`;
+    document.body.appendChild(j);
+    const amtOut = $("[data-j-amt]", j);
+    const setAmt = () => (amtOut.textContent = naira((readCk() && ck.amt) || 45000));
+    setAmt(); bForm?.addEventListener("input", setAmt);
+    let stage = -1;
+    const go = (i) => {
+      if (i === stage) return; const fwd = i > stage; stage = i;
+      $$("li", j).forEach((li, k) => { li.classList.toggle("is-on", k === i); li.classList.toggle("is-done", k < i); li.querySelector("a").toggleAttribute("aria-current", k === i); if (k === i) li.querySelector("a").setAttribute("aria-current", "step"); });
+      j.dataset.stage = STAGES[i].key;
+      if (G && fwd) G.fromTo($(`[data-j="${i}"] i`, j), { scale: 0.4 }, { scale: 1, duration: 0.5, ease: "back.out(3)" });
+    };
+    // stage and visibility come straight from the scroll position, so jumps and back-scrolls stay right
+    const els = STAGES.map((s) => $(s.at));
+    const heroEl = $(".hero"), devEl = $("#developers");
+    const where = () => {
+      const line = innerHeight * 0.6;
+      let i = 0; els.forEach((el, k) => { if (el && el.getBoundingClientRect().top < line) i = k; });
+      go(i);
+      const after = heroEl.getBoundingClientRect().bottom < innerHeight * 0.7;
+      const before = !devEl || devEl.getBoundingClientRect().top > innerHeight * 0.4;
+      j.classList.toggle("is-shown", after && before);
+    };
+    ScrollTrigger.create({ start: 0, end: "max", onUpdate: where, onRefresh: where });
+    addEventListener("scroll", where, { passive: true });
+    go(0);
   }
 
   icons();

@@ -291,3 +291,88 @@
 .day h4 { font: 600 1.125rem var(--font-display); letter-spacing: -0.01em; }
 .you__cta { margin-top: 22px; justify-self: start; }
 .you__form { display: grid; align-content: start; }
+
+/* ======== engagement: four interactions (23 Nov) ======== */
+/* 1 · try a test payment */
+.pg-alive .co-under { flex-wrap: wrap; row-gap: 6px; }
+.pg-alive .co-under .demo-tag { flex: 1 1 100%; }
+.try__btn[disabled] { opacity: .6; cursor: default; }
+.try__clock { display: inline-flex; align-items: center; gap: 8px; margin-top: 4px; padding: 8px 12px; border-radius: 10px; background: var(--ok-bg); color: var(--ink); font-size: .875rem; }
+.try__clock svg { width: 16px; height: 16px; color: var(--ok); }
+.try__clock b { font-weight: 600; }
+
+/* 2 · T+1 clock */
+.t1 { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 10px 14px; padding: 14px 16px; border-radius: 14px; background: var(--surface-raised); box-shadow: 0 0 0 1px var(--line); margin-top: 6px; }
+.t1__side { display: grid; gap: 2px; }
+.t1__side b { font: 600 1rem/1.3 var(--font-display); color: var(--ink); }
+.t1__side:last-of-type b { color: var(--ok); }
+.t1__arrow svg { width: 18px; height: 18px; color: var(--ink-3); }
+.t1__cycle { grid-column: 1 / -1; justify-self: start; }
+.t1__cycle button { font-family: var(--font-mono); }
+.t1__note { margin-top: 2px; }
+
+/* 3 · build your checkout */
+.build { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .9fr); gap: clamp(32px, 6vw, 80px); align-items: center; }
+.build__controls > .lede { margin-top: 14px; max-width: 46ch; }
+.build__form { display: grid; gap: 16px; margin-top: 26px; }
+.build__row { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 14px; }
+.build__set { border: 0; margin: 0; padding: 0; display: grid; gap: 10px; }
+.build__set legend { font-size: .875rem; font-weight: 500; color: var(--ink-2); margin-bottom: 8px; }
+.swatches { display: flex; gap: 10px; }
+.swatch { position: relative; width: 36px; height: 36px; border-radius: 50%; background: var(--sw); cursor: pointer; box-shadow: 0 0 0 1px rgba(0, 0, 0, .1); }
+.swatch input { position: absolute; inset: 0; opacity: 0; cursor: pointer; margin: 0; }
+.swatch:has(input:checked) { box-shadow: 0 0 0 3px var(--paper), 0 0 0 5px var(--sw); }
+.swatch:has(input:focus-visible) { outline: 2px solid var(--focus); outline-offset: 6px; }
+.build__methods { display: flex; flex-wrap: wrap; gap: 10px 20px; }
+.build__go { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
+.build__note { display: inline-flex; align-items: center; gap: 6px; }
+.build__note svg { width: 14px; height: 14px; }
+.build__preview { display: grid; gap: 14px; justify-items: center; }
+.checkout--built { width: min(380px, 100%); }
+.checkout--built .checkout__merchant { background: var(--co) !important; }
+.checkout--built .ctab.is-on { background: color-mix(in srgb, var(--co) 10%, transparent); color: var(--co); }
+:root[data-theme="dark"] .checkout--built .ctab.is-on { color: #fff; background: color-mix(in srgb, var(--co) 45%, transparent); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .checkout--built .ctab.is-on { color: #fff; background: color-mix(in srgb, var(--co) 45%, transparent); } }
+.build__tabs { display: grid; gap: 6px; }
+.build__body { display: grid; gap: 10px; }
+.build__pay { background: var(--co); color: #fff; justify-content: center; width: 100%; pointer-events: none; }
+.build__share { width: min(380px, 100%); display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 14px; align-items: center; padding: 14px; border-radius: 14px; background: var(--surface-raised); box-shadow: 0 0 0 1px var(--line); }
+.build__qr { width: 72px; height: 72px; padding: 4px; border-radius: 8px; background: #fff; }
+.build__share b { display: block; font-size: .875rem; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.build > * { min-width: 0; }
+@media (max-width: 980px) { .build { grid-template-columns: 1fr; } }
+@media (max-width: 520px) { .build__row { grid-template-columns: 1fr; } }
+
+/* 4 · follow the naira */
+.journey { position: fixed; right: 20px; top: 50%; z-index: 45; translate: 0 -50%; width: 220px; padding: 14px 14px 10px; border-radius: 16px; background: color-mix(in srgb, var(--surface-raised) 92%, transparent); box-shadow: 0 0 0 1px var(--line), var(--shadow-2); backdrop-filter: blur(8px); opacity: 0; pointer-events: none; transform: translateX(16px); transition: opacity 400ms var(--ease-out), transform 400ms var(--ease-out); }
+.journey.is-shown { opacity: 1; pointer-events: auto; transform: none; }
+.journey__amt { display: grid; gap: 2px; margin-bottom: 10px; }
+.journey__amt b { font-size: 1.125rem; font-weight: 500; color: var(--ink); }
+.journey ol { list-style: none; margin: 0; padding: 0; display: grid; position: relative; }
+.journey ol::before { content: ""; position: absolute; left: 7px; top: 10px; bottom: 10px; width: 2px; background: var(--line); }
+.journey li a { display: grid; grid-template-columns: 16px minmax(0, 1fr); gap: 10px; align-items: start; padding: 6px 0; text-decoration: none; color: var(--ink-3); position: relative; }
+.journey li a:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 6px; }
+.journey li i { width: 16px; height: 16px; margin-top: 2px; border-radius: 50%; background: var(--surface-raised); box-shadow: inset 0 0 0 2px var(--line-strong); position: relative; z-index: 1; }
+.journey li b { display: block; font-size: .875rem; font-weight: 600; }
+.journey li small { display: none; font-size: .75rem; color: var(--ink-3); }
+.journey li.is-done i { background: var(--brand-text); box-shadow: none; }
+.journey li.is-on i { background: var(--ok); box-shadow: 0 0 0 4px var(--ok-bg); }
+.journey li.is-on a, .journey li.is-done a { color: var(--ink); }
+.journey li.is-on small { display: block; }
+@media (max-width: 1720px) { .journey { width: 180px; right: 12px; } }
+/* smaller screens: a compact pill at the bottom showing the current stage only */
+@media (max-width: 1560px) {
+  .journey { top: auto; bottom: 14px; left: 50%; right: auto; translate: -50% 0; width: auto; max-width: calc(100vw - 32px); padding: 8px 14px; border-radius: 99px; transform: translateY(16px); display: flex; align-items: center; gap: 12px; }
+  .journey.is-shown { transform: none; }
+  .journey__amt { margin: 0; display: flex; align-items: baseline; gap: 8px; }
+  .journey__amt .small { display: none; }
+  .journey__amt b { font-size: .9375rem; }
+  .journey ol { display: flex; gap: 6px; }
+  .journey ol::before { display: none; }
+  .journey li a { display: flex; gap: 6px; padding: 0; align-items: center; }
+  .journey li span { display: none; }
+  .journey li.is-on span { display: inline; }
+  .journey li.is-on small { display: none; }
+  .journey li i { margin: 0; width: 12px; height: 12px; }
+}
+@media (prefers-reduced-motion: reduce) { .journey { transition: none; } }

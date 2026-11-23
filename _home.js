@@ -143,7 +143,7 @@
 
   /* ---------- live payments feed ---------- */
   const PEOPLE = ["Chiamaka O.", "Bello Stores", "Ife A.", "Musa K.", "Grace E.", "Tunde B.", "Amaka N.", "Yusuf D.", "Kemi L.", "Obinna C.", "Halima S.", "Segun F."];
-  const CH = [["Card", "credit-card"], ["Transfer", "landmark"], ["NQR", "qr-code"], ["POS", "smartphone-nfc"]];
+  const CH = [["Card", "credit-card"], ["Transfer", "landmark"], ["POS", "smartphone-nfc"]];
   let seed = 11; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
   const icons = () => lucide.createIcons({ attrs: { "stroke-width": 1.75, "aria-hidden": "true" } });
   const makeItem = (who, ch, ico, amt, when) => {
@@ -162,7 +162,7 @@
   }
 
   /* one clock for the hero: the film's "payment landed" moment drives the chip, the feed and the total */
-  const METHOD = { card: ["Card", "credit-card"], transfer: ["Transfer", "landmark"], nqr: ["NQR", "qr-code"], pos: ["POS", "smartphone-nfc"] };
+  const METHOD = { card: ["Card", "credit-card"], transfer: ["Transfer", "landmark"], pos: ["POS", "smartphone-nfc"] };
   const BUYERS = ["Chiamaka O.", "Ngozi A.", "Tunde B.", "Halima S."];
   let buyer = 0;
   const chip = $("[data-chip]"), totalEl = $("[data-count]");
@@ -229,7 +229,7 @@
         let ngozi;
         tl.call(() => { ngozi = addRow("PG-7F3A2B", "Ngozi A.", "Card", 45000, "Pending"); countTo(kpis[1], kv.wait, (kv.wait += 45000)); }, null, 0.9)
           .call(() => { setBadge(ngozi.querySelector(".badge"), "ok", "Successful"); countTo(kpis[0], kv.ok, (kv.ok += 45000)); countTo(kpis[1], kv.wait, (kv.wait -= 45000)); }, null, 2.2)
-          .call(() => { addRow("PG-7F3A2C", "Kola T.", "NQR", 3200, "Successful"); countTo(kpis[0], kv.ok, (kv.ok += 3200)); }, null, 3.4)
+          .call(() => { addRow("PG-7F3A2C", "Kola T.", "Transfer", 3200, "Successful"); countTo(kpis[0], kv.ok, (kv.ok += 3200)); }, null, 3.4)
           .call(() => {
             const bello = [...rowsBody.children].find((r) => r.textContent.includes("Bello Stores"));
             if (bello) setBadge(bello.querySelector(".badge"), "ok", "Successful");
@@ -339,7 +339,7 @@
   "amount": 4500000,
   "currency": "NGN",
   "checkout_url": "https://pay.paygate.example/c/7F3A21",
-  "channels": ["card", "transfer", "nqr"]
+  "channels": ["card", "transfer"]
 }
 <span class="tok-c">// webhook → payment.successful (in a moment)</span>`;
   run?.addEventListener("click", () => {

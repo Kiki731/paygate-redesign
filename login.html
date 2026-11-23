@@ -92,7 +92,7 @@
     </div>
     <div class="art__copy">
       <h2>Every payment, the moment it lands.</h2>
-      <p>Cards, transfers, NQR and POS in one dashboard, with settlements you don’t have to chase.</p>
+      <p>Cards, transfers and POS in one dashboard, with settlements you don’t have to chase.</p>
       <div class="art__lic"><span><i data-lucide="shield-check"></i>CBN PSSP · PTSP</span><span><i data-lucide="shield-check"></i>NIBSS aggregator</span><span><i data-lucide="shield-check"></i>PCI DSS</span></div>
     </div>
   </aside>
@@ -188,7 +188,7 @@
     G.from("[data-rise]", { opacity: 0, y: 12, filter: "blur(6px)", duration: 0.7, stagger: 0.06, ease: "expo.out", clearProps: "all" });
     G.from(".art__card", { y: 24, opacity: 0, duration: 0.9, delay: 0.3, ease: "expo.out" });
     $$("[data-haze]").forEach((h) => G.to(h, { xPercent: 5, scaleY: 1.15, duration: 8, ease: "sine.inOut", yoyo: true, repeat: -1 }));
-    const PAYS = [["₦12,500", "Transfer", "landmark"], ["₦3,200", "NQR", "qr-code"], ["₦18,750", "POS", "smartphone-nfc"], ["₦45,000", "Card", "credit-card"]];
+    const PAYS = [["₦12,500", "Transfer", "landmark"], ["₦18,750", "POS", "smartphone-nfc"], ["₦45,000", "Card", "credit-card"]];
     let k = 0, total = 4812350; const chip = $("[data-artchip]"), today = $("[data-today]");
     setInterval(() => {
       if (document.hidden || window.innerWidth < 960) return;

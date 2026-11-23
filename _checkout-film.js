@@ -1,5 +1,5 @@
 /* PayGate hero: the checkout as a continuous film.
-   Card → Transfer → NQR → POS, each acted out, looping forever.
+   Card → Transfer → POS, each acted out, looping forever.
    Decorative (aria-hidden); a visible Pause control sits outside it (WCAG 2.2.2). */
 (() => {
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches || /[?&]still\b/.test(location.search);
@@ -27,7 +27,7 @@
     const amt = () => +(root.dataset.amt || 45000);
     const select = (m) => {
       tabs.forEach((t) => t.classList.toggle("is-on", t.dataset.m === m));
-      ["card", "transfer", "nqr", "pos"].forEach((k) => (pane(k).hidden = k !== m));
+      ["card", "transfer", "pos"].forEach((k) => (pane(k).hidden = k !== m));
     };
     const resetAll = () => {
       typed.forEach((el) => (el.textContent = el.dataset.placeholder || ""));
@@ -103,7 +103,7 @@
     };
 
     const tl = gsap.timeline({ repeat: -1, paused: true });
-    ["card", "transfer", "nqr", "pos"].forEach((m, k) => {
+    ["card", "transfer", "pos"].forEach((m, k) => {
       const scene = scenes[m]();
       const start = tl.duration();
       tl.call(() => { resetAll(); select(m); gsap.set(tabs.map((t) => t.querySelector(".ctab__bar i")), { scaleX: 0 }); }, null, start);
@@ -127,6 +127,28 @@
       sync();
     });
     resetAll(); select("card");
+
+    // "Send a test payment": the visitor triggers one card payment and it is timed (demo)
+    let trying = false;
+    root._try = (amount) => {
+      if (trying) return; trying = true;
+      tl.pause(); gsap.killTweensOf([done, cursor]);
+      const keep = root.dataset.amt; root.dataset.amt = amount;
+      resetAll(); select("card");
+      tabs.forEach((t) => gsap.set(t.querySelector(".ctab__bar i"), { scaleX: 0 }));
+      typed.forEach((el) => (el.textContent = el.dataset.mask || el.dataset.type));
+      gsap.set(pane("card"), { autoAlpha: 1, y: 0 });
+      payLabel.textContent = "Processing…"; spin.hidden = false;
+      gsap.fromTo(pay, { scale: 0.97 }, { scale: 1, duration: 0.25 });
+      const t0 = performance.now();
+      root.dispatchEvent(new CustomEvent("pg:try-start", { bubbles: true, detail: { t0 } }));
+      setTimeout(() => {
+        spin.hidden = true;
+        success("card");
+        root.dispatchEvent(new CustomEvent("pg:try-done", { bubbles: true, detail: { secs: (performance.now() - t0) / 1000 } }));
+        setTimeout(() => { root.dataset.amt = keep; trying = false; resetAll(); tl.restart(); sync(); }, 3200);
+      }, 1200 + Math.random() * 700);
+    };
   }
 
   const boot = () => document.querySelectorAll("[data-film]").forEach(film);

@@ -5,7 +5,7 @@
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Upperlink PayGate · Get paid every way Nigeria pays</title>
-<meta name="description" content="Accept cards, bank transfers, NQR and POS payments through one CBN-licensed gateway. See every payment the moment it lands and settle it without chasing anyone.">
+<meta name="description" content="Accept cards, bank transfers and POS payments through one CBN-licensed gateway. See every payment the moment it lands and settle it without chasing anyone.">
 <meta property="og:title" content="Upperlink PayGate">
 <meta property="og:description" content="Get paid every way Nigeria pays. Online and at the counter.">
 <link rel="icon" href="assets/logos/upl-paygate-icon.svg">
@@ -36,7 +36,7 @@
     .split__photo { aspect-ratio: 4 / 3; }
   }
 </style>
-<link rel="stylesheet" href="_alive.css?v=24">
+<link rel="stylesheet" href="_alive.css?v=26">
 </head>
 <body class="pg-home pg-alive">
 <a class="btn btn--primary" href="#main" style="position:absolute;left:-9999px;top:8px;z-index:99" onfocus="this.style.left='8px'" onblur="this.style.left='-9999px'">Skip to content</a>
@@ -58,7 +58,7 @@
       <div class="dd" data-dd>
         <button type="button" aria-expanded="false" aria-controls="dd-products">Products <i data-lucide="chevron-down"></i></button>
         <div class="dd__panel" id="dd-products" hidden>
-          <a href="#rails"><i data-lucide="credit-card"></i><b>Online payments</b><span>Card, transfer and NQR checkout</span></a>
+          <a href="#rails"><i data-lucide="credit-card"></i><b>Online payments</b><span>Card and transfer checkout</span></a>
           <a href="#terminals"><i data-lucide="smartphone-nfc"></i><b>Upperlink Terminals</b><span>Take payments at the counter</span></a>
           <a href="#rail-links"><i data-lucide="link"></i><b>Payment links</b><span>Share a link, get paid</span></a>
           <a href="#split"><i data-lucide="split"></i><b>Split settlements</b><span>Share every payment by rule</span></a>
@@ -91,7 +91,7 @@
     <div class="wrap split">
       <div class="split__copy">
         <h1 id="hero-h" data-words>Get paid every way Nigeria pays. <span class="tt-mute">Online and at the counter.</span></h1>
-        <p class="lede" data-rise>Collect by card, transfer, NQR and POS through one gateway, in Naira or Dollars. Every payment is confirmed in real time, settled the next working day and reconciled for you.</p>
+        <p class="lede" data-rise>Collect by card, transfer and POS through one gateway, in Naira or Dollars. Every payment is confirmed in real time, settled the next working day and reconciled for you.</p>
         <div class="hero__ctas" data-rise>
           <a class="btn btn--primary" href="signup.html" data-press>Create your account <i data-lucide="arrow-right"></i></a>
           <a class="btn btn--secondary" href="#contact" data-press>Talk to sales</a>
@@ -111,7 +111,7 @@
         </figure>
         <div class="split__co">
           <figure class="stage__co" style="margin:0">
-            <figcaption class="sr-only">Animated demo: a customer pays Adaeze Fabrics ₦45,000 by card, then bank transfer, NQR and a POS terminal, and each payment is confirmed.</figcaption>
+            <figcaption class="sr-only">Animated demo: a customer pays Adaeze Fabrics ₦45,000 by card, then bank transfer and a POS terminal, and each payment is confirmed.</figcaption>
             <div class="checkout checkout--film" id="film-hero" data-film aria-hidden="true">
               <div class="checkout__head">
                 <img class="checkout__avatar" src="assets/images/web/adaeze-avatar.jpg" alt="" width="40" height="40">
@@ -121,8 +121,7 @@
               <div class="checkout__tabs">
                 <span class="ctab" data-m="card"><i data-lucide="credit-card"></i>Card<b class="ctab__bar"><i></i></b></span>
                 <span class="ctab" data-m="transfer"><i data-lucide="landmark"></i>Transfer<b class="ctab__bar"><i></i></b></span>
-                <span class="ctab" data-m="nqr"><i data-lucide="qr-code"></i>NQR<b class="ctab__bar"><i></i></b></span>
-                <span class="ctab" data-m="pos"><i data-lucide="smartphone-nfc"></i>POS<b class="ctab__bar"><i></i></b></span>
+                                <span class="ctab" data-m="pos"><i data-lucide="smartphone-nfc"></i>POS<b class="ctab__bar"><i></i></b></span>
               </div>
               <div class="checkout__body">
                 <div class="checkout__pane" data-pane="card">
@@ -134,10 +133,6 @@
                   <div class="checkout__row"><span>Pay into</span><span class="num">0123 456 789</span></div>
                   <div class="checkout__row"><span>Account name</span><span>Adaeze Fabrics</span></div>
                   <div class="checkout__row checkout__row--wait"><span data-wait>Waiting for your transfer</span><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span></div>
-                </div>
-                <div class="checkout__pane" data-pane="nqr" hidden>
-                  <div class="qrwrap"><svg class="checkout__qr" data-qr viewBox="0 0 25 25"></svg><span class="scanline"></span></div>
-                  <p class="small" style="text-align:center">Scan with any Nigerian bank app</p>
                 </div>
                 <div class="checkout__pane" data-pane="pos" hidden>
                   <div class="pos-stage">
@@ -153,7 +148,7 @@
             </div>
             <div class="co-under">
               <span class="demo-tag">Demo · sample merchant and amounts</span>
-              <button class="btn btn--ghost btn--sm" type="button" data-film-toggle="film-hero" aria-pressed="false"><i data-lucide="pause"></i><span>Pause animation</span></button>
+              <button class="btn btn--primary btn--sm try__btn" type="button" data-try><i data-lucide="send"></i><span>Try it: send ₦100</span></button><button class="btn btn--ghost btn--sm" type="button" data-film-toggle="film-hero" aria-pressed="false"><i data-lucide="pause"></i><span>Pause animation</span></button>
             </div>
           </figure>
         </div>
@@ -198,12 +193,6 @@
           <div class="rail__ui"><div class="frag"><div class="row"><span class="small">Pay into</span><span class="num">0123 456 789</span></div><div class="row"><span class="small">Status</span><span class="badge badge--wait" data-flip>Waiting</span></div></div></div>
         </article>
         <article class="rail" data-rail>
-          <span class="rail__ico"><i data-lucide="qr-code"></i></span>
-          <h3>NQR</h3>
-          <p>One printed or on-screen code your customer scans from any Nigerian bank app.</p>
-          <div class="rail__ui"><div class="frag"><div class="row"><svg data-qr viewBox="0 0 25 25" width="44" height="44" aria-hidden="true" style="border-radius:6px;background:#fff;padding:3px"></svg><span><b style="font-weight:600">Scan to pay</b><br><span class="small">₦3,200.00</span></span><span class="badge badge--ok">Successful</span></div></div></div>
-        </article>
-        <article class="rail" data-rail>
           <span class="rail__ico"><i data-lucide="smartphone-nfc"></i></span>
           <h3>POS terminals</h3>
           <p>Tap, insert or swipe at the counter on terminals we deploy and support under our PTSP licence.</p>
@@ -234,8 +223,8 @@
         <li class="how__row">
           <figure class="how__ph"><img src="assets/images/web/pay-phone-pos.jpg" alt="A customer taps her phone on a card terminal to pay" loading="lazy" width="1800" height="1200">
             <div class="chip how__chip" aria-hidden="true"><span class="dot dot--wait"><i data-lucide="loader"></i></span><span><strong>₦45,000 · authorising</strong><span>Contactless · just now</span></span></div></figure>
-          <div class="how__tx"><span class="how__n num">01 · Collect</span><h3>Your customer pays, any way they like</h3><p>On your website, by bank transfer, by scanning your NQR code, with a payment link on WhatsApp, or with a tap on an Upperlink terminal. One gateway takes them all.</p>
-            <ul class="how__pts"><li><i data-lucide="credit-card"></i>Visa, Mastercard, Verve, Amex, UnionPay</li><li><i data-lucide="landmark"></i>Transfer to a virtual account</li><li><i data-lucide="qr-code"></i>NQR</li><li><i data-lucide="smartphone-nfc"></i>POS</li><li><i data-lucide="link"></i>Payment links and pages</li><li><i data-lucide="banknote"></i>NGN and USD</li></ul></div>
+          <div class="how__tx"><span class="how__n num">01 · Collect</span><h3>Your customer pays, any way they like</h3><p>On your website, by bank transfer, with a payment link on WhatsApp, or with a tap on an Upperlink terminal. One gateway takes them all.</p>
+            <ul class="how__pts"><li><i data-lucide="credit-card"></i>Visa, Mastercard, Verve, Amex, UnionPay</li><li><i data-lucide="landmark"></i>Transfer to a virtual account</li><li><i data-lucide="smartphone-nfc"></i>POS</li><li><i data-lucide="link"></i>Payment links and pages</li><li><i data-lucide="banknote"></i>NGN and USD</li></ul></div>
         </li>
         <li class="how__row">
           <figure class="how__ph"><img src="assets/images/web/security-ops.jpg" alt="An analyst monitoring live payment systems" loading="lazy" width="1800" height="2700" style="object-position:50% 30%">
@@ -247,6 +236,13 @@
           <figure class="how__ph"><img src="assets/images/web/bookkeeper-phone.jpg" alt="A business owner checks her settlement on her phone" loading="lazy" width="1800" height="1200">
             <div class="chip how__chip" aria-hidden="true"><span class="dot"><i data-lucide="banknote"></i></span><span><strong>₦4,812,350 settled</strong><span>T+1 · 1,284 payments reconciled</span></span></div></figure>
           <div class="how__tx"><span class="how__n num">03 · Settle and reconcile</span><h3>Settled next day, reconciled for you</h3><p>Money settles to the account you nominate on a T+1 basis, the next working day, or T+2 if you prefer. Every payment is matched to its reference with a daily breakdown of amounts and fees, so reconciliation is done before your finance team opens a spreadsheet.</p>
+            <div class="t1" data-t1>
+              <div class="t1__side"><span class="small">Paid now</span><b data-t1-paid>Today</b></div>
+              <span class="t1__arrow" aria-hidden="true"><i data-lucide="arrow-right"></i></span>
+              <div class="t1__side"><span class="small">In your account</span><b data-t1-settle>Next working day</b></div>
+              <div class="seg t1__cycle" role="group" aria-label="Settlement cycle"><button type="button" aria-pressed="true" data-t1-cycle="1">T+1</button><button type="button" aria-pressed="false" data-t1-cycle="2">T+2</button></div>
+            </div>
+            <p class="small t1__note">Counts working days only. Public holidays and the daily cut-off time are not included yet. <span class="pending">to confirm</span></p>
             <ul class="how__pts"><li><i data-lucide="banknote"></i>Automatic settlement</li><li><i data-lucide="split"></i>Split settlements</li><li><i data-lucide="list-checks"></i>Reconciliation reports</li><li><i data-lucide="file-down"></i>Exports for auditors</li><li><i data-lucide="calendar-check"></i>T+1 or T+2 settlement</li></ul></div>
         </li>
       </ol>
@@ -339,6 +335,58 @@
     </div>
   </section>
 
+  <!-- BUILD YOUR CHECKOUT -->
+  <section class="band band--mist" id="build" aria-labelledby="build-h">
+    <div class="wrap build">
+      <div class="build__controls">
+        <h2 id="build-h" class="h1" data-words>Build your checkout. <span class="tt-mute">Take it live when you’re ready.</span></h2>
+        <p class="lede">Set it up the way your customers will see it. We keep it ready in this browser and carry it into your sign-up.</p>
+        <form class="build__form" data-build novalidate>
+          <div class="build__row">
+            <div class="field"><label for="b-name">Business name</label><input class="input" id="b-name" maxlength="40" autocomplete="organization" placeholder="Adaeze Fabrics" data-b-name></div>
+            <div class="field"><label for="b-amt">Amount (₦)</label><input class="input num" id="b-amt" inputmode="numeric" placeholder="45,000" data-b-amt></div>
+          </div>
+          <div class="field"><label for="b-item">What are they paying for?</label><input class="input" id="b-item" maxlength="48" placeholder="Order #1042" data-b-item></div>
+          <fieldset class="build__set"><legend>Brand colour</legend>
+            <div class="swatches">
+              <label class="swatch" style="--sw:#000bb8"><input type="radio" name="b-colour" value="#000bb8" checked><span class="sr-only">Upperlink blue</span></label>
+              <label class="swatch" style="--sw:#0b6b4f"><input type="radio" name="b-colour" value="#0b6b4f"><span class="sr-only">Green</span></label>
+              <label class="swatch" style="--sw:#7a1fa2"><input type="radio" name="b-colour" value="#7a1fa2"><span class="sr-only">Purple</span></label>
+              <label class="swatch" style="--sw:#b3261e"><input type="radio" name="b-colour" value="#b3261e"><span class="sr-only">Red</span></label>
+              <label class="swatch" style="--sw:#1a1c3d"><input type="radio" name="b-colour" value="#1a1c3d"><span class="sr-only">Ink</span></label>
+            </div>
+          </fieldset>
+          <fieldset class="build__set"><legend>How customers can pay</legend>
+            <div class="build__methods">
+              <label class="check"><input type="checkbox" name="b-m" value="card" checked>Card</label>
+              <label class="check"><input type="checkbox" name="b-m" value="transfer" checked>Bank transfer</label>
+              <label class="check"><input type="checkbox" name="b-m" value="pos">POS, in person</label>
+            </div>
+            <span class="hint" data-b-hint hidden>Keep at least one way to pay</span>
+          </fieldset>
+          <div class="build__go"><a class="btn btn--primary" href="signup.html?from=checkout" data-press data-b-go>Get this checkout <i data-lucide="arrow-right"></i></a><button class="btn btn--ghost" type="button" data-b-reset>Start over</button></div>
+          <p class="small build__note"><i data-lucide="lock"></i>Stays in this browser until you sign up. Nothing is sent anywhere.</p>
+        </form>
+      </div>
+      <div class="build__preview" aria-live="polite">
+        <div class="checkout checkout--built" data-b-checkout style="--co:#000bb8">
+          <div class="checkout__head">
+            <span class="checkout__merchant" data-b-initials>AF</span>
+            <div><strong data-b-label>Adaeze Fabrics</strong><span data-b-itemout>Order #1042</span></div>
+            <div class="checkout__amt"><span class="small">Total</span><div class="num" data-b-total>₦45,000.00</div></div>
+          </div>
+          <div class="checkout__tabs build__tabs" data-b-tabs></div>
+          <div class="checkout__body build__body" data-b-body></div>
+          <div class="checkout__foot"><i data-lucide="lock"></i>Secured by PayGate</div>
+        </div>
+        <div class="build__share">
+          <svg class="build__qr" viewBox="0 0 25 25" aria-hidden="true" data-b-qr></svg>
+          <div><span class="small">Your payment link</span><b class="num" data-b-link>paygate.upperlink.ng/pay/adaeze-fabrics</b><span class="small">Share it on WhatsApp, email or print the code. Demo only.</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- 6. DASHBOARD TOUR -->
   <section class="sec" id="tour" aria-labelledby="tour-h">
     <div class="wrap">
@@ -365,7 +413,7 @@
                 <tbody data-rows>
                   <tr><td class="num" style="text-align:left">PG-7F3A21</td><td class="hide-sm">Chiamaka O.</td><td>Card</td><td class="num">₦45,000.00</td><td><span class="badge badge--ok">Successful</span></td></tr>
                   <tr><td class="num" style="text-align:left">PG-7F3A1C</td><td class="hide-sm">Bello Stores</td><td>Transfer</td><td class="num">₦120,000.00</td><td><span class="badge badge--wait">Pending</span></td></tr>
-                  <tr><td class="num" style="text-align:left">PG-7F3A17</td><td class="hide-sm">Ife A.</td><td>NQR</td><td class="num">₦3,200.00</td><td><span class="badge badge--ok">Successful</span></td></tr>
+                  <tr><td class="num" style="text-align:left">PG-7F3A17</td><td class="hide-sm">Ife A.</td><td>Transfer</td><td class="num">₦3,200.00</td><td><span class="badge badge--ok">Successful</span></td></tr>
                   <tr><td class="num" style="text-align:left">PG-7F3A0E</td><td class="hide-sm">Musa K.</td><td>POS</td><td class="num">₦18,750.00</td><td><span class="badge badge--ok">Successful</span></td></tr>
                   <tr><td class="num" style="text-align:left">PG-7F3A09</td><td class="hide-sm">Grace E.</td><td>Card</td><td class="num">₦31,500.00</td><td><span class="badge badge--bad">Declined</span></td></tr>
                 </tbody></table>
@@ -455,19 +503,18 @@
 curl https://sandbox.paygate.example/v1/payments \
   -H <span class="tok-s">"Authorization: Bearer sk_test_…"</span> \
   -d amount=<span class="tok-n">4500000</span> -d currency=<span class="tok-s">NGN</span> \
-  -d channels[]=<span class="tok-s">card</span> -d channels[]=<span class="tok-s">transfer</span> \
-  -d channels[]=<span class="tok-s">nqr</span></pre>
+  -d channels[]=<span class="tok-s">card</span> -d channels[]=<span class="tok-s">transfer</span></pre>
 <pre data-code-pane="node" hidden tabindex="0"><span class="tok-c">// Start a ₦45,000 payment (illustrative request)</span>
 <span class="tok-k">const</span> payment = <span class="tok-k">await</span> paygate.payments.create({
   amount: <span class="tok-n">4500000</span>, <span class="tok-c">// in kobo</span>
   currency: <span class="tok-s">"NGN"</span>,
-  channels: [<span class="tok-s">"card"</span>, <span class="tok-s">"transfer"</span>, <span class="tok-s">"nqr"</span>],
+  channels: [<span class="tok-s">"card"</span>, <span class="tok-s">"transfer"</span>],
 });</pre>
 <pre data-code-pane="php" hidden tabindex="0"><span class="tok-c">// Start a ₦45,000 payment (illustrative request)</span>
 $payment = $paygate->payments->create([
   <span class="tok-s">'amount'</span>   => <span class="tok-n">4500000</span>,
   <span class="tok-s">'currency'</span> => <span class="tok-s">'NGN'</span>,
-  <span class="tok-s">'channels'</span> => [<span class="tok-s">'card'</span>, <span class="tok-s">'transfer'</span>, <span class="tok-s">'nqr'</span>],
+  <span class="tok-s">'channels'</span> => [<span class="tok-s">'card'</span>, <span class="tok-s">'transfer'</span>],
 ]);</pre>
           <div class="resp" data-resp aria-live="polite" tabindex="0"><span class="tok-c">// Press “Run in sandbox” to see the response</span></div>
         </div>
@@ -555,7 +602,7 @@ $payment = $paygate->payments->create([
 <footer class="foot">
   <div class="wrap">
     <div class="foot__grid">
-      <div class="stack"><img class="logo--auto" src="assets/logos/upl-paygate-icon.svg" alt="Upperlink PayGate" width="95" height="30" style="height:30px;width:auto"><p class="small" style="max-width:32ch">One gateway for cards, transfers, NQR and POS. Built in Lagos.</p></div>
+      <div class="stack"><img class="logo--auto" src="assets/logos/upl-paygate-icon.svg" alt="Upperlink PayGate" width="95" height="30" style="height:30px;width:auto"><p class="small" style="max-width:32ch">One gateway for cards, transfers and POS. Built in Lagos.</p></div>
       <div><p class="foot__h">Products</p><ul><li><a href="#rails">Online payments</a></li><li><a href="#terminals">POS terminals</a></li><li><a href="#rail-links">Payment links</a></li><li><a href="#split">Split settlements</a></li></ul></div>
       <div><p class="foot__h">Developers</p><ul><li><a href="docs.html">Documentation</a></li><li><a href="docs.html#ref-transaction">API reference</a></li><li><a href="docs.html#test-cards">Test cards</a></li><li><a href="developers.html">Developer overview</a></li></ul></div>
       <div><p class="foot__h">Company</p><ul><li><a href="about.html">About Upperlink</a></li><li><a href="about.html#why">Why PayGate</a></li><li><a href="about.html#licences">Licences and compliance</a></li><li><a href="support.html">Contact and support</a></li></ul></div>
@@ -576,12 +623,12 @@ $payment = $paygate->payments->create([
 <script>lucide.createIcons({ attrs: { "stroke-width": 1.75, "aria-hidden": "true" } });</script>
 <script src="_site.js?v=13"></script>
 <script src="_signature.js?v=13"></script>
-<script src="_checkout-film.js?v=13"></script>
+<script src="_checkout-film.js?v=26"></script>
 <script src="_pattern.js?v=13"></script>
-<script src="_home.js?v=23"></script>
+<script src="_home.js?v=25"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
-<script src="_alive.js?v=24"></script>
+<script src="_alive.js?v=28"></script>
 <script src="_review.js?v=13"></script>
 </body>
 </html>
