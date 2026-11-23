@@ -28,6 +28,38 @@
   .type:has(input:focus-visible) { outline: 2px solid var(--focus); outline-offset: 2px; }
   .type > svg { grid-row: span 2; width: 40px; height: 40px; padding: 9px; border-radius: 10px; background: var(--mist); color: var(--brand); }
   :root[data-theme="dark"] .type > svg { color: #c9ccff; }
+  /* the selected card stays readable when the phone or laptop itself is in dark mode */
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .type:has(input:checked) { background: rgba(75, 85, 255, .14); }
+    :root:not([data-theme="light"]) .type > svg { color: #c9ccff; }
+  }
+  .type:has(input:checked) b { color: var(--ink); }
+  .chosen { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin-top: 14px; padding: 10px 12px; border-radius: 12px; background: var(--mist); font-size: .9375rem; color: var(--ink-2); }
+  .chosen svg { width: 18px; height: 18px; color: var(--brand); }
+  :root[data-theme="dark"] .chosen svg { color: #c9ccff; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .chosen svg { color: #c9ccff; } }
+  .chosen b { color: var(--ink); }
+  .chosen .linkbtn { margin-left: auto; }
+  .mailview { display: grid; gap: 16px; margin-top: 24px; }
+  .mailview__ico { width: 56px; height: 56px; border-radius: 16px; display: grid; place-items: center; background: var(--ok-bg); color: var(--ok); }
+  .mailview__ico svg { width: 28px; height: 28px; }
+  .mailview p { color: var(--ink-2); }
+  .mailview p b { color: var(--ink); }
+  .switchmode { margin-top: 18px; font-size: .9375rem; color: var(--ink-2); }
+  [data-verify-code][hidden], [data-verify-link][hidden] { display: none !important; }
+  /* product photos that change on the right */
+  .art__slides { position: absolute; inset: 0; z-index: -2; }
+  .art__slides figure { position: absolute; inset: 0; margin: 0; opacity: 0; transition: opacity 900ms var(--ease-out); }
+  .art__slides figure.is-on { opacity: 1; }
+  .art__slides img { width: 100%; height: 100%; object-fit: cover; }
+  .art__slides figcaption { position: absolute; left: clamp(24px, 4vw, 48px); top: clamp(24px, 4vw, 48px); display: grid; gap: 2px; padding: 10px 14px; border-radius: 12px; background: rgba(255, 255, 255, .94); color: #1a1c3d; font-size: .8125rem; max-width: 280px; box-shadow: 0 14px 30px -14px rgba(0, 0, 0, .5); }
+  .art__slides figcaption b { font-size: .9375rem; }
+  .art__dots { display: flex; align-items: center; gap: 8px; margin-bottom: 18px; }
+  .art__dots button[data-dot] { all: unset; cursor: pointer; height: 4px; width: 28px; border-radius: 4px; background: rgba(255, 255, 255, .35); }
+  .art__dots button[data-dot][aria-pressed="true"] { background: #fff; width: 44px; }
+  .art__dots button[data-dot]:focus-visible, .art__pause:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
+  .art__pause { all: unset; cursor: pointer; margin-left: 6px; display: inline-flex; white-space: nowrap; padding: 4px 8px; border-radius: 8px; background: rgba(0, 0, 0, .25); align-items: center; gap: 6px; font-size: .75rem; color: rgba(255, 255, 255, .85); }
+  .art__pause svg { width: 14px; height: 14px; }
   .type b { font-weight: 600; }
   .type span { font-size: .875rem; color: var(--ink-2); }
   .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
@@ -63,7 +95,8 @@
   <div class="seg" role="group" aria-label="Preview step">
     <button type="button" aria-pressed="true" data-jump="type">1 Business</button>
     <button type="button" aria-pressed="false" data-jump="details">2 Details</button>
-    <button type="button" aria-pressed="false" data-jump="verify">3 Verify</button>
+    <button type="button" aria-pressed="false" data-jump="verify">3 Verify (code)</button>
+    <button type="button" aria-pressed="false" data-jump="verify" data-jump-mode="link">3 Verify (link)</button>
     <button type="button" aria-pressed="false" data-jump="done">4 Next steps</button>
   </div>
 </div>
@@ -90,6 +123,7 @@
             <legend class="small" style="color:var(--ink-2);font-weight:500">What kind of business is it?</legend>
             <label class="type"><input type="radio" name="btype" value="co" checked><i data-lucide="building-2"></i><b>Registered company</b><span>Limited company registered with the CAC (RC number)</span></label>
             <label class="type"><input type="radio" name="btype" value="bn"><i data-lucide="store"></i><b>Business name</b><span>Sole proprietor or partnership (BN number)</span></label>
+            <label class="type"><input type="radio" name="btype" value="startup"><i data-lucide="rocket"></i><b>Start-up</b><span>Early-stage or newly registered company building its first product</span></label>
             <label class="type"><input type="radio" name="btype" value="inst"><i data-lucide="landmark"></i><b>School, institution or government</b><span>Universities, schools, agencies and MDAs</span></label>
           </fieldset>
           <button class="btn btn--primary full" type="submit" data-press>Continue</button>
@@ -100,6 +134,7 @@
       <section data-step="details" aria-labelledby="s2-h" hidden>
         <h1 id="s2-h" tabindex="-1">Tell us about you</h1>
         <p class="auth__sub">You’ll be the account owner. You can invite your team later.</p>
+        <p class="chosen" data-chosen><span data-chosen-ico><i data-lucide="building-2"></i></span><span>Signing up as <b data-chosen-label>Registered company</b></span><button class="linkbtn" type="button" data-to="type">Change</button></p>
         <form novalidate data-form-details>
           <div class="grid2">
             <div class="field"><label for="fn">Full name</label><input class="input" id="fn" autocomplete="name" required><span class="hint" hidden>Enter your full name</span></div>
@@ -124,6 +159,7 @@
       <!-- 3 verify -->
       <section data-step="verify" aria-labelledby="s3-h" hidden>
         <h1 id="s3-h" tabindex="-1">Check your email</h1>
+        <div data-verify-code>
         <p class="auth__sub">We sent a 6-digit code to <b data-email-echo>you@business.ng</b>.</p>
         <form novalidate data-form-verify style="margin-top:28px">
           <fieldset style="border:0;margin:0;padding:0;display:grid;gap:8px">
@@ -136,6 +172,14 @@
           <button class="btn btn--primary full" type="submit" data-press>Verify email</button>
           <div class="auth__row"><button class="linkbtn" type="button" data-to="details">← Wrong email?</button><button class="linkbtn" type="button">Resend code</button></div>
         </form>
+        <p class="switchmode">Prefer a link? <button class="linkbtn" type="button" data-mode="link">Email me an activation link instead</button></p>
+        </div>
+        <div class="mailview" data-verify-link hidden>
+          <span class="mailview__ico" aria-hidden="true"><i data-lucide="mail-check"></i></span>
+          <p>We sent an activation link to <b data-email-echo>you@business.ng</b>. Open it on any device to activate your account. It expires in 24 hours. <span class="pending">expiry to confirm</span></p>
+          <button class="btn btn--primary full" type="button" data-link-open data-press>I’ve clicked the link (demo)</button>
+          <div class="auth__row"><button class="linkbtn" type="button" data-mode="code">Use a code instead</button><button class="linkbtn" type="button">Resend link</button></div>
+        </div>
       </section>
 
       <!-- 4 next steps -->
@@ -154,14 +198,22 @@
 
     <div class="auth__foot">
       <span class="lic"><i data-lucide="badge-check"></i>Licensed by the Central Bank of Nigeria · PCI DSS</span>
-      <span><a href="support.html">Help</a> · <a href="legal.html#privacy">Privacy</a> · Photo: Freepik on <a href="https://www.freepik.com" rel="noopener">Freepik</a></span>
+      <span><a href="support.html">Help</a> · <a href="legal.html#privacy">Privacy</a> · Photos: Freepik, wirestock and DC Studio on <a href="https://www.freepik.com" rel="noopener">Freepik</a></span>
     </div>
   </main>
 
   <aside class="auth__art" aria-label="Why PayGate">
-    <img src="assets/images/web/small-business-owner.jpg" alt="" width="2000" height="1333" style="object-position:72% 30%">
+    <div class="art__slides" data-slides>
+      <figure class="is-on" data-slide><img src="assets/images/web/online-shopper.jpg" alt="A woman paying online with her card and laptop" width="1800" height="1200" style="object-position:55% 35%"><figcaption><b>Card payments</b>Visa, Mastercard, Verve, Amex and UnionPay</figcaption></figure>
+      <figure data-slide><img src="assets/images/web/market-two-women.jpg" alt="Two women checking a payment on a phone at a market" width="2000" height="1333" style="object-position:62% 35%"><figcaption><b>Bank transfers</b>A virtual account for the exact amount, confirmed instantly</figcaption></figure>
+      <figure data-slide><img src="assets/images/web/hotel-pos.jpg" alt="An attendant holding out a card terminal" width="2000" height="1333" style="object-position:20% 50%"><figcaption><b>POS terminals</b>Tap, insert or swipe at the counter</figcaption></figure>
+    </div>
     <div class="haze haze--band" data-haze></div>
     <div class="art__copy" style="max-width:34ch">
+      <div class="art__dots" role="group" aria-label="PayGate products" data-dots>
+        <button type="button" aria-pressed="true" aria-label="Card payments" data-dot="0"></button><button type="button" aria-pressed="false" aria-label="Bank transfers" data-dot="1"></button><button type="button" aria-pressed="false" aria-label="POS terminals" data-dot="2"></button>
+        <button class="art__pause" type="button" aria-pressed="false" data-slides-pause><i data-lucide="pause"></i><span>Pause</span></button>
+      </div>
       <h2>Take your first payment this week.</h2>
       <ul class="art__list">
         <li><i data-lucide="check"></i>Sandbox keys the moment you sign up</li>
@@ -188,6 +240,7 @@
   const DOCS = {
     co: ["For a registered company:", ["Certificate of Incorporation", "Status report", "MEMART", "ID of directors and shareholders", "Utility bills (directors and company)", "BVN of owners with 25% or more"]],
     bn: ["For a business name:", ["Certificate of registration", "Status report", "ID of proprietors", "Utility bill of proprietors"]],
+    startup: ["For a start-up:", ["Certificate of Incorporation or business-name registration", "Status report", "ID of founders or directors", "Utility bill of a founder", "BVN of owners with 25% or more"]],
     inst: ["For an institution or agency:", ["Establishment document or letter of authority", "ID of authorised signatories", "Utility bill of the institution"]],
   };
   const ORDER = ["type", "details", "verify", "done"];
@@ -210,17 +263,47 @@
     const k = ORDER.indexOf(name);
     $$("[data-progress] li").forEach((li, i) => { li.className = i < k ? "is-done" : i === k ? "is-on" : ""; i === k ? li.setAttribute("aria-current", "step") : li.removeAttribute("aria-current"); });
     $$("[data-jump]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.jump === name)));
+    if (name === "details") {
+      const r = $("input[name=btype]:checked"), ICO = { co: "building-2", bn: "store", startup: "rocket", inst: "landmark" };
+      $("[data-chosen-label]").textContent = r.closest(".type").querySelector("b").textContent;
+      $("[data-chosen-ico]").innerHTML = `<i data-lucide="${ICO[r.value]}"></i>`; icons();
+    }
+    if (name === "verify") setMode(verifyMode);
     if (name === "done") {
       const [label, list] = DOCS[$("input[name=btype]:checked").value];
       $("[data-doc-type]").textContent = label; $("[data-doclist]").innerHTML = list.map((d) => `<li>${d}</li>`).join("");
     }
     const s = $(`[data-step="${name}"]`);
     if (focus) s.querySelector("h1").focus({ preventScroll: true });
-    if (name === "verify") $("[data-otp] input").focus();
+    if (name === "verify" && verifyMode === "code") $("[data-otp] input").focus();
     if (G) G.from(s.children, { opacity: 0, y: 12, filter: "blur(6px)", duration: 0.5, stagger: 0.05, ease: "expo.out", clearProps: "all" });
   };
   $$("[data-to]").forEach((b) => b.addEventListener("click", () => go(b.dataset.to)));
-  $$("[data-jump]").forEach((b) => b.addEventListener("click", () => go(b.dataset.jump)));
+  $$("[data-jump]").forEach((b) => b.addEventListener("click", () => { verifyMode = b.dataset.jumpMode || "code"; go(b.dataset.jump); $$("[data-jump]").forEach((x) => x.setAttribute("aria-pressed", String(x === b))); }));
+
+  /* verify by 6-digit code or by an activation link */
+  let verifyMode = "code";
+  function setMode(m) {
+    verifyMode = m;
+    $("[data-verify-code]").hidden = m !== "code"; $("[data-verify-link]").hidden = m !== "link";
+    const v = $(`[data-verify-${m}]`);
+    if (G) G.fromTo(v, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out", clearProps: "all" });
+  }
+  $$("[data-mode]").forEach((b) => b.addEventListener("click", () => { setMode(b.dataset.mode); (b.dataset.mode === "code" ? $("[data-otp] input") : $("[data-link-open]")).focus(); }));
+  $("[data-link-open]").addEventListener("click", () => go("done"));
+
+  /* product photos: change every 5 seconds, pause on hover, focus or the Pause button */
+  const slides = $$("[data-slide]"), dots = $$("[data-dot]"), pauseBtn = $("[data-slides-pause]");
+  let slide = 0, slidePaused = reduce, hover = false;
+  const showSlide = (i) => { slide = i; slides.forEach((f, k) => f.classList.toggle("is-on", k === i)); dots.forEach((d, k) => d.setAttribute("aria-pressed", String(k === i))); };
+  dots.forEach((d) => d.addEventListener("click", () => showSlide(+d.dataset.dot)));
+  const setPaused = (v) => { slidePaused = v; pauseBtn.setAttribute("aria-pressed", String(v)); pauseBtn.innerHTML = `<i data-lucide="${v ? "play" : "pause"}"></i><span>${v ? "Play" : "Pause"}</span>`; icons(); };
+  pauseBtn.addEventListener("click", () => setPaused(!slidePaused));
+  if (reduce) setPaused(true);
+  const art = $(".auth__art");
+  art.addEventListener("mouseenter", () => (hover = true)); art.addEventListener("mouseleave", () => (hover = false));
+  art.addEventListener("focusin", () => (hover = true)); art.addEventListener("focusout", () => (hover = false));
+  setInterval(() => { if (!slidePaused && !hover && !document.hidden && innerWidth >= 960) showSlide((slide + 1) % slides.length); }, 5000);
 
   $("[data-form-type]").addEventListener("submit", (e) => { e.preventDefault(); go("details"); });
 
@@ -250,7 +333,7 @@
     });
     const terms = $("[data-terms]"); $("[data-terms-hint]").hidden = terms.checked; if (!terms.checked && !first) first = terms;
     if (first) { first.focus(); if (G) G.fromTo(first, { x: -6 }, { x: 0, duration: 0.4, ease: "elastic.out(1, 0.3)" }); return; }
-    $("[data-email-echo]").textContent = $("#em").value;
+    $$("[data-email-echo]").forEach((el) => (el.textContent = $("#em").value));
     const btn = $("button[type=submit]", fd); btn.disabled = true; $(".spin", btn).hidden = false; $("[data-label]", btn).textContent = "Creating account…";
     setTimeout(() => { btn.disabled = false; $(".spin", btn).hidden = true; $("[data-label]", btn).textContent = "Create account"; go("verify"); }, reduce ? 0 : 900);
   });
