@@ -539,3 +539,11 @@
 .band--dark .seg { background: rgba(240, 242, 255, .08); }
 .band--dark .seg button[aria-pressed="true"] { background: #fff; color: #070a2e; }
 .band { padding-block: clamp(72px, 10vw, 128px); }
+
+/* system dark mode: same as the dark theme toggle (generated) */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .dd__panel a svg { background: rgba(75, 85, 255, .14); color: #c9ccff; }
+  :root:not([data-theme="light"]) .rail__ico { color: #c9ccff; }
+  :root:not([data-theme="light"]) .lic li > svg { color: #9ea4ff; }
+  :root:not([data-theme="light"]) .term__list svg { color: #9ea4ff; }
+}

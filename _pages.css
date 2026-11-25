@@ -129,3 +129,14 @@
 :root[data-theme="dark"] .note { background: rgba(75, 85, 255, .14); }
 :root[data-theme="dark"] .note--warn { background: var(--wait-bg); }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .note { background: rgba(75, 85, 255, .14); } :root:not([data-theme="light"]) .note--warn { background: var(--wait-bg); } }
+
+/* system dark mode: same as the dark theme toggle (generated) */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .pg-kick { color: #9ea4ff; }
+  :root:not([data-theme="light"]) .ipath__top > svg { color: #9ea4ff; }
+  :root:not([data-theme="light"]) .kit__i > svg { color: #9ea4ff; }
+  :root:not([data-theme="light"]) .chan__i > svg { color: #9ea4ff; }
+  :root:not([data-theme="light"]) .issue__need svg { color: #9ea4ff; }
+  :root:not([data-theme="light"]) .legal__nav a[aria-current="page"] { background: rgba(75, 85, 255, .14); color: #c9ccff; }
+  :root:not([data-theme="light"]) .nf__code { color: #9ea4ff; }
+}

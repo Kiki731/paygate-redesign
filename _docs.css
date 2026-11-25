@@ -159,3 +159,13 @@
   .hide-md { display: none !important; }
 }
 @media (max-width: 560px) { .pager { grid-template-columns: 1fr; } .pager a:last-child { text-align: left; } .envtag { display: none; } .dtop__brand b { display: none; } }
+
+/* system dark mode: same as the dark theme toggle (generated) */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .dside__h svg { color: #9ea4ff; }
+  :root:not([data-theme="light"]) .dside a[aria-current="page"] { color: #c9ccff; background: rgba(75, 85, 255, .14); }
+  :root:not([data-theme="light"]) .path > svg { color: #9ea4ff; }
+  :root:not([data-theme="light"]) .path.is-here::after { color: #c9ccff; }
+  :root:not([data-theme="light"]) .note { background: rgba(75, 85, 255, .12); }
+  :root:not([data-theme="light"]) .note--warn { background: var(--wait-bg); }
+}

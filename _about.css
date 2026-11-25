@@ -79,3 +79,11 @@
 .lic__view:hover { background: var(--mist); }
 .lic__view:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 .lic span a { color: var(--link); }
+
+/* system dark mode: same as the dark theme toggle (generated) */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .ab-kick { color: #9ea4ff; }
+  :root:not([data-theme="light"]) .reason__n { color: #9ea4ff; }
+  :root:not([data-theme="light"]) .reason__logos img { mix-blend-mode: normal; background: #fff; padding: 3px 6px; border-radius: 6px; }
+  :root:not([data-theme="light"]) .value svg { color: #9ea4ff; }
+}

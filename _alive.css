@@ -47,6 +47,7 @@
 .you__receipt b { display: block; font-weight: 600; font-size: .9375rem; } .you__receipt span { font-size: .8125rem; color: var(--ink-3); }
 .welcome { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; padding: 8px 8px 8px 14px; border-radius: 12px; background: var(--blue-50); color: var(--ink); font-size: .9375rem; }
 :root[data-theme="dark"] .welcome { background: rgba(75, 85, 255, .14); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .welcome { background: rgba(75, 85, 255, .14); } }
 .welcome a, .welcome button { color: var(--link); font-weight: 500; }
 .welcome button { all: unset; cursor: pointer; color: var(--ink-3); font-size: .8125rem; padding: 4px 8px; border-radius: 6px; }
 .welcome button:hover { background: rgba(6, 8, 46, .06); } .welcome button:focus-visible { outline: 2px solid var(--focus); }
@@ -377,3 +378,17 @@
 }
 @media (prefers-reduced-motion: reduce) { .journey { transition: none; } }
 
+/* system dark mode: same as the dark theme toggle (generated) */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .you__types label:has(input:checked) { color: #c9ccff; background: rgba(75, 85, 255, .14); }
+  :root:not([data-theme="light"]) .chat { background: #1a1c33; }
+  :root:not([data-theme="light"]) .chat__top { color: #f0f2ff; border-color: rgba(255, 255, 255, .08); }
+  :root:not([data-theme="light"]) .chat__msg { background: #262a4a; color: #f0f2ff; }
+  :root:not([data-theme="light"]) .chat__msg--out { background: #0d4a3a; }
+  :root:not([data-theme="light"]) .paylink { background: rgba(0, 0, 0, .2); }
+  :root:not([data-theme="light"]) .story__kick { color: #9ea4ff; }
+  :root:not([data-theme="light"]) .how__n { color: #9ea4ff; }
+  :root:not([data-theme="light"]) .how__pts svg { color: #9ea4ff; }
+  :root:not([data-theme="light"]) .flow__svg .coin { fill: #9ea4ff; }
+  :root:not([data-theme="light"]) .acct .pct { color: #9ea4ff; }
+}
