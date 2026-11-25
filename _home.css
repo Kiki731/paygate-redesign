@@ -495,3 +495,47 @@
 .hero__dev:hover { text-decoration: underline; }
 .hero__dev svg { width: 16px; height: 16px; }
 .hero__dev:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 6px; }
+
+/* ======== dark bands: full-width night sections for contrast (proof, build, developers) ======== */
+.band--dark {
+  --paper: #070a2e; --mist: #0d1140; --surface: #0d1140; --surface-raised: #141852;
+  --line: rgba(232, 234, 255, .12); --line-strong: rgba(232, 234, 255, .22);
+  --ink: rgba(240, 242, 255, .95); --ink-2: rgba(240, 242, 255, .74); --ink-3: rgba(240, 242, 255, .64); --ink-4: rgba(240, 242, 255, .3);
+  --brand: #4b55ff; --brand-hover: #3d45f0; --link: #b4b9ff; --focus: #b4b9ff; --brand-text: #b4b9ff;
+  --card-bg: rgba(240, 242, 255, .04); --card-line: rgba(240, 242, 255, .1);
+  --ok: #3fd08a; --ok-bg: rgba(63, 208, 138, .14); --wait: #ffb547; --wait-bg: rgba(255, 181, 71, .14); --bad: #ff6b81; --bad-bg: rgba(255, 107, 129, .14);
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, .4); --shadow-2: 0 12px 32px -8px rgba(0, 0, 0, .6); --shadow-3: 0 4px 8px rgba(0, 0, 0, .35), 0 28px 64px -16px rgba(0, 0, 0, .7);
+  color-scheme: dark;
+  position: relative; isolation: isolate; overflow: hidden;
+  background: radial-gradient(120% 80% at 85% 0%, rgba(42, 59, 255, .22), transparent 60%), #070a2e;
+  color: var(--ink);
+}
+/* when the whole site is dark, the bands lift a step so they still read as their own sections */
+:root[data-theme="dark"] .band--dark { --paper: #0c0f3a; background: radial-gradient(120% 80% at 85% 0%, rgba(42, 59, 255, .28), transparent 60%), #0c0f3a; box-shadow: inset 0 1px 0 rgba(232, 234, 255, .08), inset 0 -1px 0 rgba(232, 234, 255, .08); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .band--dark { --paper: #0c0f3a; background: radial-gradient(120% 80% at 85% 0%, rgba(42, 59, 255, .28), transparent 60%), #0c0f3a; box-shadow: inset 0 1px 0 rgba(232, 234, 255, .08), inset 0 -1px 0 rgba(232, 234, 255, .08); } }
+.band--dark .h1, .band--dark h2, .band--dark h3 { color: #fff; }
+.band--dark .tt-mute { color: rgba(240, 242, 255, .6); }
+.band--dark .lede { color: rgba(240, 242, 255, .76); }
+/* the panels inside lose their own card: the band is the surface now */
+.band--dark .deep, .band--dark .devp { background: transparent; box-shadow: none; margin-inline: 0; padding-inline: 0; border-radius: 0; }
+.band--dark .deep { padding-block: 0; }
+.band--dark .deep > .haze--band { opacity: .4; }
+.pg-alive #developers.band--dark { padding-top: clamp(72px, 10vw, 128px); }
+/* build your checkout on night */
+.band--dark .build__preview .checkout { background: #fff; color: #1a1c3d; --ink: rgba(6, 8, 46, .92); --ink-2: rgba(6, 8, 46, .66); --ink-3: rgba(6, 8, 46, .6); --line: rgba(6, 8, 46, .1); --mist: #f4f5fb; --surface-raised: #fff; box-shadow: 0 30px 60px -24px rgba(0, 0, 0, .7); }
+.band--dark .build__preview .checkout .ctab.is-on { color: var(--co); background: color-mix(in srgb, var(--co) 10%, transparent); }
+.band--dark .build__share { background: rgba(240, 242, 255, .06); box-shadow: 0 0 0 1px var(--line); }
+.band--dark .swatch:has(input:checked) { box-shadow: 0 0 0 3px #070a2e, 0 0 0 5px #fff; }
+.band--dark .check input { background: transparent; border-color: rgba(240, 242, 255, .4); }
+.band--dark .btn--ghost { color: #fff; }
+.band--dark .swatch { box-shadow: 0 0 0 1px rgba(240, 242, 255, .35); }
+.band--dark .swatch:has(input:checked) { box-shadow: 0 0 0 3px #070a2e, 0 0 0 5px #fff; }
+
+/* dark bands on the sub-pages */
+.band--dark .badges img { mix-blend-mode: normal; background: #fff; border-radius: 8px; padding: 6px; }
+.band--dark .lic li > svg, .band--dark .secl svg { color: #b4b9ff; }
+.band--dark .note { background: rgba(240, 242, 255, .06); }
+.band--dark .issue__need { background: rgba(240, 242, 255, .05); }
+.band--dark .seg { background: rgba(240, 242, 255, .08); }
+.band--dark .seg button[aria-pressed="true"] { background: #fff; color: #070a2e; }
+.band { padding-block: clamp(72px, 10vw, 128px); }
